@@ -90,3 +90,5 @@ ENV/
 
 # Node/NPM
 node_modules/
+
+*.sqlite3
