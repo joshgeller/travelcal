@@ -12,6 +12,8 @@
     # git@github.com:joshgeller/travelcal.git
     # https://github.com/joshgeller/travelcal.git
     # cd into root dir of repo
+    cp config.json.example config.json
+    # update config with your server settings
     sudo pip install -r server/requirements.txt
     npm install
     bower update
