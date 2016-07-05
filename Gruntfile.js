@@ -4,6 +4,8 @@ module.exports = function(grunt) {
   require('load-grunt-tasks')(grunt);
   
   grunt.initConfig({
+    serverConfig: grunt.file.readJSON('config.json'),
+
     wiredep: {
       task: {
         src: ['client/index.html'],
@@ -38,6 +40,21 @@ module.exports = function(grunt) {
         }
       }
     },
+    
+    shell: {
+      test: {
+        options: {
+          stdout: true
+        },
+        command: 'echo <%= serverConfig.server %>'
+      },
+      pythonServer: {
+        options: {
+          stdout: true
+        },
+        command: 'python server/manage.py runserver <%= serverConfig.server %>:<%= serverConfig.port %>'
+      }
+    },
 
     watch: {
       bower: {
@@ -55,16 +72,18 @@ module.exports = function(grunt) {
         logConcurrentOutput: true,
       },
       default: [
+        'shell:pythonServer',
         'watch'
       ]
     }
-
   });
 
   // concurrent tasks most go last   
+  // tasks before will run once the first timer, and can be repeated in watch for 
+  // watching directories
   grunt.registerTask('default', [
-    'wiredep',
     'sass',
+    'wiredep',
     'concurrent:default'
   ]);
 };
