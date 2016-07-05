@@ -3,7 +3,8 @@
 ## Basic Process
 
     sudo apt-get install npm
-    sudo apt-get install python-pip
+    sudo apt-get install python3
+    sudo apt-get install python3-pip
     # ensure backwards-compatibility with nodejs
     sudo ln -s /usr/bin/nodejs /usr/bin/node
     sudo npm -g install grunt
@@ -14,7 +15,7 @@
     # cd into root dir of repo
     cp config.json.example config.json
     # update config with your server settings
-    sudo pip install -r server/requirements.txt
+    sudo pip3 install -r server/requirements.txt
     npm install
     bower update
     grunt
