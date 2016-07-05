@@ -20,6 +20,7 @@
     "bower": "^1.7.9",
     "grunt": "^1.0.1",
     "grunt-angular-file-loader": "^1.2.0",
+    "grunt-cli": "^1.2.0",
     "grunt-concurrent": "^2.3.0",
     "grunt-contrib-watch": "^1.0.0",
     "load-grunt-tasks": "^3.5.0"

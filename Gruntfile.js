@@ -27,27 +27,26 @@ module.exports = function(grunt) {
         src: ['client/index.html']
       }
     },
-    /* 
+
     sass: {
       options: {
         sourceMap: true
       },
       dist: {
         files: {
-          'src/client/styles/main.css': 'src/client/scss/main.scss'
+          'client/style/css/main.css': 'client/style/scss/main.scss'
         }
       }
     },
-    */
 
     watch: {
       bower: {
         files: ['bower.json'],
         tasks: ['wiredep']
       },
-      angularFileLoader: {
-        files: ['client/app/app.module.js'],
-        tasks: ['angularFileLoader']
+      sass: {
+        files: ['client/style/scss/**/*.scss'],
+        tasks: ['sass']
       }
     },
 
@@ -65,6 +64,7 @@ module.exports = function(grunt) {
   // concurrent tasks most go last   
   grunt.registerTask('default', [
     'wiredep',
+    'sass',
     'concurrent:default'
   ]);
 };
