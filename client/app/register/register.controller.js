@@ -2,7 +2,7 @@
   'use strict';
 
   angular
-    .module('appName.register')
+    .module('travelcal.register')
     .controller('RegisterController', RegisterController);
 
   RegisterController.$inject = [

@@ -2,11 +2,13 @@
   'use strict';
 
   angular.module(
-    'appName',
+    'travelcal',
     [
-      'appName.core',
-      'appName.home',
-      'appName.register'
+      'travelcal.core',
+      'travelcal.home',
+      'travelcal.layout',
+      'travelcal.nav',
+      'travelcal.register'
     ]
   );
 

@@ -2,7 +2,7 @@
   'use strict';
 
   angular
-    .module('appName.home')
+    .module('travelcal.home')
     .config(HomeConfig);
 
     HomeConfig.$inject = [
@@ -13,15 +13,15 @@
     function HomeConfig($stateProvider, $urlRouterProvider) {
       $urlRouterProvider.otherwise('/');
       $stateProvider
-        .state('homeState', {
+        .state('travelcal.home', {
           url: '/',
           views: {
-            'appNameMain': {
+            'travelcalContent': {
               templateUrl: 'static/app/home/home.template.html',
               controller: 'HomeController',
               controllerAs: 'vm'
             }
           }
-        })
+        });
     }
 })();

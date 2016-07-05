@@ -16,26 +16,29 @@
     <!-- Bootstrap -->
     <link rel="stylesheet" type="text/css" href="//maxcdn.bootstrapcdn.com/bootswatch/3.3.6/paper/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="//maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/angular-material/1.0.9/angular-material.min.css">
     <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
-    <script src="//cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.0-rc.2/angular.js"></script>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.3.1/angular-ui-router.min.js"></script>
     <base href="/">
 </head>
 
 <body>
-    <div ng-app="appName">
-        {% include "_nav.html" %}
-        <div class='container'>
-            <div class='row'>
-                <div class='col-xs-12'>
-                    <div ui-view="appNameMain" class="appName-main"></div>
-                </div>
-            </div>
-        </div>
+    <div ng-app="travelcal">
+        <div id="travelcal-main" ui-view="travelcalMain"></div>
     </div>
+
+    <!-- javascript dependencies -->
+    <script src="//cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.0-rc.2/angular.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.3.1/angular-ui-router.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/angular-material/1.0.9/angular-material.min.js"></script>
+
+    <!-- our app files; modules most go before their respective components -->
     <script src='{% static 'app/home/home.module.js' %}'></script>
     <script src='{% static 'app/home/home.route.js' %}'></script>
     <script src='{% static 'app/home/home.controller.js' %}'></script>
+    <script src='{% static 'app/nav/nav.module.js' %}'></script>
+    <script src='{% static 'app/nav/nav.controller.js' %}'></script>
+    <script src='{% static 'app/layout/layout.module.js' %}'></script>
+    <script src='{% static 'app/layout/layout.route.js' %}'></script>
     <script src='{% static 'app/register/register.module.js' %}'></script>
     <script src='{% static 'app/register/register.route.js' %}'></script>
     <script src='{% static 'app/register/register.controller.js' %}'></script>

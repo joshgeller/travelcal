@@ -1,9 +1,9 @@
 (function() {
   'use strict';
 
-  angular.module('appName.register',
+  angular.module('travelcal.register',
     [
-      'appName.core'
+      'travelcal.core'
     ]
   );
 

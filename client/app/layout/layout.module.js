@@ -1,7 +1,7 @@
 (function() {
   'use strict';
 
-  angular.module('travelcal.home',
+  angular.module('travelcal.layout', 
     [
       'travelcal.core'
     ]
