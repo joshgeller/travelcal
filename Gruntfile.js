@@ -7,8 +7,14 @@ module.exports = function(grunt) {
     wiredep: {
       task: {
         src: ['client/index.html'],
-        // aboslute paths instead of relative paths http://stackoverflow.com/a/26024882/679716
-        ignorePath: /^(\/|\.+(?!\/[^\.]))+\.+/ 
+        fileTypes: {
+          fileExtension: {
+            replace: {
+              css: '<link rel=\"stylesheet\" href=\"{% static \'{{filePath}}\' %}\" />',
+              js: '<script src=\'{% static \'{{filePath}}\' %}\'></script>'
+            }
+          }
+        }
       }
     },
     
