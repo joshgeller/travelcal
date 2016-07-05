@@ -1,0 +1,31 @@
+{
+  "name": "travelcal",
+  "version": "1.0.0",
+  "description": "1.  Install Python 3.5",
+  "main": "",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/joshgeller/travelcal.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/joshgeller/travelcal/issues"
+  },
+  "homepage": "https://github.com/joshgeller/travelcal#readme",
+  "devDependencies": {
+    "bower": "^1.7.9",
+    "grunt": "^1.0.1",
+    "grunt-angular-file-loader": "^1.2.0",
+    "grunt-concurrent": "^2.3.0",
+    "grunt-contrib-watch": "^1.0.0",
+    "load-grunt-tasks": "^3.5.0"
+  },
+  "dependencies": {
+    "grunt-sass": "^1.2.0",
+    "grunt-wiredep": "^3.0.1"
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "name": "travelcal",
+  "homepage": "https://github.com/joshgeller/travelcal",
+  "authors": [
+    "jensbodal <jensbodal@gmail.com>"
+  ],
+  "description": "",
+  "main": "client/index.html",
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular-material": "^1.0.9"
+  }
+}
