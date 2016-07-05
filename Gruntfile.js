@@ -59,7 +59,6 @@ module.exports = function(grunt) {
   // concurrent tasks most go last   
   grunt.registerTask('default', [
     'wiredep',
-    'angularFileLoader',
     'concurrent:default'
   ]);
 };
