@@ -1,5 +1,40 @@
 # Setting up the dev environment
 
+## Basic Process
+
+    sudo apt-get install npm
+    sudo apt-get install python3
+    sudo apt-get install python3-pip
+    # ensure backwards-compatibility with nodejs
+    sudo ln -s /usr/bin/nodejs /usr/bin/node
+    sudo npm -g install grunt
+    sudo npm -g install bower
+    # clone repo
+    # git@github.com:joshgeller/travelcal.git
+    # https://github.com/joshgeller/travelcal.git
+    # cd into root dir of repo
+    cp config.json.example config.json
+    # update config with your server settings
+    sudo pip3 install -r server/requirements.txt
+    npm install
+    bower update
+    grunt
+    
+
+## Assumptions
+
+Base Ubuntu 14.04 installation (or other installation compatible with below packages)
+
+[ubuntu\_14.04\_mini.iso](http://archive.ubuntu.com/ubuntu/dists/trusty/main/installer-amd64/current/images/netboot/mini.iso)
+
+* Base Server Installation
+* OpenSSH server
+
+
+
+
+-- 
+
 1.  Install Python 3.5
 
     https://www.python.org/downloads/

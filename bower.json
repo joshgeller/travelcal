@@ -1,0 +1,31 @@
+{
+  "name": "travelcal",
+  "homepage": "https://github.com/joshgeller/travelcal",
+  "authors": [
+    "jensbodal <jensbodal@gmail.com>"
+  ],
+  "description": "",
+  "main": "client/index.html",
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular-material": "^1.0.9",
+    "angular-ui-router": "^0.3.1",
+    "font-awesome": "^4.6.3",
+    "bower-bootswatch-paper": "paper-less#*"
+  },
+  "overrides": {
+    "font-awesome": {
+      "main": [
+        "css/font-awesome.css"
+      ]
+    }
+  }
+}

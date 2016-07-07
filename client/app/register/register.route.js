@@ -2,7 +2,7 @@
   'use strict';
 
   angular
-    .module('appName.register')
+    .module('travelcal.register')
     .config(RegisterConfig);
 
     RegisterConfig.$inject = [
@@ -16,7 +16,7 @@
         .state('registerState', {
           url: '/register',
           views: {
-            'appNameMain': {
+            'travelcalMain': {
               templateUrl: 'static/app/register/register.template.html',
               controller: 'RegisterController',
               controllerAs: 'vm'

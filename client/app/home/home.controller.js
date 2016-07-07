@@ -2,7 +2,7 @@
   'use strict';
 
   angular
-    .module('appName.home')
+    .module('travelcal.home')
     .controller('HomeController', HomeController);
 
   HomeController.$inject = [

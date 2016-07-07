@@ -92,3 +92,7 @@ ENV/
 node_modules/
 
 *.sqlite3
+
+client/bower_components
+node_modules
+config.json
