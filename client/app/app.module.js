@@ -8,7 +8,8 @@
       'travelcal.home',
       'travelcal.layout',
       'travelcal.nav',
-      'travelcal.register'
+      'travelcal.register',
+      'travelcal.new-item'
     ]
   );
 
