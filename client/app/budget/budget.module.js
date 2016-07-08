@@ -1,7 +1,7 @@
 (function() {
   'use strict';
 
-  angular.module('travelcal.triplist',
+  angular.module('travelcal.budget',
     [
       'travelcal.core'
     ]

@@ -2,7 +2,7 @@
   'use strict';
 
   angular
-    .module('travelcal.triplist')
+    .module('travelcal.budget')
     .config(RegisterConfig);
 
     RegisterConfig.$inject = [
@@ -13,12 +13,12 @@
     function RegisterConfig($stateProvider, $urlRouterProvider) {
       $urlRouterProvider.otherwise('/');
       $stateProvider
-        .state('travelcal.triplist', {
-          url: '/triplist',
+        .state('travelcal.budget', {
+          url: '/budget',
           views: {
             'travelcalContent': {
-              templateUrl: 'static/app/triplist/triplist.template.html',
-              controller: 'TriplistController',
+              templateUrl: 'static/app/budget/budget.template.html',
+              controller: 'BudgetController',
               controllerAs: 'vm'
             }
           }

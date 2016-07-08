@@ -9,7 +9,7 @@
       'travelcal.layout',
       'travelcal.nav',
       'travelcal.register',
-      'travelcal.triplist'
+      'travelcal.budget'
     ]
   );
 

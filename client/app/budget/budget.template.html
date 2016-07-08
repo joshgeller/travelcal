@@ -1,0 +1,36 @@
+<md-content class="travelcal-budget">
+    <md-card>
+        <md-card-title>
+            <md-card-title-text>
+                <h1>Budget</h1>
+            </md-card-title-text>
+        </md-card-title>
+        <md-card-content>
+            <md-list flex>
+                <md-list-item ng-repeat="item in vm.budget" class="row">
+                    <div flex layout="row" layout-padding layout-align="start center" >
+                        <div flex style="max-width:200px;">
+                            {{item.name}}
+                        </div>
+                        <div ng-init="vm.total = vm.total + (item.cost * item.reps)">
+                            {{item.cost}} {{item.currency}} x {{item.reps}}
+                        </div>
+                        <div>
+                            {{item.start}} - {{item.end}}
+                        </div>
+                        <div ng-if="item.url">
+                            <md-button ng-href="{{item.url}}" target="_blank">{{item.url}}</md-button>
+                        </div>
+                    </div>
+                    <md-divider></md-divider>
+                </md-list-item>
+                <md-list-item class="row" layout-padding layout-align="start center" >
+                    <h4>Total: ${{vm.total}}</h4>
+                </md-list-item>
+            </md-list>
+          <md-button class="md-raised">Add Budget Item</md-button>
+          <md-button class="md-raised">Add Activity</md-button>
+        </md-card-content>
+
+    </md-card>
+</md-content>
