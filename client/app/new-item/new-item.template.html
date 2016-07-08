@@ -1,3 +1,51 @@
-<div>
-    test
-</div>
+<md-card>
+    <md-card-title>
+        <h3>Add New Activity</h3>
+    </md-card-title>
+    <md-card-content>
+        <form ng-submit="$event.preventDefault()" name="NewItemForm">
+            <div layout-gt-sm="row">
+                <md-input-container flex>
+                    <label>Name*</label>
+                    <input ng-model="activity.name" required name="name">
+                </md-input-container>
+            </div>
+            <div layout-gt-sm="row">
+                <label>Start</label>
+                <md-datepicker ng-model="StartDate" md-placeholder="Start date"></md-datepicker>
+                <label>End</label>
+                <md-datepicker ng-model="EndDate" md-min-date="StartDate" md-placeholder="End date" >End</md-datepicker>
+                <label>Cost</label>
+                <input ng-model="activity.cost" type="number" placeholder="0.00" step="0.01">
+                <input ng-mode="activity.currency" placeholder="Currency" type="text">
+                /
+                <input ng-model="activity.quantity" type="number">
+                person
+            </div>
+            <md-input-container class="md-block">
+                <input ng-model="activity.address" placeholder="Street Address">
+            </md-input-container>
+            <div layout-gt-sm="row">
+                <md-input-container class="md-block" flex-gt-sm>
+                    <input ng-model="activity.city" placeholder="City">
+                </md-input-container>
+                <md-input-container class="md-block" flex-gt-sm>
+                    <input ng-model="activity.state" placeholder="State">
+                </md-input-container>
+                <md-input-container class="md-block" flex-gt-sm>
+                    <input ng-model="activity.country" placeholder="Country">
+                </md-input-container>
+            </div>
+            <fieldset>
+                <legend>Hours</legend>
+                <table>
+                    <tr ng-repeat="day in vm.days">
+                        <td><md-checkbox ng-checked="vm.exists(day, vm.selected)" ng-click="vm.toggle(day, vm.selected)">{{day}}</md-checkbox></td>
+                        <td><input type="time" ng-mode="activity.day.open-time" ng-show="vm.exists(day, vm.selected)"></td>
+                        <td><input type="time" ng-mode="activity.day.close-time" ng-show="vm.exists(day, vm.selected)"></td>
+                    </tr>
+                </table>
+            </fieldset>
+        </form>
+    </md-card-content>
+</md-card>
