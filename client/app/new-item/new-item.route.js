@@ -15,7 +15,7 @@
         .state('travelcal.new-item', {
           url: '/new-item',
           views: {
-            'travelcalMain': {
+            'travelcalContent': {
               templateUrl: 'static/app/new-item/new-item.template.html',
               controller: 'NewItemController',
               controllerAs: 'vm'
