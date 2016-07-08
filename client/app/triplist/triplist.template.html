@@ -1,0 +1,21 @@
+<md-content class="travelcal-triplist">
+    <md-card>
+        <md-card-title>
+            <md-card-title-text>
+                <h1>Trip List</h1>
+            </md-card-title-text>
+        </md-card-title>
+        <md-card-content>
+            <md-list flex>
+                <md-list-item ng-repeat="trip in vm.trips" ng-click="null">
+                    <div>
+                        <h4>{{trip.country}}</h4>
+                        {{trip.arrive}} - {{trip.depart}}
+                    </div>
+                </md-list-item>
+            </md-list>
+          <md-button class="md-raised">New Trip</md-button>
+        </md-card-content>
+
+    </md-card>
+</md-content>
