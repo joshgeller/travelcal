@@ -3,15 +3,14 @@
 
   angular
     .module('travelcal.budget')
-    .config(RegisterConfig);
+    .config(BudgetConfig);
 
-    RegisterConfig.$inject = [
+    BudgetConfig.$inject = [
       '$stateProvider',
       '$urlRouterProvider'
     ];
 
-    function RegisterConfig($stateProvider, $urlRouterProvider) {
-      $urlRouterProvider.otherwise('/');
+    function BudgetConfig($stateProvider, $urlRouterProvider) {
       $stateProvider
         .state('travelcal.budget', {
           url: '/budget',
