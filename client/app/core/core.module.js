@@ -3,6 +3,7 @@
 
   angular
     .module('travelcal.core', [
-      'ui.router'
+      'ui.router',
+      'ngMaterial'
     ]);
 })();
