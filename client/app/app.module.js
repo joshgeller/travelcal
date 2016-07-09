@@ -7,6 +7,9 @@
       'travelcal.core',
       'travelcal.home',
       'travelcal.layout',
+      'travelcal.nav',
+      'travelcal.register',
+      'travelcal.budget',
       'travelcal.login',
       'travelcal.nav'
     ]

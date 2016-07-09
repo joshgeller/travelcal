@@ -1,0 +1,15 @@
+1. Create module.js
+2. Create route.js
+3. Create template.html
+4. Create controller.js
+
+Add to:
+- Index.html
+  - All js files most be added
+  - module.js must be first
+- app.module.js
+
+
+
+grunt watch (in command prompt)
+  - will recompile scss files when changed
