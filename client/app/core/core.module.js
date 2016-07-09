@@ -5,6 +5,7 @@
     .module('travelcal.core', [
       'ui.router',
       'ngMaterial',
+      'ngMdIcons',
       'ngStorage'
     ]);
 })();
