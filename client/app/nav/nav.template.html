@@ -1,23 +1,23 @@
-<md-menu>
-    <md-button ng-click="$mdOpenMenu($event)" class="md-icon-button" aria-label="Open some menu">
-        <ng-md-icon md-menu-origin="" icon="phone"></mg-md-icon>
-    </md-button>
-    <md-menu-content>
-        <md-menu-item>
-            <md-button ng-click="doSomething()" aria-label="Do something">
-                <ng-md-icon md-menu-align-target icon="phone"></ng-md-icon>
-                Do Something
-            </md-button>
-        </md-menu-item>
-        <md-menu-item>
-            <md-button ng-click="doSomething()" aria-label="Do something">
-                <ng-md-icon md-menu-align-target icon="send"></ng-md-icon>
-                Do Something
-            </md-button>
-        </md-menu-item>
-    </md-menu-content>
-</md-menu>
 <nav class="navbar navbar-inverse" ng-controller="NavController as vm">
+    <md-menu>
+        <md-button ng-click="vm.openMenu($mdOpenMenu, $event)" class="md-icon-button" aria-label="Open some menu">
+            <ng-md-icon md-menu-origin="" icon="menu"></mg-md-icon>
+        </md-button>
+        <md-menu-content>
+            <md-menu-item>
+                <md-button ng-click="doSomething()" aria-label="Do something">
+                    <ng-md-icon md-menu-align-target icon="login"></ng-md-icon>
+                    Login
+                </md-button>
+            </md-menu-item>
+            <md-menu-item>
+                <md-button ng-click="vm.logout()" aria-label="Do something">
+                    <ng-md-icon md-menu-align-target icon="logout"></ng-md-icon>
+                    Logout
+                </md-button>
+            </md-menu-item>
+        </md-menu-content>
+    </md-menu>
   <div class="container">
     <!-- Brand and toggle get grouped for better mobile display -->
     <div class="navbar-header">
@@ -36,8 +36,8 @@
     <!-- Collect the nav links, forms, and other content for toggling -->
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
       <ul class="nav navbar-nav">
-        <li class="active"><a href="#login">Login</a></li>
-        <li><a href="#logout">Logout</a></li>
+        <li class="active"><a href="#budget">Budget</a></li>
+        <li><a href="#triplist">Trip List</a></li>
       </ul>
     </div><!-- /.navbar-collapse -->
   </div><!-- /.container-fluid -->

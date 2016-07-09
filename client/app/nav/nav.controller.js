@@ -6,18 +6,19 @@
     .controller('NavController', NavController);
 
   NavController.$inject = [
+    '$state'
   ];
 
-  function NavController() {
+  function NavController($state) {
     var vm = this;
+    vm.logout = logout;
     vm.openMenu = openMenu;
     vm.pageTitle = 'Dynamic Page Title';
-    
+   
+    function logout() {
+      $state.go('travelcal.logout');
+    }
     function openMenu($mdOpenMenu, ev) {
-      console.log("OPEN");
-      console.log(ev);
-      console.log($mdOpenMenu);
-      originatorEv = ev;
       $mdOpenMenu(ev);
     }
   }
