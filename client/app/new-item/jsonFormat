@@ -1,0 +1,12 @@
+activity =
+{
+  name: 'string',
+  length: {start: 'date', end: 'date'},
+  budget: {cost: float, currency: 'string', quantity: 'int'},
+  location: {street: 'string', city: 'string', state: 'string', country: 'string'},
+  hours: [{day: 'string', open: time, close: time},
+          {day: 'string', open: time, close: time},
+          ...
+          ],
+  notes: 'textarea'
+}
