@@ -6,5 +6,6 @@
       'ui.router',
       'ngMaterial',
       'ngStorage'
+      'ngMessages'
     ]);
 })();

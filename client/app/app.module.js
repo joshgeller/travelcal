@@ -17,4 +17,13 @@
     ]
   );
 
+  angular.module(
+    'travelcal'
+  ).constant('config', {
+    alerts: {
+      ERROR: 0,
+      SUCCESS: 1
+    }
+  });
+
 })();
