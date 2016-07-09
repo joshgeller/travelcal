@@ -35,6 +35,16 @@
               controllerAs: 'vm'
             }
           }
+        })
+        .state('travelcal.logout', {
+          url: '/logout',
+          views: {
+            'travelcalContent': {
+              templateUrl: 'static/app/login/logout.template.html',
+              controller: 'LoginController',
+              controllerAs: 'vm'
+            }
+          }
         });
     }
 

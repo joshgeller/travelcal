@@ -14,6 +14,7 @@
     var vm = this;
 
     vm.login = login;
+    vm.logout = logout();
     vm.email = '';
     vm.password = '';
   
@@ -28,6 +29,11 @@
           vm.loading = false;
         }
       });
+    }
+
+    function logout() {
+      console.log("Logging out!");
+      AuthenticationService.logout();
     }
   }
 
