@@ -14,7 +14,7 @@
     var vm = this;
 
     vm.login = login;
-    vm.logout = logout();
+    vm.logout = logout;
     vm.email = '';
     vm.password = '';
   

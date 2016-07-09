@@ -56,8 +56,8 @@
     ];
 
     function run($rootScope, $http, $location, $localStorage) {
-      if ($localStorage.currentUser) {
-        $http.defaults.headers.common.Authorization = 'Bearer ' + $localStorage.currentUser.token;
+      if ($localStorage.authenticatedUser) {
+        $http.defaults.headers.common.Authorization = 'Bearer ' + $localStorage.authenticatedUser.token;
       }
 
       // redirect to login page if user is not authenticated
@@ -67,7 +67,7 @@
         // anything that requires authentication is restricted, which is everything that is
         // not in the nonAuthPages array
         var restrictedPage = nonAuthPages.indexOf($location.path()) === -1;
-        if (restrictedPage && !$localStorage.currentUser) {
+        if (restrictedPage && !$localStorage.authenticatedUser) {
           $location.path('/login');
         }
       });

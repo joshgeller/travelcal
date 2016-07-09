@@ -22,7 +22,7 @@
       var response = { };
       response.token = 'faketoken';
       // store username and token so that user remains logged in between page refreshes
-      $localStorage.currentUser = { username: username, token: response.token };
+      $localStorage.authenticatedUser = { username: username, token: response.token };
 
       // add jwt token to auth header for all requests made by the $http service
       $http.defaults.headers.common.Authorization = 'Bearer ' + response.token;
@@ -34,7 +34,7 @@
 
     function logout() {
       // remove user from local storage and clear http auth header
-      delete $localStorage.currentUser;
+      delete $localStorage.authenticatedUser;
       $http.defaults.headers.common.Authorization = '';
     }
   }
