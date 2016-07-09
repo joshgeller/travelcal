@@ -9,7 +9,9 @@
       'travelcal.layout',
       'travelcal.nav',
       'travelcal.register',
-      'travelcal.budget'
+      'travelcal.budget',
+      'travelcal.login',
+      'travelcal.nav'
     ]
   );
 
