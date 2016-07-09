@@ -14,21 +14,25 @@
     var vm = this;
 
     vm.login = login;
-    vm.email = '';
+    vm.alerts = [];
+    vm.forms = {};
+    vm.username = '';
     vm.password = '';
-  
+
     function login() {
-      vm.loading = true;
-      console.log("LOGGING IN"); 
-      AuthenticationService.login(vm.username, vm.password, function (result) {
-        if (result === true) {
-          $location.path('/');
-        } else {
-          vm.error = 'Username or password is incorrect';
-          vm.loading = false;
-        }
-      });
+      while(vm.alerts.length) vm.alerts.pop();
+      AuthenticationService.login(
+        vm.username,
+        vm.password,
+        function(authenticated, res) {
+          if (authenticated) {
+            $location.path('/');
+          } else {
+            console.log('auth error')
+          }
+        })
+      }
     }
-  }
+
 
 })();

@@ -16,7 +16,7 @@
     vm.password = '';
     vm.alerts = [];
     vm.forms = {};
-    vm.register = function () {
+    vm.register = function() {
       while(vm.alerts.length) vm.alerts.pop();
       if (vm.forms.registerForm.$invalid) return;
       return $http.post('/api/v1/accounts/', {

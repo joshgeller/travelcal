@@ -3,9 +3,9 @@
 
   angular
     .module('travelcal.core', [
-      'ui.router',
       'ngMaterial',
-      'ngStorage'
-      'ngMessages'
+      'ngMessages',
+      'ngStorage',
+      'ui.router'
     ]);
 })();
