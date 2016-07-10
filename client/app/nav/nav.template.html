@@ -1,6 +1,61 @@
-<div ng-cloak="" ng-controller="NavController as vm">
+<div class="travelcal-navbar" ng-cloak="" ng-controller="NavController as vm">
         <md-nav-bar md-selected-nav-item="vm.currentNavItem" nav-bar-aria-label="navigation links">
+            <md-nav-item md-nav-sref="travelcal.home" name="home">
+                <i class="fa fa-plane"></i> TravelCal
+            </md-nav-item>
             <md-nav-item md-nav-sref="travelcal.budget" name="budget">Budget</md-nav-item>
-            <md-nav-item md-nav-href="#budget" name="budget2">Budget</md-nav-item>
+            <md-nav-item md-nav-sref="travelcal.triplist" name="triplist">Trip List</md-nav-item>
+            <div flex=""></div>
+            <md-nav-item>
+            <md-menu>
+                <md-button 
+                    ng-click="vm.openMenu($mdOpenMenu, $event)" 
+                    class="md-icon-button" 
+                    aria-label="Open some menu"
+                    >
+                    <ng-md-icon md-menu-origin="" icon="menu"></mg-md-icon>
+                </md-button>
+                <md-menu-content>
+                    <md-menu-item>
+                        <md-button ng-click="vm.login()" aria-label="Do something">
+                            <ng-md-icon md-menu-align-target icon="login"></ng-md-icon>
+                            Login
+                        </md-button>
+                    </md-menu-item>
+                    <md-menu-item>
+                        <md-button ng-click="vm.logout()" aria-label="Do something">
+                            <ng-md-icon md-menu-align-target icon="logout"></ng-md-icon>
+                            Logout
+                        </md-button>
+                    </md-menu-item>
+                </md-menu-content>
+            </md-menu>
+            <md-nav-item>
         </md-nav-bar>
 </div>
+
+    
+    <div class="container">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="#">
+        <i class='fa fa-plane'></i>
+        TravelCal
+      </a>
+    </div>
+
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <ul class="nav navbar-nav">
+        <li class="active"><a href="#budget">Budget</a></li>
+        <li><a href="#triplist">Trip List</a></li>
+      </ul>
+    </div><!-- /.navbar-collapse -->
+  </div><!-- /.container-fluid -->
+</nav>
