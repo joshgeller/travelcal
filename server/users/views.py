@@ -35,5 +35,5 @@ class AccountViewSet(ModelViewSet):
 
         return Response({
             'status': 'error',
-            'message': 'Invalid account data.'
+            'detail': serializer.errors
         }, status=status.HTTP_400_BAD_REQUEST)

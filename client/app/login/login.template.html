@@ -1,16 +1,23 @@
 <div class="row">
     <div class="col-xs-12 col-sm-6 col-sm-offset-3">
-        <h3>Register</h3>
+        <h3>Log In</h3>
         <hr/>
-        <form role="form">
+        <form name="forms.loginForm">
+            <div ng-show="vm.alerts.length">
+                <div data-ng-repeat="alert in vm.alerts">
+                    <div ng-class="{0: 'alert alert-danger', 1: 'alert alert-success'}[alert.type]">
+                        {{alert.message}}
+                    </div>
+                </div>
+            </div>
             <div class="form-group">
-                <input type="email" class="form-control" id="register__email" ng-model="vm.email" placeholder="E-mail address" />
+                <input type="email" class="form-control" id="register__email" ng-model="vm.username" placeholder="E-mail address" />
             </div>
             <div class="form-group">
                 <input type="password" class="form-control" id="register__password" ng-model="vm.password" placeholder="Password" />
             </div>
             <div class="form-group">
-                <button type="submit" class="btn btn-lg btn-success" ng-click="vm.login()">Register</button>
+                <button type="submit" class="btn btn-lg btn-success" ng-click="vm.login()">Log In</button>
             </div>
         </form>
     </div>

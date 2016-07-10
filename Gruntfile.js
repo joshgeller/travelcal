@@ -2,7 +2,7 @@ module.exports = function(grunt) {
   'use strict';
 
   require('load-grunt-tasks')(grunt);
-  
+
   grunt.initConfig({
     serverConfig: grunt.file.readJSON('config.json'),
 
@@ -19,7 +19,7 @@ module.exports = function(grunt) {
         }
       }
     },
-    
+
     angularFileLoader: {
       options: {
         scripts: ['client/app/**/*.js'],
@@ -40,7 +40,7 @@ module.exports = function(grunt) {
         }
       }
     },
-    
+
     shell: {
       test: {
         options: {
@@ -78,8 +78,8 @@ module.exports = function(grunt) {
     }
   });
 
-  // concurrent tasks most go last   
-  // tasks before will run once the first timer, and can be repeated in watch for 
+  // concurrent tasks most go last
+  // tasks before will run once the first timer, and can be repeated in watch for
   // watching directories
   grunt.registerTask('default', [
     'sass',

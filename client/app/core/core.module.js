@@ -3,10 +3,12 @@
 
   angular
     .module('travelcal.core', [
-      'ui.router',
       'ngMaterial',
       'ngMdIcons',
       'ngStorage',
+      'ngMessages',
+      'ngStorage',
+      'ui.router'
     ])
     .config(function($mdThemingProvider) {
       $mdThemingProvider

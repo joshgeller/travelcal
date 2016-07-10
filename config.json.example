@@ -1,4 +1,4 @@
 {
-  "server" : "jensbodal.com",
-  "port" : "9999"
+  "server" : "127.0.0.1",
+  "port" : "8000"
 }
