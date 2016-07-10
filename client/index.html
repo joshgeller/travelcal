@@ -17,13 +17,13 @@
     <link rel="stylesheet" href="{% static 'bower_components/angular-material/angular-material.css' %}" />
     <link rel="stylesheet" href="{% static 'bower_components/font-awesome/css/font-awesome.css' %}" />
     <link rel="stylesheet" href="{% static 'bower_components/bower-bootswatch-paper/css/paper.css' %}" />
+    <link rel="stylesheet" href="{% static 'bower_components/angular-material-icons/angular-material-icons.css' %}" />
     <!-- endbower -->
     <!-- endbuild -->
     
     <!-- Material Design fonts -->
     <!-- @todo @jens not sure what these do and can't get bower to install them -->
     <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Roboto:300,400,500,700">
-    <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/icon?family=Material+Icons">
 
     <!-- Our stylesheet -->
     <link rel="stylesheet" type="text/css" href="{% static 'style/css/main.css' %}">
@@ -44,6 +44,7 @@
     <script src='{% static 'bower_components/angular-material/angular-material.js' %}'></script>
     <script src='{% static 'bower_components/angular-ui-router/release/angular-ui-router.js' %}'></script>
     <script src='{% static 'bower_components/ngstorage/ngStorage.js' %}'></script>
+    <script src='{% static 'bower_components/angular-material-icons/angular-material-icons.min.js' %}'></script>
     <!-- endbower -->
     <!-- endbuild -->
 
@@ -53,6 +54,9 @@
     <script src='{% static 'app/home/home.module.js' %}'></script>
     <script src='{% static 'app/home/home.route.js' %}'></script>
     <script src='{% static 'app/home/home.controller.js' %}'></script>
+    <script src='{% static 'app/profile/profile.module.js' %}'></script>
+    <script src='{% static 'app/profile/profile.route.js' %}'></script>
+    <script src='{% static 'app/profile/profile.controller.js' %}'></script>
     <script src='{% static 'app/nav/nav.module.js' %}'></script>
     <script src='{% static 'app/nav/nav.controller.js' %}'></script>
     <script src='{% static 'app/layout/layout.module.js' %}'></script>
@@ -73,7 +77,7 @@
     <script src='{% static 'app/login/login.controller.js' %}'></script>
     <script src='{% static 'app/core/core.module.js' %}'></script>
     <script src='{% static 'app/app.module.js' %}'></script>
-    <script src='{% static 'app/services/authentication.service.js' %}'></script>
+    <script src='{% static 'app/travelcal-services/authentication.service.js' %}'></script>
 </body>
 
 </html>

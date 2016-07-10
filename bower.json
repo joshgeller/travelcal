@@ -16,11 +16,12 @@
     "tests"
   ],
   "dependencies": {
-    "angular-material": "^1.0.9",
+    "angular-material": "^1.1.0-RC.5",
     "angular-ui-router": "^0.3.1",
     "font-awesome": "^4.6.3",
     "bower-bootswatch-paper": "paper-less#*",
-    "ngstorage": "^0.3.10"
+    "ngstorage": "^0.3.10",
+    "angular-material-icons": "^0.7.1"
   },
   "overrides": {
     "font-awesome": {

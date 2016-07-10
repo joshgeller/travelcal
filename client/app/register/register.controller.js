@@ -7,10 +7,11 @@
 
   RegisterController.$inject = [
     '$http',
-    'config'
+    'config',
+    '$state'
   ];
 
-  function RegisterController($http, config) {
+  function RegisterController($http, config, $state) {
     var vm = this;
     vm.email = '';
     vm.password = '';
@@ -28,6 +29,7 @@
           message: 'Account created. You may now log in.',
           type: config.alerts.SUCCESS
         });
+        $state.go('travelcal.home');
       }, function(res) {
         if (res.status > -1 && res.data.detail) {
           // Iterate through invalid fields

@@ -6,11 +6,10 @@
     .config(NewItemConfig);
 
     NewItemConfig.$inject = [
-      '$stateProvider',
-      '$urlRouterProvider'
+      '$stateProvider'
     ];
 
-    function NewItemConfig($stateProvider, $urlRouterProvider) {
+    function NewItemConfig($stateProvider) {
       $stateProvider
         .state('travelcal.new-item', {
           url: '/new-item',

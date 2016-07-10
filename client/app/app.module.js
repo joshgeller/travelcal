@@ -12,6 +12,7 @@
       'travelcal.new-item',
       'travelcal.budget',
       'travelcal.login',
+      'travelcal.profile',
       'travelcal.triplist',
       'travelcal.nav'
     ]

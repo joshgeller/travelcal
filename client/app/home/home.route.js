@@ -35,6 +35,16 @@
               controllerAs: 'vm'
             }
           }
+        })
+        .state('travelcal.logout', {
+          url: '/logout',
+          views: {
+            'travelcalContent': {
+              templateUrl: 'static/app/login/logout.template.html',
+              controller: 'LoginController',
+              controllerAs: 'vm'
+            }
+          }
         });
     }
 
@@ -46,18 +56,18 @@
     ];
 
     function run($rootScope, $http, $location, $localStorage) {
-      if ($localStorage.currentUser) {
-        $http.defaults.headers.common.Authorization = 'Bearer ' + $localStorage.currentUser.token;
+      if ($localStorage.authenticatedUser) {
+        $http.defaults.headers.common.Authorization = 'Bearer ' + $localStorage.authenticatedUser.token;
       }
 
       // redirect to login page if user is not authenticated
       $rootScope.$on('$locationChangeStart', function(event, next, current) {
         // array of pages that can load without authentication
-        var nonAuthPages = ['/login'];
+        var nonAuthPages = ['/login', '/logout', '/register'];
         // anything that requires authentication is restricted, which is everything that is
         // not in the nonAuthPages array
         var restrictedPage = nonAuthPages.indexOf($location.path()) === -1;
-        if (restrictedPage && !$localStorage.currentUser) {
+        if (restrictedPage && !$localStorage.authenticatedUser) {
           $location.path('/login');
         }
       });
