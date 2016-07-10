@@ -63,7 +63,7 @@
       // redirect to login page if user is not authenticated
       $rootScope.$on('$locationChangeStart', function(event, next, current) {
         // array of pages that can load without authentication
-        var nonAuthPages = ['/login', '/logout'];
+        var nonAuthPages = ['/login', '/logout', '/register'];
         // anything that requires authentication is restricted, which is everything that is
         // not in the nonAuthPages array
         var restrictedPage = nonAuthPages.indexOf($location.path()) === -1;
