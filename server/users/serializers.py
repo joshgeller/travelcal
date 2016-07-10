@@ -1,5 +1,6 @@
 from django.contrib.auth import update_session_auth_hash
 from rest_framework.serializers import CharField, ModelSerializer
+from trips.serializers import TripSerializer
 
 from .models import Account
 
@@ -7,11 +8,12 @@ from .models import Account
 class AccountSerializer(ModelSerializer):
     password = CharField(write_only=True, required=False)
     confirm_password = CharField(write_only=True, required=False)
+    trips = TripSerializer(many=True)
 
     class Meta:
         model = Account
         fields = ('id', 'email', 'created_at', 'updated_at',
-                  'password', 'confirm_password',)
+                  'password', 'confirm_password', 'trips')
         read_only_fields = ('created_at', 'updated_at',)
 
         def create(self, data):

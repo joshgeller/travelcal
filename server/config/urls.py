@@ -4,12 +4,14 @@ from django.conf.urls.static import static
 from django.contrib import admin
 from rest_framework.authtoken import views
 from rest_framework.routers import SimpleRouter
+from trips.views import TripViewSet
 from users.views import AccountViewSet
 
 from .views import IndexView
 
 router = SimpleRouter()
 router.register(r'accounts', AccountViewSet)
+router.register(r'trips', TripViewSet)
 
 urlpatterns = [
     # Obtain auth token
