@@ -11,6 +11,7 @@
 
   function NavController($state) {
     var vm = this;
+    vm.currentNavItem = "budget";
     vm.login = login;
     vm.logout = logout;
     vm.openMenu = openMenu;
