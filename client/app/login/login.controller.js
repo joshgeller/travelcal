@@ -15,6 +15,7 @@
 
     vm.login = login;
     vm.logout = logout;
+    vm.register = register;
     vm.alerts = [];
     vm.forms = {};
     vm.username = '';
@@ -37,6 +38,10 @@
     function logout() {
       console.log("Logging out!");
       AuthenticationService.logout();
+    }
+
+    function register() {
+      $location.path('/register');
     }
   }
 })();
