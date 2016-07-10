@@ -21,7 +21,8 @@
     "font-awesome": "^4.6.3",
     "bower-bootswatch-paper": "paper-less#*",
     "ngstorage": "^0.3.10",
-    "angular-material-icons": "^0.7.1"
+    "angular-material-icons": "^0.7.1",
+    "angular-moment": "^0.10.3"
   },
   "overrides": {
     "font-awesome": {

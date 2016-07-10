@@ -49,7 +49,7 @@
     }
 
     run.$inject = [
-      '$rootScope', 
+      '$rootScope',
       '$http',
       '$location',
       '$localStorage'
@@ -57,7 +57,7 @@
 
     function run($rootScope, $http, $location, $localStorage) {
       if ($localStorage.authenticatedUser) {
-        $http.defaults.headers.common.Authorization = 'Bearer ' + $localStorage.authenticatedUser.token;
+        $http.defaults.headers.common.Authorization = 'Token ' + $localStorage.authenticatedUser.token;
       }
 
       // redirect to login page if user is not authenticated

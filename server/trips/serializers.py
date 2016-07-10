@@ -1,12 +1,10 @@
-from rest_framework import serializers
-from users.models import Account
+from rest_framework import serializers, status
+from rest_framework.response import Response
 
 from .models import Trip
 
 
-class TripSerializer(serializers.HyperlinkedModelSerializer):
-    account = serializers.PrimaryKeyRelatedField(queryset=Account.objects.all())
-
+class TripSerializer(serializers.ModelSerializer):
     class Meta:
         model = Trip
         fields = (
@@ -17,5 +15,5 @@ class TripSerializer(serializers.HyperlinkedModelSerializer):
             'last_updated',
             'name',
             'start_date',
-            'url',
+            'get_absolute_url',
         )
