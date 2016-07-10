@@ -6,12 +6,10 @@
     .config(RegisterConfig);
 
     RegisterConfig.$inject = [
-      '$stateProvider',
-      '$urlRouterProvider'
+      '$stateProvider'
     ];
 
-    function RegisterConfig($stateProvider, $urlRouterProvider) {
-      $urlRouterProvider.otherwise('/');
+    function RegisterConfig($stateProvider) {
       $stateProvider
         .state('travelcal.triplist', {
           url: '/triplist',

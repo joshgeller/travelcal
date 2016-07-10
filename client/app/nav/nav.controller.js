@@ -6,15 +6,18 @@
     .controller('NavController', NavController);
 
   NavController.$inject = [
+    '$localStorage',
     '$state'
   ];
 
-  function NavController($state) {
+  function NavController($localStorage, $state) {
     var vm = this;
+    vm.authenticated = false;
     vm.login = login;
     vm.logout = logout;
     vm.openMenu = openMenu;
     vm.pageTitle = 'Dynamic Page Title';
+    vm.profile = profile;
     vm.selectedLink = selectedLink;
 
     vm.links = [
@@ -41,7 +44,13 @@
     function logout() {
       $state.go('travelcal.logout');
     }
+
+    function profile() {
+      $state.go('travelcal.profile');
+    }
+
     function openMenu($mdOpenMenu, ev) {
+      vm.authenticated = ($localStorage.authenticatedUser !== undefined);
       $mdOpenMenu(ev);
     }
   }

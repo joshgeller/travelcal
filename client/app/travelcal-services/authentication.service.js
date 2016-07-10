@@ -15,11 +15,13 @@
 
     service.login = login;
     service.logout = logout;
+    service.loggedIn = false;
 
     return service;
 
     function login(username, password, callback) {
       var response = { };
+      service.loggedIn = true;
       response.token = 'faketoken';
       // store username and token so that user remains logged in between page refreshes
       $localStorage.authenticatedUser = { username: username, token: response.token };
@@ -34,6 +36,7 @@
 
     function logout() {
       // remove user from local storage and clear http auth header
+      service.loggedIn = false;
       delete $localStorage.authenticatedUser;
       $http.defaults.headers.common.Authorization = '';
     }

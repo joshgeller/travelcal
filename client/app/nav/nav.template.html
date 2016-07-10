@@ -27,27 +27,33 @@
         </li>
       </ul>
       <md-menu class="pull-right">
-      <md-button 
-        ng-click="vm.openMenu($mdOpenMenu, $event)" 
-        class="md-icon-button" 
-        aria-label="Open some menu"
-        >
-        <ng-md-icon md-menu-origin="" icon="menu" style="fill: white"></mg-md-icon>
-      </md-button>
-      <md-menu-content>
-          <md-menu-item>
-              <md-button ng-click="vm.login()" aria-label="Do something">
-                  <ng-md-icon md-menu-align-target icon="login"></ng-md-icon>
-                  Login
-              </md-button>
-          </md-menu-item>
-          <md-menu-item>
-              <md-button ng-click="vm.logout()" aria-label="Do something">
-                  <ng-md-icon md-menu-align-target icon="logout"></ng-md-icon>
-                  Logout
-              </md-button>
-          </md-menu-item>
-      </md-menu-content>
+          <md-button 
+            ng-click="vm.openMenu($mdOpenMenu, $event)" 
+            class="md-icon-button" 
+            aria-label="Open some menu"
+            >
+            <ng-md-icon md-menu-origin="" icon="menu" style="fill: white"></mg-md-icon>
+          </md-button>
+          <md-menu-content>
+              <md-menu-item ng-show="!vm.authenticated">
+                  <md-button ng-click="vm.login()" aria-label="Do something">
+                      <ng-md-icon md-menu-align-target icon="login"></ng-md-icon>
+                        Login
+                  </md-button>
+              </md-menu-item>
+              <md-menu-item ng-show="vm.authenticated">
+                  <md-button ng-click="vm.profile()" aria-label="Do something">
+                      <ng-md-icon md-menu-align-target icon="account_box"></ng-md-icon>
+                        Profile
+                  </md-button>
+              </md-menu-item>
+              <md-menu-item ng-show="vm.authenticated">
+                  <md-button ng-click="vm.logout()" aria-label="Do something">
+                      <ng-md-icon md-menu-align-target icon="logout"></ng-md-icon>
+                        Logout
+                  </md-button>
+              </md-menu-item>
+          </md-menu-content>
       </md-menu>
     </div><!-- /.navbar-collapse -->
   </div><!-- /.container-fluid -->
