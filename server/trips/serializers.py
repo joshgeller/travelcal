@@ -1,10 +1,11 @@
 from rest_framework import serializers
+from users.models import Account
 
 from .models import Trip
 
 
 class TripSerializer(serializers.HyperlinkedModelSerializer):
-    account = serializers.ReadOnlyField(source='account.id')
+    account = serializers.PrimaryKeyRelatedField(queryset=Account.objects.all())
 
     class Meta:
         model = Trip
