@@ -29,7 +29,7 @@
         service.loggedIn = true;
         
         // store username and token so that user remains logged in between page refreshes
-        $localStorage.currentUser = { username: username, token: res.data.token };
+        $localStorage.authenticatedUser = { username: username, token: res.data.token };
 
         // add auth token to header for all requests made by the $http service
         $http.defaults.headers.common.Authorization = 'Token ' + res.data.token;
