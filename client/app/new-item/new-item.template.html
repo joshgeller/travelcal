@@ -6,32 +6,32 @@
         <form ng-submit="vm.submit" name="NewItemForm">
             <div layout-gt-sm="row">
                 <md-input-container flex>
-                    <label>Name*</label>
-                    <input ng-model="activity.name" required name="name">
+                    <label>Name</label>
+                    <input ng-model="vm.activity.name" required name="name">
                 </md-input-container>
             </div>
             <div layout-gt-sm="row">
                 <div class="md-block" flex-gt-sm>
                     <label>Start</label>
-                    <md-datepicker class="md-block" ng-model="activity.start" md-placeholder="Start date" ng-required="!activity.cost"></md-datepicker>
+                    <md-datepicker class="md-block" ng-model="vm.activity.start" md-placeholder="Start date" ng-required="!activity.cost"></md-datepicker>
                 </div>
                 <div class="md-block" flex-gt-sm>
                     <label>End</label>
-                    <md-datepicker class="md-block" ng-model="activity.end" md-min-date="StartDate" md-placeholder="End date">End</md-datepicker>
+                    <md-datepicker class="md-block" ng-model="vm.activity.end" md-min-date="StartDate" md-placeholder="End date">End</md-datepicker>
                 </div>
                 <md-input-container class="md-block" flex-gt-sm>
-                    <input type="text" class="md-block" ng-model="activity.url" placeholder="Link">
+                    <input type="text" class="md-block" ng-model="vm.activity.url" placeholder="Link">
                 </md-input-container>
             </div>
             <div layout-gt-sm="row">
                 <md-input-container class="md-block" flex-gt-sm>
                     <label>Cost</label>
-                    <input ng-model="activity.cost" type="number" placeholder="0.00" step="0.01" ng-required="!activity.start">
+                    <input ng-model="vm.activity.cost" type="number" placeholder="0.00" step="0.01" ng-required="!activity.start">
                 </md-input-container>
                 <md-input-container class="md-block" flex-gt-sm>
                     <label>Currency</label>
                     <md-autocomplete
-                        ng-model="activity.currency"
+                        ng-model="vm.activity.currency"
                         md-selected-item="vm.selectedItem"
                         md-search-text="vm.searchText"
                         md-items="curr in vm.querySearch(vm.searchText)"
@@ -50,32 +50,32 @@
                     x
                 </md-input-container>
                 <md-input-container class="md-block" flex-gt-sm>
-                    <input ng-model="activity.quantity" type="number">
+                    <input ng-model="vm.activity.quantity" type="number">
                 </md-input-container>
                 <md-input-container class="md-block" flex-gt-sm>
-                    <ng-pluralize count="activity.quantity || 0" when="{'0': 'people', '1': 'person', 'other': 'people'}"></ng-pluralize>
+                    <ng-pluralize count="vm.activity.quantity || 0" when="{'0': 'people', '1': 'person', 'other': 'people'}"></ng-pluralize>
                 </md-input-container>
                 <div class="md-block" flex-gt-sm>
-                    <span ng-if="activity.quantity && activity.cost">
+                    <span ng-if="vm.activity.quantity && vm.activity.cost">
                         <label>Total</label>
                         <md-input-container flex-gt-sm>
-                            {{activity.cost * activity.quantity}}
+                            {{vm.activity.cost * vm.activity.quantity}}
                         </md-input-container>
                     </span>
                 </div>
             </div>
             <md-input-container class="md-block">
-                <input ng-model="activity.address" placeholder="Street Address">
+                <input ng-model="vm.activity.address" placeholder="Street Address">
             </md-input-container>
             <div layout-gt-sm="row">
                 <md-input-container class="md-block" flex-gt-sm>
-                    <input ng-model="activity.city" placeholder="City">
+                    <input ng-model="vm.activity.city" placeholder="City">
                 </md-input-container>
                 <md-input-container class="md-block" flex-gt-sm>
-                    <input ng-model="activity.state" placeholder="State">
+                    <input ng-model="vm.activity.state" placeholder="State">
                 </md-input-container>
                 <md-input-container class="md-block" flex-gt-sm>
-                    <input ng-model="activity.country" placeholder="Country">
+                    <input ng-model="vm.activity.country" placeholder="Country">
                 </md-input-container>
             </div>
             <div layout-gt-sm="row">
@@ -83,15 +83,15 @@
                     <legend>Hours</legend>
                     <table>
                         <tr ng-repeat="day in vm.days">
-                            <td><md-checkbox ng-model="activity.day" ng-checked="vm.exists(day, vm.selected)" ng-click="vm.toggle(day, vm.selected)">{{day}}</md-checkbox></td>
-                            <td><input type="time" ng-model="activity.open" ng-show="vm.exists(day, vm.selected)"></td>
-                            <td><input type="time" ng-model="activity.close" ng-show="vm.exists(day, vm.selected)"></td>
+                            <td><md-checkbox ng-model="vm.activity.days[day]" ng-checked="vm.exists(day, vm.selected)" ng-click="vm.toggle(day, vm.selected)">{{day}}</md-checkbox></td>
+                            <td><input type="time" ng-model="vm.activity.days[day].open" ng-show="vm.exists(day, vm.selected)"></td>
+                            <td><input type="time" ng-model="vm.activity.days[day].close" ng-show="vm.exists(day, vm.selected)"></td>
                         </tr>
                     </table>
                 </fieldset>
-                <textarea class="md-block" flex-gt-sm ng-model="activity.notes" placeholder="Notes..."></textarea>
+                <textarea class="md-block" flex-gt-sm ng-model="vm.activity.notes" placeholder="Notes..."></textarea>
             </div>
-            <input ng-disabled="!activity.name || !(activity.cost || activity.start)" type="submit" value="Add" />
+            <button ng-click="vm.submit(vm.activity)" ng-disabled="!vm.activity.name || !(vm.activity.cost || vm.activity.start)">Submit</button>
         </form>
         <div>
             RESULTS: {{vm.result}}
