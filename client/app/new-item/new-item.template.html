@@ -65,18 +65,8 @@
                 </div>
             </div>
             <md-input-container class="md-block">
-                <input ng-model="vm.activity.address" placeholder="Street Address">
+                <input type="text" g-places-autocomplete ng-model="vm.address" placeholder="Address"/>
             </md-input-container>
-            <div layout-gt-sm="row">
-                <md-input-container class="md-block" flex-gt-sm>
-                    <input ng-model="vm.activity.city" placeholder="City">
-                </md-input-container>
-                <md-input-container class="md-block" flex-gt-sm>
-                    <input ng-model="vm.activity.state" placeholder="State">
-                </md-input-container>
-                <md-input-container class="md-block" flex-gt-sm>
-                    <input ng-model="vm.activity.country" placeholder="Country">
-                </md-input-container>
             </div>
             <div layout-gt-sm="row">
                 <fieldset class="md-block" flex-gt-sm>

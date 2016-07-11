@@ -47,7 +47,7 @@
     vm.result = [];
     vm.submit = function (activity) {
         if(activity.name) {
-            vm.result.push(activity.days);
+            vm.result.push(activity);
         }
     }
   }

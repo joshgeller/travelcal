@@ -14,7 +14,8 @@
       'travelcal.login',
       'travelcal.profile',
       'travelcal.triplist',
-      'travelcal.nav'
+      'travelcal.nav',
+      'google.places'
     ]
   );
 
