@@ -15,6 +15,7 @@
         vm.newItemForm = {};
         vm.days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
         vm.selected = [];
+        vm.currency = ''
 
         if (edit) {
             vm.title = "Edit Activity"
@@ -68,12 +69,12 @@
             vm.activity.days.Monday.start = new Date(vm.activity.days.Monday.start);
             vm.activity.days.Monday.end = new Date(vm.activity.days.Monday.end);
             var days = Object.getOwnPropertyNames(vm.activity.days);
-            vm.result = days;
             days.forEach(function(value, index, array) {
                 if (vm.activity.days[value].open) {
                     vm.selected.push(value);
                 }
             });
+            vm.currency = vm.activity.currency;
         }
         else {
             vm.title = "New Activity"

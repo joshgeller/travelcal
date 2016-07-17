@@ -37,6 +37,7 @@
                         md-items="curr in vm.querySearch(vm.searchText)"
                         md-item-text="curr.display"
                         md-min-length="0"
+                        ng-init="vm.searchText=vm.currency"
                         >
                         <md-item-template>
                             <span md-highlight-text="vm.searchText" md-highlight-flags="^i">{{curr.display}}</span>
