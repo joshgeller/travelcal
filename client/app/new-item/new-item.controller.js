@@ -9,118 +9,13 @@
         '$http'
     ];
 
-    function NewItemController($http) {
+    function NewItemController($http, $setPristine) {
         var vm = this;
         vm.activity = {};
+        vm.newItemForm = {};
 
         vm.days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
 
-        vm.periods =  [{
- 			"close": {
- 				"day": 0,
- 				"time": "2300",
- 				"hours": 23,
- 				"minutes": 0,
- 				"nextDate": 1468216800000
- 			},
- 			"open": {
- 				"day": 0,
- 				"time": "0700",
- 				"hours": 7,
- 				"minutes": 0,
- 				"nextDate": 1468764000000
- 			}
- 		}, {
- 			"close": {
- 				"day": 1,
- 				"time": "2300",
- 				"hours": 23,
- 				"minutes": 0,
- 				"nextDate": 1468303200000
- 			},
- 			"open": {
- 				"day": 1,
- 				"time": "0700",
- 				"hours": 7,
- 				"minutes": 0,
- 				"nextDate": 1468245600000
- 			}
- 		}, {
- 			"close": {
- 				"day": 2,
- 				"time": "2300",
- 				"hours": 23,
- 				"minutes": 0,
- 				"nextDate": 1468389600000
- 			},
- 			"open": {
- 				"day": 2,
- 				"time": "0700",
- 				"hours": 7,
- 				"minutes": 0,
- 				"nextDate": 1468332000000
- 			}
- 		}, {
- 			"close": {
- 				"day": 3,
- 				"time": "2300",
- 				"hours": 23,
- 				"minutes": 0,
- 				"nextDate": 1468476000000
- 			},
- 			"open": {
- 				"day": 3,
- 				"time": "0700",
- 				"hours": 7,
- 				"minutes": 0,
- 				"nextDate": 1468418400000
- 			}
- 		}, {
- 			"close": {
- 				"day": 4,
- 				"time": "2300",
- 				"hours": 23,
- 				"minutes": 0,
- 				"nextDate": 1468562400000
- 			},
- 			"open": {
- 				"day": 4,
- 				"time": "0700",
- 				"hours": 7,
- 				"minutes": 0,
- 				"nextDate": 1468504800000
- 			}
- 		}, {
- 			"close": {
- 				"day": 5,
- 				"time": "2300",
- 				"hours": 23,
- 				"minutes": 0,
- 				"nextDate": 1468648800000
- 			},
- 			"open": {
- 				"day": 5,
- 				"time": "0700",
- 				"hours": 7,
- 				"minutes": 0,
- 				"nextDate": 1468591200000
- 			}
- 		}, {
- 			"close": {
- 				"day": 6,
- 				"time": "2300",
- 				"hours": 23,
- 				"minutes": 0,
- 				"nextDate": 1468735200000
- 			},
- 			"open": {
- 				"day": 6,
- 				"time": "0700",
- 				"hours": 7,
- 				"minutes": 0,
- 				"nextDate": 1468677600000
- 			}
- 		}];
         vm.selected = [];
         vm.toggle = function (item, list) {
             var idx = list.indexOf(item);
@@ -152,10 +47,17 @@
         }
     }
     vm.result = [];
-    vm.submit = function (activity) {
-        if(activity.name) {
-            vm.result.push(activity);
-        }
+    vm.submit = function () {
+        var response = $http.post('/SOMETHING', vm.activity)
+//        response.success(function(data, status, headers, config) {
+//            alert(data);
+//        });
+//        response.error(function(data, status, headers, config) {
+//            alert("ERROR: " + JSON.stringify({data: data}));
+//        });
+        alert(vm.activity.name);
+        vm.activity = {};
+        vm.NewItemForm.$setPristine()
     }
   }
 })();

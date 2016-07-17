@@ -3,7 +3,7 @@
         <h3>Add New Activity</h3>
     </md-card-title>
     <md-card-content>
-        <form ng-submit="vm.submit" name="NewItemForm">
+        <form ng-submit="vm.submit" name="vm.NewItemForm">
             <div layout-gt-sm="row">
                 <md-input-container flex>
                     <label>Name</label>
@@ -13,7 +13,7 @@
             <div layout-gt-sm="row">
                 <div class="md-block" flex-gt-sm>
                     <label>Start</label>
-                    <md-datepicker class="md-block" ng-model="vm.activity.start" md-placeholder="Start date" ng-required="!activity.cost"></md-datepicker>
+                    <md-datepicker class="md-block" ng-model="vm.activity.start" md-placeholder="Start date" ng-required="!vm.activity.cost"></md-datepicker>
                 </div>
                 <div class="md-block" flex-gt-sm>
                     <label>End</label>
@@ -26,7 +26,7 @@
             <div layout-gt-sm="row">
                 <md-input-container class="md-block" flex-gt-sm>
                     <label>Cost</label>
-                    <input ng-model="vm.activity.cost" type="number" placeholder="0.00" step="0.01" ng-required="!activity.start">
+                    <input ng-model="vm.activity.cost" type="number" placeholder="0.00" step="0.01" ng-required="!vm.activity.start">
                 </md-input-container>
                 <md-input-container class="md-block" flex-gt-sm>
                     <label>Currency</label>
