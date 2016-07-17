@@ -59,7 +59,7 @@
                     }
                 },
                 "start": "2016-07-17T07:00:00.000Z",
-                "end": "2016-07-10T07:00:00.000Z",
+                "end": "2016-07-17T07:00:00.000Z",
                 "url": "moma.org",
                 "quantity": 2,
                 "notes": "Recommended"
@@ -79,7 +79,6 @@
         else {
             vm.title = "New Activity"
             vm.activity = {};
-            vm.activity.currency = '';
         }
 
         vm.toggle = function (item, list) {
@@ -117,7 +116,6 @@
             return;
         }
 
-//        vm.result = [];
         vm.submit = function () {
             var response = $http.post('/SOMETHING', vm.activity)
     //        response.success(function(data, status, headers, config) {
