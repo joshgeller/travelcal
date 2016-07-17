@@ -31,9 +31,9 @@
                 <md-input-container class="md-block" flex-gt-sm>
                     <label>Currency</label>
                     <md-autocomplete
-                        ng-model="vm.activity.currency"
                         md-selected-item="vm.selectedItem"
                         md-search-text="vm.searchText"
+                        md-selected-item-change="vm.updateCurrency(curr.value)"
                         md-items="curr in vm.querySearch(vm.searchText)"
                         md-item-text="curr.display"
                         md-min-length="0"
