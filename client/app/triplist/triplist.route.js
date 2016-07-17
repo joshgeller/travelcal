@@ -3,13 +3,13 @@
 
   angular
     .module('travelcal.triplist')
-    .config(RegisterConfig);
+    .config(TriplistConfig);
 
-    RegisterConfig.$inject = [
+    TriplistConfig.$inject = [
       '$stateProvider'
     ];
 
-    function RegisterConfig($stateProvider) {
+    function TriplistConfig($stateProvider) {
       $stateProvider
         .state('travelcal.triplist', {
           url: '/triplist',
