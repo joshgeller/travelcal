@@ -65,7 +65,7 @@
                 </div>
             </div>
             <md-input-container class="md-block">
-                <input type="text" g-places-autocomplete ng-model="vm.address" placeholder="Address"/>
+                <input type="text" g-places-autocomplete ng-model="vm.activity.address" placeholder="Address"/>
             </md-input-container>
             </div>
             <div layout-gt-sm="row">
@@ -73,9 +73,9 @@
                     <legend>Hours</legend>
                     <table>
                         <tr ng-repeat="day in vm.days">
-                            <td><md-checkbox ng-model="vm.activity.days[day]" ng-checked="vm.exists(day, vm.selected)" ng-click="vm.toggle(day, vm.selected)">{{day}}</md-checkbox></td>
-                            <td><input type="time" ng-model="vm.activity.days[day].open" ng-show="vm.exists(day, vm.selected)"></td>
-                            <td><input type="time" ng-model="vm.activity.days[day].close" ng-show="vm.exists(day, vm.selected)"></td>
+                            <td><md-checkbox ng-model="vm.activity.days[day].open" ng-checked="vm.exists(day, vm.selected)" ng-click="vm.toggle(day, vm.selected)">{{day}}</md-checkbox></td>
+                            <td><input type="time" ng-model="vm.activity.days[day].start" ng-show="vm.exists(day, vm.selected)"></td>
+                            <td><input type="time" ng-model="vm.activity.days[day].end" ng-show="vm.exists(day, vm.selected)"></td>
                         </tr>
                     </table>
                 </fieldset>
@@ -84,7 +84,8 @@
             <button ng-click="vm.submit(vm.activity)" ng-disabled="!vm.activity.name || !(vm.activity.cost || vm.activity.start)">Submit</button>
         </form>
         <div>
-            RESULTS: {{vm.result}}
+            RESULTS: {{vm.result[0]}}
+                     {{vm.result[0].address | json}}
         </div>
     </md-card-content>
 </md-card>
