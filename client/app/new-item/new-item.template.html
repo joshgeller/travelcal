@@ -1,6 +1,6 @@
 <md-card>
     <md-card-title>
-        <h3>Add New Activity</h3>
+        <h3>{{vm.title}}</h3>
     </md-card-title>
     <md-card-content>
         <form ng-submit="vm.submit" name="vm.NewItemForm">
@@ -17,7 +17,7 @@
                 </div>
                 <div class="md-block" flex-gt-sm>
                     <label>End</label>
-                    <md-datepicker class="md-block" ng-model="vm.activity.end" md-min-date="StartDate" md-placeholder="End date">End</md-datepicker>
+                    <md-datepicker class="md-block" ng-model="vm.activity.end" md-min-date="vm.activity.start" md-placeholder="End date">End</md-datepicker>
                 </div>
                 <md-input-container class="md-block" flex-gt-sm>
                     <input type="text" class="md-block" ng-model="vm.activity.url" placeholder="Link">
@@ -84,8 +84,7 @@
             <button ng-click="vm.submit(vm.activity)" ng-disabled="!vm.activity.name || !(vm.activity.cost || vm.activity.start)">Submit</button>
         </form>
         <div>
-            RESULTS: {{vm.result[0]}}
-                     {{vm.result[0].address | json}}
+            RESULTS: {{vm.result}}
         </div>
     </md-card-content>
 </md-card>
