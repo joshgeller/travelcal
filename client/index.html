@@ -20,7 +20,7 @@
     <link rel="stylesheet" href="{% static 'bower_components/angular-material-icons/angular-material-icons.css' %}" />
     <!-- endbower -->
     <!-- endbuild -->
-    
+
     <!-- Material Design fonts -->
     <!-- @todo @jens not sure what these do and can't get bower to install them -->
     <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Roboto:300,400,500,700">
@@ -34,7 +34,7 @@
     <div ng-app="travelcal">
         <div id="travelcal-main" ui-view="travelcalMain"></div>
     </div>
-    
+
     <!-- build:js js/lib.js -->
     <!-- bower:js -->
     <script src='{% static 'bower_components/angular/angular.js' %}'></script>
@@ -45,6 +45,8 @@
     <script src='{% static 'bower_components/angular-ui-router/release/angular-ui-router.js' %}'></script>
     <script src='{% static 'bower_components/ngstorage/ngStorage.js' %}'></script>
     <script src='{% static 'bower_components/angular-material-icons/angular-material-icons.min.js' %}'></script>
+    <script src='{% static 'bower_components/moment/moment.js' %}'></script>
+    <script src='{% static 'bower_components/angular-moment/angular-moment.js' %}'></script>
     <!-- endbower -->
     <!-- endbuild -->
 
@@ -77,6 +79,8 @@
     <script src='{% static 'app/login/login.controller.js' %}'></script>
     <script src='{% static 'app/core/core.module.js' %}'></script>
     <script src='{% static 'app/app.module.js' %}'></script>
+    <script src='{% static 'app/travelcal-services/trips.service.js' %}'></script>
+    <script src='{% static 'app/travelcal-services/calendars.service.js' %}'></script>
     <script src='{% static 'app/travelcal-services/authentication.service.js' %}'></script>
 </body>
 

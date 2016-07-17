@@ -3,6 +3,7 @@
 
   angular
     .module('travelcal.core', [
+      'angularMoment',
       'ngMaterial',
       'ngMdIcons',
       'ngStorage',
