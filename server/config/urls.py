@@ -1,6 +1,5 @@
-from django.conf import settings
+from calendars.views import CalendarViewSet
 from django.conf.urls import include, patterns, url
-from django.conf.urls.static import static
 from django.contrib import admin
 from rest_framework.authtoken import views
 from rest_framework.routers import SimpleRouter
@@ -12,6 +11,7 @@ from .views import IndexView
 router = SimpleRouter()
 router.register(r'accounts', AccountViewSet)
 router.register(r'trips', TripViewSet)
+router.register(r'calendars', CalendarViewSet)
 
 urlpatterns = [
     # Obtain auth token

@@ -8,7 +8,7 @@ from .models import Account
 class AccountSerializer(ModelSerializer):
     password = CharField(write_only=True, required=False)
     confirm_password = CharField(write_only=True, required=False)
-    trips = TripSerializer(many=True)
+    trips = TripSerializer(many=True, required=False)
 
     class Meta:
         model = Account

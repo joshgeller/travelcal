@@ -3,14 +3,13 @@
 
   angular
     .module('travelcal')
-    .factory('TripService', TripService);
+    .factory('CalendarService', CalendarService);
 
-  TripService.$inject = [
-    'CalendarService',
+  CalendarService.$inject = [
     '$http'
   ];
 
-  function TripService($http, $localStorage) {
+  function CalendarService($http, $localStorage) {
     var service = { };
 
     service.create = create;
@@ -21,8 +20,8 @@
 
     return service;
 
-    function retrieve(tripId, callback) {
-      return $http.get('/api/v1/trips/' + tripId + '/')
+    function retrieve(calendarId, callback) {
+      return $http.get('/api/v1/calendars/' + calendarId + '/')
       .then(function(res) {
         callback(true, res);
       }, function(res) {
@@ -31,7 +30,7 @@
     }
 
     function list(callback) {
-      return $http.get('/api/v1/trips/')
+      return $http.get('/api/v1/calendars/')
       .then(function(res) {
         callback(true, res);
       }, function(res) {
@@ -39,11 +38,10 @@
       })
     }
 
-    function create(name, startDate, endDate, callback) {
-      return $http.post('/api/v1/trips/', {
-        name: name,
-        start_date: startDate,
-        end_date: endDate
+    function create(data, tripId, callback) {
+      return $http.post('/api/v1/calendars/', {
+        data: data,
+        trip_id: tripId
       })
       .then(function(res) {
         callback(true, res);
@@ -52,8 +50,8 @@
       })
     }
 
-    function update(tripId, data, callback) {
-      return $http.patch('/api/v1/trips/' + tripId + '/', data)
+    function update(calendarId, data, callback) {
+      return $http.patch('/api/v1/calendars/' + calendarId + '/', data)
       .then(function(res) {
         callback(true, res);
       }, function(res) {
@@ -61,8 +59,8 @@
       })
     }
 
-    function destroy(tripId, callback) {
-      return $http.delete('/api/v1/trips/' + tripId + '/')
+    function destroy(calendarId, callback) {
+      return $http.delete('/api/v1/calendars/' + calendarId + '/')
       .then(function(res) {
         callback(true, res);
       }, function(res) {
