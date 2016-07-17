@@ -1,24 +1,25 @@
-from django.contrib.postgres.fields import JSONField
 from django.db import models as models
 from rest_framework.reverse import reverse
-from trips.models import Trip
+from users.models import Account
 
 
-class Calendar(models.Model):
+class Trip(models.Model):
 
     # Fields
+    name = models.CharField(max_length=255)
     created = models.DateTimeField(auto_now_add=True, editable=False)
     last_updated = models.DateTimeField(auto_now=True, editable=False)
-    data = JSONField(null=True, blank=True)
+    start_date = models.DateField()
+    end_date = models.DateField()
 
     # Relationship Fields
-    trip = models.OneToOneField(Trip, )
+    account = models.ForeignKey(Account, related_name='trips')
 
     class Meta:
         ordering = ('-created',)
 
     def __str__(self):
-        return self.trip.name
+        return self.name
 
     def get_absolute_url(self):
-        return reverse('calendar-detail', kwargs={'pk': self.pk})
+        return reverse('trip-detail', kwargs={'pk': self.pk})

@@ -17,13 +17,13 @@
     <link rel="stylesheet" href="{% static 'bower_components/angular-material/angular-material.css' %}" />
     <link rel="stylesheet" href="{% static 'bower_components/font-awesome/css/font-awesome.css' %}" />
     <link rel="stylesheet" href="{% static 'bower_components/bower-bootswatch-paper/css/paper.css' %}" />
+    <link rel="stylesheet" href="{% static 'bower_components/angular-material-icons/angular-material-icons.css' %}" />
     <!-- endbower -->
     <!-- endbuild -->
-    
+
     <!-- Material Design fonts -->
     <!-- @todo @jens not sure what these do and can't get bower to install them -->
     <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Roboto:300,400,500,700">
-    <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/icon?family=Material+Icons">
 
     <!-- Our stylesheet -->
     <link rel="stylesheet" type="text/css" href="{% static 'style/css/main.css' %}">
@@ -34,7 +34,7 @@
     <div ng-app="travelcal">
         <div id="travelcal-main" ui-view="travelcalMain"></div>
     </div>
-    
+
     <!-- build:js js/lib.js -->
     <!-- bower:js -->
     <script src='{% static 'bower_components/angular/angular.js' %}'></script>
@@ -43,6 +43,10 @@
     <script src='{% static 'bower_components/angular-messages/angular-messages.js' %}'></script>
     <script src='{% static 'bower_components/angular-material/angular-material.js' %}'></script>
     <script src='{% static 'bower_components/angular-ui-router/release/angular-ui-router.js' %}'></script>
+    <script src='{% static 'bower_components/ngstorage/ngStorage.js' %}'></script>
+    <script src='{% static 'bower_components/angular-material-icons/angular-material-icons.min.js' %}'></script>
+    <script src='{% static 'bower_components/moment/moment.js' %}'></script>
+    <script src='{% static 'bower_components/angular-moment/angular-moment.js' %}'></script>
     <!-- endbower -->
     <!-- endbuild -->
 
@@ -52,18 +56,32 @@
     <script src='{% static 'app/home/home.module.js' %}'></script>
     <script src='{% static 'app/home/home.route.js' %}'></script>
     <script src='{% static 'app/home/home.controller.js' %}'></script>
+    <script src='{% static 'app/profile/profile.module.js' %}'></script>
+    <script src='{% static 'app/profile/profile.route.js' %}'></script>
+    <script src='{% static 'app/profile/profile.controller.js' %}'></script>
     <script src='{% static 'app/nav/nav.module.js' %}'></script>
     <script src='{% static 'app/nav/nav.controller.js' %}'></script>
     <script src='{% static 'app/layout/layout.module.js' %}'></script>
     <script src='{% static 'app/layout/layout.route.js' %}'></script>
+    <script src='{% static 'app/triplist/triplist.module.js' %}'></script>
+    <script src='{% static 'app/triplist/triplist.route.js' %}'></script>
+    <script src='{% static 'app/triplist/triplist.controller.js' %}'></script>
     <script src='{% static 'app/register/register.module.js' %}'></script>
     <script src='{% static 'app/register/register.route.js' %}'></script>
     <script src='{% static 'app/register/register.controller.js' %}'></script>
+    <script src='{% static 'app/new-item/new-item.module.js' %}'></script>
+    <script src='{% static 'app/new-item/new-item.route.js' %}'></script>
+    <script src='{% static 'app/new-item/new-item.controller.js' %}'></script>
     <script src='{% static 'app/budget/budget.module.js' %}'></script>
     <script src='{% static 'app/budget/budget.route.js' %}'></script>
     <script src='{% static 'app/budget/budget.controller.js' %}'></script>
+    <script src='{% static 'app/login/login.module.js' %}'></script>
+    <script src='{% static 'app/login/login.controller.js' %}'></script>
     <script src='{% static 'app/core/core.module.js' %}'></script>
     <script src='{% static 'app/app.module.js' %}'></script>
+    <script src='{% static 'app/travelcal-services/trips.service.js' %}'></script>
+    <script src='{% static 'app/travelcal-services/calendars.service.js' %}'></script>
+    <script src='{% static 'app/travelcal-services/authentication.service.js' %}'></script>
 </body>
 
 </html>

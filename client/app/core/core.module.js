@@ -3,7 +3,18 @@
 
   angular
     .module('travelcal.core', [
-      'ui.router',
-      'ngMaterial'
-    ]);
+      'angularMoment',
+      'ngMaterial',
+      'ngMdIcons',
+      'ngStorage',
+      'ngMessages',
+      'ngStorage',
+      'ui.router'
+    ])
+    .config(function($mdThemingProvider) {
+      $mdThemingProvider
+      .theme('default')
+      .primaryPalette('blue')
+      .accentPalette('blue-grey')
+    });
 })();
