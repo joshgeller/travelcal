@@ -13,7 +13,7 @@
                             {{item.name}}
                         </div>
                         <div>
-                            {{item.cost}} {{item.currency}} x {{item.quantity}}  =  {{ item.cost * item.quantity * vm.currencies.rates[item.currency] | number:2}} {{vm.baseCurr}}
+                            {{item.cost}} {{item.currency}} x {{item.quantity}}  =  {{ item.cost * item.quantity * vm.currencies.rates[item.currency] | number:2}} {{vm.baseCurrency}}
                         </div>
                         <div>
                             {{item.start | date : shortDate}} - {{item.end | date : shortDate}}
@@ -25,7 +25,7 @@
                     <md-divider></md-divider>
                 </md-list-item>
                 <md-list-item class="row" layout-padding layout-align="start center" >
-                    <h4>Total: {{vm.total | number:2}} {{vm.baseCurr}}</h4>
+                    <h4>Total: {{vm.total | number:2}} {{vm.baseCurrency}}</h4>
                     <md-input-container class="md-block" flex-gt-sm>
                         <md-autocomplete
                                  md-selected-item="vm.selectedItem"
@@ -34,7 +34,7 @@
                                  md-items="curr in vm.querySearch(vm.searchText)"
                                  md-item-text="curr.display"
                                  md-min-length="0"
-                                 ng-init="USD"
+                                 ng-init="vm.searchText=vm.baseCurrency.value"
                                  >
                             <md-item-template>
                                 <span md-highligh-text="vm.searchText" md-highlight-flags="^i">{{curr.display}}</span>
@@ -49,4 +49,5 @@
           <md-button class="md-raised" href="#/new-item">Add Activity</md-button>
         </md-card-content>
     </md-card>
+    <div>{{vm.baseCurrency}} {{vm.base}} {{vm.data}}</div>
 </md-content>
