@@ -101,14 +101,34 @@
               ]
     CurrencyService.getData(function(dataResponse) {
         vm.currencies = dataResponse;
+        vm.currencyNames = Object.getOwnPropertyNames(vm.currencies.rates).sort();
+        vm.currencyAutoComplete = [];
+        for (var i = 0; i < vm.currencyNames.length; i++) {
+            console.log(vm.currencyNames[i])
+            var newCurrency = {value:vm.currencyNames[i], display:vm.currencyNames[i]};
+            vm.currencyAutoComplete.push(newCurrency);
+        }
         for (var item in vm.budget) {
             vm.total += vm.budget[item].cost * vm.budget[item].quantity * vm.currencies.rates[vm.budget[item].currency];
         }
     })
-    vm.edit = function (id) {
-//        $location.url('#/new-item?edit=true&id=' + id)
-        $location.path('#/new-item')
-    }
+//        vm.currencies =  [{value: 'usd', display: 'usd'}, {value: 'ddk', display: 'dkk'}, {value: 'eur', display: 'eur'}];
+
+        vm.newCurrency = function newCurrency(currency) {
+            alert("Sorry, that currency is not supported.")
+        }
+
+        vm.querySearch = function querySearch (query) {
+            return query ? vm.currencyAutoComplete.filter( createFilterFor(query) ) : vm.currencyAutoComplete;
+        }
+
+        function createFilterFor(query) {
+            var lowercaseQuery = angular.lowercase(query);
+            return function filterFn(currency) {
+                return (currency.value.indexOf(lowercaseQuery) === 0);
+            }
+        }
+
   }
 
 })();
