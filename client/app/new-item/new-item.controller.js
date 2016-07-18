@@ -6,10 +6,11 @@
     .controller('NewItemController', NewItemController);
 
   NewItemController.$inject = [
-    '$http'
+    '$http',
+    'CurrencyService'
   ];
 
-  function NewItemController($http) {
+  function NewItemController($http, CurrencyService) {
     var vm = this;
     vm.activity;
 
@@ -28,14 +29,28 @@
         return list.indexOf(item) > -1;
       }
 
-      vm.currencies =  [{value: 'usd', display: 'usd'}, {value: 'ddk', display: 'dkk'}, {value: 'eur', display: 'eur'}];
+    CurrencyService.getCurrencies()
+        .then(function success(response) {
+            vm.currencies = response.data;
+            vm.currencyNames = Object.getOwnPropertyNames(vm.currencies.rates);
+            vm.currencyNames.push(response.data.base);
+            vm.currencyNames.sort();
+            vm.currencyAutoComplete = [];
+            for (var i = 0; i < vm.currencyNames.length; i++) {
+                var newCurrency = {value:vm.currencyNames[i], display:vm.currencyNames[i]};
+                vm.currencyAutoComplete.push(newCurrency);
+            }
+        }, function error(response) {
+            console.log(response);
+    });
+//      vm.currencies =  [{value: 'usd', display: 'usd'}, {value: 'ddk', display: 'dkk'}, {value: 'eur', display: 'eur'}];
 
       vm.newCurrency = function newCurrency(currency) {
         alert("Sorry, that currency is not supported.")
       }
 
       vm.querySearch = function querySearch (query) {
-        return query ? vm.currencies.filter( createFilterFor(query) ) : vm.currencies;
+        return query ? vm.currencyAutoComplete.filter( createFilterFor(query) ) : vm.currencyAutoComplete;
       }
 
       function createFilterFor(query) {
