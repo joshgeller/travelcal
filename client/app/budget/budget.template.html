@@ -13,7 +13,7 @@
                             {{item.name}}
                         </div>
                         <div>
-                            {{item.cost | number:2}} {{item.currency}} x {{item.quantity}}  =  {{(item.currency != vm.baseCurrency) ? (item.cost * item.quantity * vm.currencies.rates[item.currency] | number:2) : (item.cost * item.quantity | number:2)}} {{vm.baseCurrency}}
+                            {{item.cost | number:2}} {{item.currency}} x {{item.quantity}}  =  {{(item.currency != vm.baseCurrency) ? (item.cost * item.quantity / vm.currencies.rates[item.currency] | number:2) : (item.cost * item.quantity | number:2)}} {{vm.baseCurrency}}
                         </div>
                         <div>
                             {{item.start | date : shortDate}} - {{item.end | date : shortDate}}
@@ -25,7 +25,8 @@
                     <md-divider></md-divider>
                 </md-list-item>
                 <md-list-item class="row" layout-padding layout-align="start center" >
-                    <h4>Total: {{vm.total | number:2}} {{vm.baseCurrency}}</h4>
+                    <h4>Total: {{vm.total | number:2}}</h4>
+                    <h4>
                     <md-input-container class="md-block" flex-gt-sm>
                         <md-autocomplete
                                  md-selected-item="vm.selectedItem"
@@ -43,11 +44,10 @@
                                 No currencies matching "{{vm.searchText}}" were found.
                             </md-not-found>
                         </md-auto>
-                    </md-input-container>
+                    </md-input-container></h4>
                 </md-list-item>
             </md-list>
           <md-button class="md-raised" href="#/new-item">Add Activity</md-button>
         </md-card-content>
     </md-card>
-    <div>{{vm.baseCurrency}} {{vm.base}} {{vm.data}}</div>
 </md-content>

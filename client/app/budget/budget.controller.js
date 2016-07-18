@@ -45,8 +45,6 @@
   ];
 
 
-
-
   function BudgetController($http, $location, CurrencyService) {
     var vm = this;
     vm.currencies = null;
@@ -130,7 +128,6 @@
                     vm.updateCurrency(newCurrency.value);
                 }
             }
-//            vm.baseCurrency = vm.currencyAutoComplete["USD"].value;
             console.log(vm.currencyAutoComplete);
         }, function error(response) {
             console.log(response);
@@ -149,7 +146,7 @@
                             vm.total += vm.budget[item].cost * vm.budget[item].quantity;
                         }
                         else {
-                            vm.total += vm.budget[item].cost * vm.budget[item].quantity * vm.currencies.rates[vm.budget[item].currency];
+                            vm.total += vm.budget[item].cost * vm.budget[item].quantity / vm.currencies.rates[vm.budget[item].currency];
                         }
 
                     }
