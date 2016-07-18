@@ -48,16 +48,24 @@
                     </md-autocomplete>
                 </md-input-container>
                 <md-input-container class="md-block" flex-gt-sm>
-                    x
+                    <md-select ng-model="vm.activity.repetitionType">
+                        <md-option ng-repeat="type in vm.repetitionTypes" value="{{type}}">{{type}}</md-option>
+                    </md-select>
                 </md-input-container>
-                <md-input-container class="md-block" flex-gt-sm>
+                <md-input-container ng-if="vm.activity.repetitionType == 'per person'" class="md-block" flex-gt-sm>
                     <input ng-model="vm.activity.quantity" type="number">
                 </md-input-container>
-                <md-input-container class="md-block" flex-gt-sm>
+                <md-input-container ng-if="vm.activity.repetitionType == 'per person'" class="md-block" flex-gt-sm>
                     <ng-pluralize count="vm.activity.quantity || 0" when="{'0': 'people', '1': 'person', 'other': 'people'}"></ng-pluralize>
                 </md-input-container>
+                <md-input-container ng-if="vm.activity.repetitionType == 'per day'" class="md-block" flex-gt-sm>
+                    <input ng-model="vm.activity.quantity" type="number">
+                </md-input-container>
+                <md-input-container ng-if="vm.activity.repetitionType == 'per day'" class="md-block" flex-gt-sm>
+                    <ng-pluralize count="vm.activity.quantity || 0" when="{'0': 'days', '1': 'day', 'other': 'days'}"></ng-pluralize>
+                </md-input-container>
                 <div class="md-block" flex-gt-sm>
-                    <span ng-if="vm.activity.quantity && vm.activity.cost">
+                    <span ng-if="vm.activity.repetitionType == 'per person' || vm.activity.repetitionType == 'per day'">
                         <label>Total</label>
                         <md-input-container flex-gt-sm>
                             {{vm.activity.cost * vm.activity.quantity}}

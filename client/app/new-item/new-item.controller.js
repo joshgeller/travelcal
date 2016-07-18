@@ -95,6 +95,7 @@
         }
 
         vm.currencies =  [{value: 'usd', display: 'usd'}, {value: 'ddk', display: 'dkk'}, {value: 'eur', display: 'eur'}];
+        vm.repetitionTypes = ['total', 'per person', 'per day'];
 
         vm.newCurrency = function newCurrency(currency) {
             alert("Sorry, that currency is not supported.")
