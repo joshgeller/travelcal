@@ -5,17 +5,18 @@
         .module('travelcal.new-item')
         .controller('NewItemController', NewItemController);
 
-    NewItemController.$inject = [
-        '$http'
-    ];
+  NewItemController.$inject = [
+    '$http',
+    'CurrencyService'
+  ];
 
-    function NewItemController($http, $setPristine) {
-        var vm = this;
-        var edit = true;
-        vm.newItemForm = {};
-        vm.days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
-        vm.selected = [];
-        vm.currency = ''
+  function NewItemController($http, CurrencyService) {
+    var vm = this;
+    var edit = true;
+    vm.newItemForm = {};
+    vm.days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
+    vm.selected = [];
+    vm.currency = '';
 
         if (edit) {
             vm.title = "Edit Activity"
@@ -94,16 +95,30 @@
             return list.indexOf(item) > -1;
         }
 
-        vm.currencies =  [{value: 'usd', display: 'usd'}, {value: 'ddk', display: 'dkk'}, {value: 'eur', display: 'eur'}];
+    CurrencyService.getCurrencies()
+        .then(function success(response) {
+            vm.currencies = response.data;
+            vm.currencyNames = Object.getOwnPropertyNames(vm.currencies.rates);
+            vm.currencyNames.push(response.data.base);
+            vm.currencyNames.sort();
+            vm.currencyAutoComplete = [];
+            for (var i = 0; i < vm.currencyNames.length; i++) {
+                var newCurrency = {value:vm.currencyNames[i], display:vm.currencyNames[i]};
+                vm.currencyAutoComplete.push(newCurrency);
+            }
+        }, function error(response) {
+            console.log(response);
+    });
+
         vm.repetitionTypes = ['total', 'per person', 'per day'];
+
 
         vm.newCurrency = function newCurrency(currency) {
             alert("Sorry, that currency is not supported.")
         }
-
-        vm.querySearch = function querySearch (query) {
-            return query ? vm.currencies.filter( createFilterFor(query) ) : vm.currencies;
-        }
+      vm.querySearch = function querySearch (query) {
+        return query ? vm.currencyAutoComplete.filter( createFilterFor(query) ) : vm.currencyAutoComplete;
+      }
 
         function createFilterFor(query) {
             var lowercaseQuery = angular.lowercase(query);
