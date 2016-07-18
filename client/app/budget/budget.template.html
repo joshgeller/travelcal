@@ -7,30 +7,66 @@
         </md-card-title>
         <md-card-content>
             <md-list flex>
-                <md-list-item ng-repeat="item in vm.budget" class="row">
+                <md-list-item ng-repeat="item in vm.budget" class="row" ng-href="#/new-item?return=budget&edit=true&id={{item.id}}">
                     <div flex layout="row" layout-padding layout-align="start center" >
                         <div flex style="max-width:200px;">
                             {{item.name}}
                         </div>
-                        <div ng-init="vm.total = vm.total + (item.cost * item.reps)">
-                            {{item.cost}} {{item.currency}} x {{item.reps}}
+                        <div>
+                            {{item.cost | number:2}} {{item.currency}}
                         </div>
                         <div>
-                            {{item.start}} - {{item.end}}
+                            x
                         </div>
-                        <div ng-if="item.url">
-                            <md-button ng-href="{{item.url}}" target="_blank">{{item.url}}</md-button>
+                        <div>
+                            {{item.quantity}}
+                        </div>
+                        <div>
+                            =
+                        </div>
+                        <div>
+                            {{(item.currency != vm.baseCurrency) ? (item.cost * item.quantity / vm.currencies.rates[item.currency] | number:2) :  (item.cost * item.quantity | number:2)}} {{vm.baseCurrency}}
+                        </div>
+                        <div>
+                            {{item.start | date : shortDate}}
+                        </div>
+                        <div ng-if="item.end != item.start">
+                            -
+                        </div>
+                        <div ng-if="item.end != item.start">
+                            {{item.end | date : shortDate}}
+                        </div>
+                        <span flex ng-if="item.url"></span>
+                        <div>
+                            <md-button ng-if="item.url" ng-href="{{item.url}}" target="_blank">{{item.url}}</md-button>
                         </div>
                     </div>
                     <md-divider></md-divider>
                 </md-list-item>
                 <md-list-item class="row" layout-padding layout-align="start center" >
-                    <h4>Total: ${{vm.total}}</h4>
+                    <h4>Total: {{vm.total | number:2}}</h4>
+                    <h4>
+                    <md-input-container class="md-block" flex-gt-sm>
+                        <md-autocomplete
+                                 md-selected-item="vm.selectedItem"
+                                 md-search-text="vm.searchText"
+                                 md-selected-item-change="vm.updateCurrency(curr.value)"
+                                 md-items="curr in vm.querySearch(vm.searchText)"
+                                 md-item-text="curr.display"
+                                 md-min-length="0"
+                                 ng-init="vm.searchText=vm.baseCurrency"
+                                 >
+                            <md-item-template>
+                                <span md-highligh-text="vm.searchText" md-highlight-flags="^i">{{curr.display}}</span>
+                            </md-item-template>
+                            <md-not-found>
+                                No currencies matching "{{vm.searchText}}" were found.
+                            </md-not-found>
+                        </md-auto>
+                    </md-input-container></h4>
                 </md-list-item>
             </md-list>
-          <md-button class="md-raised">Add Budget Item</md-button>
-          <md-button class="md-raised">Add Activity</md-button>
+          <md-button class="md-raised" href="#/new-item">Add Activity</md-button>
         </md-card-content>
-
     </md-card>
 </md-content>
