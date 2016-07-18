@@ -140,7 +140,13 @@
                     vm.currencies = response.data;
                     vm.total = 0;
                     for (var item in vm.budget) {
-                        vm.total += vm.budget[item].cost * vm.budget[item].quantity * vm.currencies.rates[vm.budget[item].currency];
+                        if (vm.budget[item].currency == vm.baseCurrency) {
+                            vm.total += vm.budget[item].cost * vm.budget[item].quantity;
+                        }
+                        else {
+                            vm.total += vm.budget[item].cost * vm.budget[item].quantity * vm.currencies.rates[vm.budget[item].currency];
+                        }
+
                     }
                 }, function error(response) {
                     console.log(response);

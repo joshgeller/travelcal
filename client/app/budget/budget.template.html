@@ -13,7 +13,7 @@
                             {{item.name}}
                         </div>
                         <div>
-                            {{item.cost}} {{item.currency}} x {{item.quantity}}  =  {{ item.cost * item.quantity * vm.currencies.rates[item.currency] | number:2}} {{vm.baseCurrency}}
+                            {{item.cost}} {{item.currency}} x {{item.quantity}}  =  {{(item.currency != vm.baseCurrency) ? (item.cost * item.quantity * vm.currencies.rates[item.currency] | number:2) : (item.cost * item.quantity | number:2)}} {{vm.baseCurrency}}
                         </div>
                         <div>
                             {{item.start | date : shortDate}} - {{item.end | date : shortDate}}
