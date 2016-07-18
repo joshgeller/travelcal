@@ -13,13 +13,32 @@
                             {{item.name}}
                         </div>
                         <div>
-                            {{item.cost | number:2}} {{item.currency}} x {{item.quantity}}  = {{(item.currency != vm.baseCurrency) ? (item.cost * item.quantity / vm.currencies.rates[item.currency] | number:2) :  (item.cost * item.quantity | number:2)}} {{vm.baseCurrency}}
+                            {{item.cost | number:2}} {{item.currency}}
                         </div>
                         <div>
-                            {{item.start | date : shortDate}} - {{item.end | date : shortDate}}
+                            x
                         </div>
-                        <div ng-if="item.url">
-                            <md-button ng-href="{{item.url}}" target="_blank">{{item.url}}</md-button>
+                        <div>
+                            {{item.quantity}}
+                        </div>
+                        <div>
+                            =
+                        </div>
+                        <div>
+                            {{(item.currency != vm.baseCurrency) ? (item.cost * item.quantity / vm.currencies.rates[item.currency] | number:2) :  (item.cost * item.quantity | number:2)}} {{vm.baseCurrency}}
+                        </div>
+                        <div>
+                            {{item.start | date : shortDate}}
+                        </div>
+                        <div ng-if="item.end != item.start">
+                            -
+                        </div>
+                        <div ng-if="item.end != item.start">
+                            {{item.end | date : shortDate}}
+                        </div>
+                        <span flex ng-if="item.url"></span>
+                        <div>
+                            <md-button ng-if="item.url" ng-href="{{item.url}}" target="_blank">{{item.url}}</md-button>
                         </div>
                     </div>
                     <md-divider></md-divider>
