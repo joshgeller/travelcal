@@ -22,7 +22,7 @@
         }).success(function(data) {
             return data;
         }).error(function() {
-            alert("error");
+            console.log("error");
         })
     }
 
@@ -33,7 +33,7 @@
         }).success(function(data) {
             return data;
         }).error(function() {
-            alert("error");
+            console.log("error");
         })
     }
   }
@@ -128,7 +128,6 @@
                     vm.updateCurrency(newCurrency.value);
                 }
             }
-            console.log(vm.currencyAutoComplete);
         }, function error(response) {
             console.log(response);
     });
@@ -137,7 +136,6 @@
         if (newBase) {
             CurrencyService.getRates(newBase)
                 .then(function success(response) {
-                    console.log(newBase);
                     vm.baseCurrency = newBase;
                     vm.currencies = response.data;
                     vm.total = 0;
