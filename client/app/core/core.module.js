@@ -4,6 +4,7 @@
   angular
     .module('travelcal.core', [
       'angularMoment',
+      'google.places',
       'ngMaterial',
       'ngMdIcons',
       'ngStorage',
