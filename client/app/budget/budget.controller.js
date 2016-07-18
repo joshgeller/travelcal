@@ -126,7 +126,12 @@
             for (var i = 0; i < vm.currencyNames.length; i++) {
                 var newCurrency = {value:vm.currencyNames[i], display:vm.currencyNames[i]};
                 vm.currencyAutoComplete.push(newCurrency);
+                if (newCurrency.value == "USD") {
+                    vm.updateCurrency(newCurrency.value);
+                }
             }
+//            vm.baseCurrency = vm.currencyAutoComplete["USD"].value;
+            console.log(vm.currencyAutoComplete);
         }, function error(response) {
             console.log(response);
     });

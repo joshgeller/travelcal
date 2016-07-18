@@ -13,7 +13,7 @@
                             {{item.name}}
                         </div>
                         <div>
-                            {{item.cost}} {{item.currency}} x {{item.quantity}}  =  {{(item.currency != vm.baseCurrency) ? (item.cost * item.quantity * vm.currencies.rates[item.currency] | number:2) : (item.cost * item.quantity | number:2)}} {{vm.baseCurrency}}
+                            {{item.cost | number:2}} {{item.currency}} x {{item.quantity}}  =  {{(item.currency != vm.baseCurrency) ? (item.cost * item.quantity * vm.currencies.rates[item.currency] | number:2) : (item.cost * item.quantity | number:2)}} {{vm.baseCurrency}}
                         </div>
                         <div>
                             {{item.start | date : shortDate}} - {{item.end | date : shortDate}}
@@ -34,7 +34,7 @@
                                  md-items="curr in vm.querySearch(vm.searchText)"
                                  md-item-text="curr.display"
                                  md-min-length="0"
-                                 ng-init="vm.searchText=vm.baseCurrency.value"
+                                 ng-init="vm.searchText=vm.baseCurrency"
                                  >
                             <md-item-template>
                                 <span md-highligh-text="vm.searchText" md-highlight-flags="^i">{{curr.display}}</span>
