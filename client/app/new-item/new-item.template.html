@@ -1,4 +1,4 @@
-<md-card ng-controller="NewItemController as vm">
+<md-card style="display:inline-block" ng-controller="NewItemController as vm">
     <md-card-title>
         <h3>{{vm.title}}</h3>
     </md-card-title>
@@ -76,7 +76,6 @@
             <md-input-container class="md-block">
                 <input type="text" g-places-autocomplete ng-model="vm.activity.address" placeholder="Address"/>
             </md-input-container>
-            </div>
             <div layout-gt-sm="row">
                 <fieldset class="md-block" flex-gt-sm>
                     <legend>Hours</legend>
@@ -93,4 +92,6 @@
             <button ng-click="vm.submit(vm.activity)" ng-disabled="!vm.activity.title || !(vm.activity.cost || vm.activity.startsAt)">Submit</button>
         </form>
     </md-card-content>
+    <div> {{vm.activity}}</div>
 </md-card>
+

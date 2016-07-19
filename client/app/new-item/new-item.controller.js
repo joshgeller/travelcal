@@ -12,7 +12,7 @@
 
   function NewItemController($http, CurrencyService) {
     var vm = this;
-    var edit = true;
+    var edit = false;
     vm.newItemForm = {};
     vm.days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
     vm.selected = [];

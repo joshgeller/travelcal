@@ -179,10 +179,12 @@
 
   $scope.showAdvanced = function(ev) {
     var useFullScreen = ($mdMedia('sm') || $mdMedia('xs'))  && $scope.customFullscreen;
+    var activity = {};
+    var newItemForm = {};
 
     $mdDialog.show({
       controller: DialogController,
-      templateUrl: 'static/app/new-item/new-item.index.html',
+      templateUrl: 'static/app/new-item/new-item.template.html',
       parent: angular.element(document.body),
       targetEvent: ev,
       clickOutsideToClose:true,
