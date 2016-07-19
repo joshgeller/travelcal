@@ -5,7 +5,7 @@ from .models import Trip
 
 
 class TripSerializer(serializers.ModelSerializer):
-    calendar = CalendarSerializer()
+    calendar = CalendarSerializer(required=False)
 
     class Meta:
         model = Trip
