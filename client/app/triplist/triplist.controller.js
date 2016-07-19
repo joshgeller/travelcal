@@ -35,7 +35,10 @@
       fullscreen: useFullScreen
     })
     .then(function(answer) {
-        $scope.status = 'New Trip:"' + answer + '".';
+        $scope.tripStart = answer.start;
+        $scope.tripEnd = answer.end;
+        $scope.tripName = answer.name;
+
       }, function() {
         $scope.status = 'You cancelled the dialog.';
     });
