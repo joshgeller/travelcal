@@ -7,7 +7,7 @@
         </md-card-title>
         <md-card-content>
             <md-list flex>
-                <md-list-item ng-repeat="item in vm.budget" class="row" ng-click="editActivity($event, item.id)">
+                <md-list-item ng-repeat="item in vm.budget" class="row" ng-click="editActivity($event, item)">
                     <div flex layout="row" layout-padding layout-align="start center" >
                         <div flex style="max-width:200px;">
                             {{item.title}}

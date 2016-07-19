@@ -76,18 +76,23 @@
 //            };
             vm.activity.startsAt = new Date(vm.activity.startsAt);
             vm.activity.endsAt = new Date(vm.activity.endsAt);
-            var days = Object.getOwnPropertyNames(vm.activity.days);
-            days.forEach(function(value, index, array) {
-                if (vm.activity.days[value].start) {
-                    vm.activity.days[value].start = new Date(vm.activity.days[value].start);
-                }
-                if (vm.activity.days[value].end) {
-                    vm.activity.days[value].end = new Date(vm.activity.days[value].end);
-                }
-                if (vm.activity.days[value].open) {
-                    vm.selected.push(value);
-                }
-            });
+            if (vm.activity.days) {
+                var days = Object.getOwnPropertyNames(vm.activity.days);
+
+                days.forEach(function(value, index, array) {
+                    if (vm.activity.days[value].start) {
+                        vm.activity.days[value].start = new Date(vm.activity.days[value].start);
+                    }
+                    if (vm.activity.days[value].end) {
+                        vm.activity.days[value].end = new Date(vm.activity.days[value].end);
+                    }
+                    if (vm.activity.days[value].open) {
+                        vm.selected.push(value);
+                    }
+                });
+            }
+
+
             vm.currency = vm.activity.currency;
         }
         else {

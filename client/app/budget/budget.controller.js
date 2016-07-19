@@ -177,13 +177,13 @@
   $scope.customFullscreen = $mdMedia('xs') || $mdMedia('sm');
 
 
-    $scope.editActivity = function(ev, activityId) {
+    $scope.editActivity = function(ev, activityIn) {
     var useFullScreen = ($mdMedia('sm') || $mdMedia('xs'))  && $scope.customFullscreen;
     var activity = {};
     var edit = false;
-    if (activityId) {
-        console.log(activityId);
-        activity = vm.budget[0];
+    if (activityIn) {
+        console.log(activityIn);
+        activity = activityIn;
         console.log(activity);
         edit = true;
     }
