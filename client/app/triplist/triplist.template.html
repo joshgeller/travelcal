@@ -14,8 +14,28 @@
                     </div>
                 </md-list-item>
             </md-list>
-          <md-button class="md-raised">New Trip</md-button>
+          <md-button class="md-raised" ng-click="newTrip($event)">New Trip</md-button>
         </md-card-content>
-
     </md-card>
 </md-content>
+
+<script type="text/ng-template" id="new-trip.template.html">
+    <md-dialog aria-label="Add A Trip"  ng-cloak>
+      <form>
+        <md-toolbar>
+          <div class="md-toolbar-tools">
+            <h2>Add A Trip</h2>
+          </div>
+        </md-toolbar>
+
+        <md-dialog-actions layout="row">
+          <md-button ng-click="cancel()">
+           Cancel
+          </md-button>
+          <md-button ng-click="answer('useful')">
+            Add
+          </md-button>
+        </md-dialog-actions>
+      </form>
+    </md-dialog>
+</script>
