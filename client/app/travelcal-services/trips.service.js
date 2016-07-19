@@ -7,10 +7,11 @@
 
   TripService.$inject = [
     'CalendarService',
-    '$http'
+    '$http',
+    '$localStorage'
   ];
 
-  function TripService($http, $localStorage) {
+  function TripService(CalendarService, $http, $localStorage) {
     var service = { };
 
     service.create = create;
@@ -40,7 +41,7 @@
     }
 
     function create(name, startDate, endDate, callback) {
-      return $http.post('/api/v1/trips/', {
+      $http.post('/api/v1/trips/', {
         name: name,
         start_date: startDate,
         end_date: endDate

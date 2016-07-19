@@ -9,10 +9,11 @@
     '$http',
     '$scope',
     '$mdDialog',
-    '$mdMedia'
+    '$mdMedia',
+    'TripService'
   ];
 
-  function TriplistController($http, $scope, $mdDialog, $mdMedia) {
+  function TriplistController($http, $scope, $mdDialog, $mdMedia, TripService) {
     var vm = this;
     vm.trips = [{country: 'Denmark', arrive: '9/28/2016', depart: '10/10/2016'},
                 {country: 'Spain', arrive: '6/2/2017', depart: '6/15/2017'},
@@ -26,6 +27,10 @@
   $scope.newTrip = function(ev) {
     var useFullScreen = ($mdMedia('sm') || $mdMedia('xs'))  && $scope.customFullscreen;
 
+    var trips = function updateTrips(status, message) {
+        console.log(message)
+    }
+
     $mdDialog.show({
       controller: DialogController,
       templateUrl: 'new-trip.template.html',
@@ -35,11 +40,19 @@
       fullscreen: useFullScreen
     })
     .then(function(answer) {
-        $scope.tripStart = answer.start;
-        $scope.tripEnd = answer.end;
+        $scope.tripStart = JSON.stringify(answer.start);
+        $scope.tripStart = $scope.tripStart.slice(1,11);
+        $scope.tripEnd = JSON.stringify(answer.end);
+        $scope.tripEnd = $scope.tripEnd.slice(1,11);
         $scope.tripName = answer.name;
+        console.log($scope.tripStart);
+        console.log($scope.tripEnd);
 
-      }, function() {
+
+
+      TripService.create($scope.tripName, $scope.tripStart, $scope.tripEnd, trips);
+
+    }, function() {
         $scope.status = 'You cancelled the dialog.';
     });
 
