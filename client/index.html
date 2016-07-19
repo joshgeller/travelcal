@@ -18,6 +18,8 @@
     <link rel="stylesheet" href="{% static 'bower_components/font-awesome/css/font-awesome.css' %}" />
     <link rel="stylesheet" href="{% static 'bower_components/bower-bootswatch-paper/css/paper.css' %}" />
     <link rel="stylesheet" href="{% static 'bower_components/angular-material-icons/angular-material-icons.css' %}" />
+    <link rel="stylesheet" href="{% static 'bower_components/angular-google-places-autocomplete/src/autocomplete.css' %}" />
+    <link rel="stylesheet" href="{% static 'bower_components/angular-google-places-autocomplete/dist/autocomplete.min.css' %}" />
     <!-- endbower -->
     <!-- endbuild -->
 
@@ -47,8 +49,11 @@
     <script src='{% static 'bower_components/angular-material-icons/angular-material-icons.min.js' %}'></script>
     <script src='{% static 'bower_components/moment/moment.js' %}'></script>
     <script src='{% static 'bower_components/angular-moment/angular-moment.js' %}'></script>
+    <script src='{% static 'bower_components/angular-google-places-autocomplete/src/autocomplete.js' %}'></script>
+    <script src='{% static 'bower_components/angular-google-places-autocomplete/dist/autocomplete.min.js' %}'></script>
     <!-- endbower -->
     <!-- endbuild -->
+    <script src="https://maps.googleapis.com/maps/api/js?libraries=places"></script>
 
     <!-- our app files; modules most go before their respective components -->
     <!-- angular-file-loader doesn't replace paths aside from relative so cannot have grunt auto include these as needed
