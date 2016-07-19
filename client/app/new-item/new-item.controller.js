@@ -19,9 +19,9 @@
     vm.currency = '';
 
         if (edit) {
-            vm.title = "Edit Activity"
+            vm.title = "Edit Activity";
             vm.activity = {
-                "name": "Modern Art Museum",
+                "title": "Modern Art Museum",
                 "cost": 25,
                 "currency": "usd",
                 "days": {
@@ -59,18 +59,22 @@
                         "end": null
                     }
                 },
-                "start": "2016-07-17T07:00:00.000Z",
-                "end": "2016-07-17T07:00:00.000Z",
+                "startsAt": "2016-07-17T07:00:00.000Z",
+                "endsAt": "2016-07-17T07:00:00.000Z",
                 "url": "moma.org",
                 "quantity": 2,
                 "notes": "Recommended"
             };
-            vm.activity.start = new Date(vm.activity.start);
-            vm.activity.end = new Date(vm.activity.end);
-            vm.activity.days.Monday.start = new Date(vm.activity.days.Monday.start);
-            vm.activity.days.Monday.end = new Date(vm.activity.days.Monday.end);
+            vm.activity.startsAt = new Date(vm.activity.startsAt);
+            vm.activity.endsAt = new Date(vm.activity.endsAt);
             var days = Object.getOwnPropertyNames(vm.activity.days);
             days.forEach(function(value, index, array) {
+                if (vm.activity.days[value].start) {
+                    vm.activity.days[value].start = new Date(vm.activity.days[value].start);
+                }
+                if (vm.activity.days[value].end) {
+                    vm.activity.days[value].end = new Date(vm.activity.days[value].end);
+                }
                 if (vm.activity.days[value].open) {
                     vm.selected.push(value);
                 }

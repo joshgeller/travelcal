@@ -7,17 +7,17 @@
             <div layout-gt-sm="row">
                 <md-input-container flex>
                     <label>Name</label>
-                    <input ng-model="vm.activity.name" required name="name">
+                    <input ng-model="vm.activity.title" required name="name">
                 </md-input-container>
             </div>
             <div layout-gt-sm="row">
                 <div class="md-block" flex-gt-sm>
                     <label>Start</label>
-                    <md-datepicker class="md-block" ng-model="vm.activity.start" md-placeholder="Start date" ng-required="!vm.activity.cost"></md-datepicker>
+                    <md-datepicker class="md-block" ng-model="vm.activity.startsAt" md-placeholder="Start date" ng-required="!vm.activity.cost"></md-datepicker>
                 </div>
                 <div class="md-block" flex-gt-sm>
                     <label>End</label>
-                    <md-datepicker class="md-block" ng-model="vm.activity.end" md-min-date="vm.activity.start" md-placeholder="End date">End</md-datepicker>
+                    <md-datepicker class="md-block" ng-model="vm.activity.endsAt" md-min-date="vm.activity.startsAt" md-placeholder="End date">End</md-datepicker>
                 </div>
                 <md-input-container class="md-block" flex-gt-sm>
                     <input type="text" class="md-block" ng-model="vm.activity.url" placeholder="Link">
@@ -90,7 +90,7 @@
                 </fieldset>
                 <textarea class="md-block" flex-gt-sm ng-model="vm.activity.notes" placeholder="Notes..."></textarea>
             </div>
-            <button ng-click="vm.submit(vm.activity)" ng-disabled="!vm.activity.name || !(vm.activity.cost || vm.activity.start)">Submit</button>
+            <button ng-click="vm.submit(vm.activity)" ng-disabled="!vm.activity.title || !(vm.activity.cost || vm.activity.startsAt)">Submit</button>
         </form>
     </md-card-content>
 </md-card>
