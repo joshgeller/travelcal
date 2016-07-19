@@ -7,10 +7,10 @@
         </md-card-title>
         <md-card-content>
             <md-list flex>
-                <md-list-item ng-repeat="item in vm.budget" class="row" ng-href="#/new-item?return=budget&edit=true&id={{item.id}}">
+                <md-list-item ng-repeat="item in vm.budget" class="row" ng-click="editActivity($event, item.id)">
                     <div flex layout="row" layout-padding layout-align="start center" >
                         <div flex style="max-width:200px;">
-                            {{item.name}}
+                            {{item.title}}
                         </div>
                         <div>
                             {{item.cost | number:2}} {{item.currency}}
@@ -66,7 +66,7 @@
                     </md-input-container></h4>
                 </md-list-item>
             </md-list>
-          <md-button class="md-raised" ng-click="showAdvanced($event)">Add Activity</md-button>
+          <md-button class="md-raised" ng-click="editActivity($event)">Add Activity</md-button>
         </md-card-content>
     </md-card>
 </md-content>

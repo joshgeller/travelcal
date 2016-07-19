@@ -55,7 +55,7 @@
     vm.total = 0;
     vm.budget = [
              {  "id": 1234,
-                "name": "Modern Art Museum",
+                "title": "Modern Art Museum",
                 "cost": 25,
                 "currency": "AUD",
                 "days": {
@@ -93,26 +93,26 @@
                         "end": null
                     }
                 },
-                "start": "2016-07-17T07:00:00.000Z",
-                "end": "2016-07-17T07:00:00.000Z",
+                "startsAt": "2016-07-17T07:00:00.000Z",
+                "endsAt": "2016-07-17T07:00:00.000Z",
                 "url": "http://www.moma.org",
                 "quantity": 2,
                 "notes": "Recommended"
             },
             {  "id": 1111,
-                "name": "AirBnB",
+                "title": "AirBnB",
                 "cost": 117,
                 "currency": "CAD",
-                "start": "2016-07-17T07:00:00.000Z",
-                "end": "2016-07-18T07:00:00.000Z",
+                "startsAt": "2016-07-17T07:00:00.000Z",
+                "endsAt": "2016-07-18T07:00:00.000Z",
                 "quantity": 1,
             },
             {  "id": 2222,
-                "name": "Taxi",
+                "title": "Taxi",
                 "cost": 25,
                 "currency": "DKK",
-                "start": "2016-07-19T07:00:00.000Z",
-                "end": "2016-07-19T07:00:00.000Z",
+                "startsAt": "2016-07-19T07:00:00.000Z",
+                "endsAt": "2016-07-19T07:00:00.000Z",
                 "quantity": 1,
             }
           ];
@@ -177,18 +177,29 @@
   $scope.customFullscreen = $mdMedia('xs') || $mdMedia('sm');
 
 
-  $scope.showAdvanced = function(ev) {
+    $scope.editActivity = function(ev, activityId) {
     var useFullScreen = ($mdMedia('sm') || $mdMedia('xs'))  && $scope.customFullscreen;
     var activity = {};
-    var newItemForm = {};
+    var edit = false;
+    if (activityId) {
+        console.log(activityId);
+        activity = vm.budget[0];
+        console.log(activity);
+        edit = true;
+    }
 
     $mdDialog.show({
       controller: DialogController,
+      controllerAs: 'dvm',
       templateUrl: 'static/app/new-item/new-item.template.html',
       parent: angular.element(document.body),
       targetEvent: ev,
       clickOutsideToClose:true,
-      fullscreen: useFullScreen
+      fullscreen: useFullScreen,
+      locals: {
+        edit: edit,
+        activity: activity
+      }
     })
     .then(function(answer) {
         $scope.status = 'You said the information was "' + answer + '".';
@@ -209,16 +220,25 @@
 })();
 
 
-function DialogController($scope, $mdDialog) {
-  $scope.hide = function() {
+DialogController.$inject = [
+    '$mdDialog',
+    'locals'
+]
+
+function DialogController($mdDialog, locals) {
+  var vm = this;
+  vm.edit = locals.edit;
+  vm.activity = locals.activity;
+  console.log(vm.activity);
+  vm.hide = function() {
     $mdDialog.hide();
   };
 
-  $scope.cancel = function() {
+  vm.cancel = function() {
     $mdDialog.cancel();
   };
 
-  $scope.answer = function(answer) {
+  vm.answer = function(answer) {
     $mdDialog.hide(answer);
   };
 }

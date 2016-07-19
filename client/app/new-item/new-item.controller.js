@@ -7,64 +7,73 @@
 
   NewItemController.$inject = [
     '$http',
+    '$scope',
     'CurrencyService'
   ];
 
-  function NewItemController($http, CurrencyService) {
+  function NewItemController($http, $scope, CurrencyService) {
     var vm = this;
-    var edit = false;
+
     vm.newItemForm = {};
     vm.days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
     vm.selected = [];
     vm.currency = '';
 
-        if (edit) {
+    if ($scope.$parent.dvm.edit) {
+        vm.edit = $scope.$parent.dvm.edit;
+    }
+    if ($scope.$parent.dvm.activity) {
+        vm.activity = $scope.$parent.dvm.activity;
+    }
+
+
+        if (vm.edit) {
             vm.title = "Edit Activity";
-            vm.activity = {
-                "title": "Modern Art Museum",
-                "cost": 25,
-                "currency": "usd",
-                "days": {
-                    "Monday": {
-                        "start": "1970-01-01T08:32:00.000Z",
-                        "end": "1970-01-01T08:32:00.000Z",
-                        "open": true
-                    },
-                    "Tuesday": {
-                        "start": null,
-                        "end": null,
-                        "open": true
-                    },
-                    "Wednesday": {
-                        "start": null,
-                        "end": null,
-                        "open": true
-                    },
-                    "Thursday": {
-                        "start": null,
-                        "end": null,
-                        "open": true
-                    },
-                    "Friday": {
-                        "start": null,
-                        "end": null,
-                        "open": true
-                    },
-                    "Saturday": {
-                        "start": null,
-                        "end": null
-                    },
-                    "Sunday": {
-                        "start": null,
-                        "end": null
-                    }
-                },
-                "startsAt": "2016-07-17T07:00:00.000Z",
-                "endsAt": "2016-07-17T07:00:00.000Z",
-                "url": "moma.org",
-                "quantity": 2,
-                "notes": "Recommended"
-            };
+//            vm.activity = {
+//                "title": "Modern Art Museum",
+//                "cost": 25,
+//                "currency": "usd",
+//                "days": {
+//                    "Monday": {
+//                        "start": "1970-01-01T08:32:00.000Z",
+//                        "end": "1970-01-01T08:32:00.000Z",
+//                        "open": true
+//                    },
+//                    "Tuesday": {
+//                        "start": null,
+//                        "end": null,
+//                        "open": true
+//                    },
+//                    "Wednesday": {
+//                        "start": null,
+//                        "end": null,
+//                        "open": true
+//                    },
+//                    "Thursday": {
+//                        "start": null,
+//                        "end": null,
+//                        "open": true
+//                    },
+//                    "Friday": {
+//                        "start": null,
+//                        "end": null,
+//                        "open": true
+//                    },
+//                    "Saturday": {
+//                        "start": null,
+//                        "end": null
+//                    },
+//                    "Sunday": {
+//                        "start": null,
+//                        "end": null
+//                    }
+//                },
+//                "startsAt": "2016-07-17T07:00:00.000Z",
+//                "endsAt": "2016-07-17T07:00:00.000Z",
+//                "url": "moma.org",
+//                "quantity": 2,
+//                "notes": "Recommended"
+//            };
             vm.activity.startsAt = new Date(vm.activity.startsAt);
             vm.activity.endsAt = new Date(vm.activity.endsAt);
             var days = Object.getOwnPropertyNames(vm.activity.days);
