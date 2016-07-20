@@ -8,7 +8,7 @@
         <md-card-content>
             <md-list flex>
                 <div ng-if="vm.calendar.data == null"> You have nothing in your budget. Why don't you add an activity?</div>
-                <md-list-item ng-repeat="item in vm.calendar.data" class="row" ng-click="editActivity($event, item)">
+                <md-list-item ng-repeat="item in vm.calendar.data track by $index" class="row" ng-click="editActivity($event, item)">
                     <div flex layout="row" layout-padding layout-align="start center" >
                         <div flex style="max-width:200px;">
                             {{item.title}}

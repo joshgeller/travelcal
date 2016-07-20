@@ -51,7 +51,7 @@
     }
 
     function update(calendarId, data, callback) {
-      return $http.patch('/api/v1/calendars/' + calendarId + '/', data)
+      return $http.patch('/api/v1/calendars/' + calendarId + '/', { data: data })
       .then(function(res) {
         callback(true, res);
       }, function(res) {

@@ -6,3 +6,4 @@ from .models import Calendar
 class CalendarSerializer(serializers.ModelSerializer):
     class Meta:
         model = Calendar
+        exclude = ('trip', )
