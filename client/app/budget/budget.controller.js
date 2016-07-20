@@ -55,9 +55,9 @@
         vm.baseCurrency = "USD";
         vm.total = 0;
         vm.calendar = {};
-        vm.calendar.data = {};
         vm.trips;
 
+        // TODO replace this with actually passing the correct trip to the budget
         var getTrips = function getTrips(status, message) {
             if(status) {
                 vm.trip = message.data[0];

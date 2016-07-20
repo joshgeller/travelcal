@@ -7,7 +7,8 @@
         </md-card-title>
         <md-card-content>
             <md-list flex>
-                <md-list-item ng-repeat="item in vm.budget" class="row" ng-click="editActivity($event, item)">
+                <div ng-if="vm.calendar.data == null"> You have nothing in your budget. Why don't you add an activity?</div>
+                <md-list-item ng-repeat="item in vm.calendar.data" class="row" ng-click="editActivity($event, item)">
                     <div flex layout="row" layout-padding layout-align="start center" >
                         <div flex style="max-width:200px;">
                             {{item.title}}
@@ -43,7 +44,7 @@
                     </div>
                     <md-divider></md-divider>
                 </md-list-item>
-                <md-list-item class="row" layout-padding layout-align="start center" >
+                <md-list-item ng-if="vm.calendar.data != null" class="row" layout-padding layout-align="start center" >
                     <h4>Total: {{vm.total | number:2}}</h4>
                     <h4>
                     <md-input-container class="md-block" flex-gt-sm>
