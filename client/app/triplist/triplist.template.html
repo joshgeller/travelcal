@@ -7,6 +7,7 @@
         </md-card-title>
         <md-card-content>
             <md-list flex>
+                <div ng-if="vm.trips.length == 0">You have no trips saved. Why don't you add a new one?</div>
                 <md-list-item ng-repeat="trip in vm.trips" ng-click="null">
                     <div>
                         <h4>{{trip.name}}</h4>
@@ -45,7 +46,7 @@
           <md-button ng-click="cancel()">
            Cancel
           </md-button>
-          <md-button ng-click="answer(trip)" ng-disabled="!trip.name || !trip.start || !trip.end">
+          <md-button ng-click="add(trip)" ng-disabled="!trip.name || !trip.start || !trip.end">
             Add
           </md-button>
         </md-dialog-actions>

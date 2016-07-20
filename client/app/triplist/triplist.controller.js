@@ -15,6 +15,7 @@
 
     function TriplistController($http, $scope, $mdDialog, $mdMedia, TripService) {
         var vm = this;
+        vm.trips = [];
 
         var updateTrips = function updateTrips(status, message) {
             if (status) {
@@ -56,7 +57,7 @@
                 TripService.create($scope.tripName, $scope.tripStart, $scope.tripEnd, addTrip);
 
             }, function() {
-                $scope.status = 'You cancelled the dialog.';
+                $scope.status = 'No trip was added.';
             });
 
             $scope.$watch(function() {
@@ -68,16 +69,11 @@
     }
 
     function DialogController($scope, $mdDialog) {
-
-        $scope.hide = function() {
-            $mdDialog.hide();
-        };
-
         $scope.cancel = function() {
             $mdDialog.cancel();
         };
 
-        $scope.answer = function(answer) {
+        $scope.add = function(answer) {
             $mdDialog.hide(answer);
         };
     }
