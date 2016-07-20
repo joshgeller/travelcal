@@ -155,7 +155,7 @@
             var activity = {};
             var edit = false;
             if (activityIn) {
-                activity = activityIn;
+                angular.copy(activityIn, activity);
                 edit = true;
             }
 
