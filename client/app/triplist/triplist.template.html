@@ -7,15 +7,45 @@
         </md-card-title>
         <md-card-content>
             <md-list flex>
+                <div ng-if="vm.trips.length == 0">You have no trips saved. Why don't you add a new one?</div>
                 <md-list-item ng-repeat="trip in vm.trips" ng-click="null">
                     <div>
-                        <h4>{{trip.country}}</h4>
-                        {{trip.arrive}} - {{trip.depart}}
+                        <h4>{{trip.name}}</h4>
+                        {{trip.start_date}} - {{trip.end_date}}
                     </div>
                 </md-list-item>
             </md-list>
-          <md-button class="md-raised">New Trip</md-button>
+          <md-button class="md-raised" ng-click="newTrip($event)">New Trip</md-button>
         </md-card-content>
-
     </md-card>
 </md-content>
+
+<script type="text/ng-template" id="new-trip.template.html">
+    <md-dialog aria-label="Add A Trip"  ng-cloak>
+        <form>
+            <md-toolbar>
+                <div class="md-toolbar-tools">
+                    <h2>Add A Trip</h2>
+                </div>
+            </md-toolbar>
+            <md-dialog-content>
+                <span layout="row"></span>
+                <md-input-container class="md-block" flex-gt-sm>
+                    <label>Name</label>
+                    <input ng-model="trip.name" required name="name">
+                </md-input-container>
+                <div class="md-block" flex-gt-sm>
+                    <label>Start</label>
+                    <md-datepicker class="md-block" ng-model="trip.start" md-placeholder="Start date"></md-datepicker>
+                    <label>End</label>
+                    <md-datepicker class="md-block" ng-model="trip.end" md-min-date="trip.start" md-placeholder="End date"></md-datepicker>
+                </div>
+            </md-dialog-content>
+
+            <md-dialog-actions layout="row">
+                <md-button ng-click="cancel()">Cancel</md-button>
+                <md-button ng-click="add(trip)" ng-disabled="!trip.name || !trip.start || !trip.end">Add</md-button>
+            </md-dialog-actions>
+        </form>
+    </md-dialog>
+</script>

@@ -41,7 +41,7 @@
     }
 
     function create(name, startDate, endDate, callback) {
-      return $http.post('/api/v1/trips/', {
+      $http.post('/api/v1/trips/', {
         name: name,
         start_date: startDate,
         end_date: endDate

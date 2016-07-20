@@ -20,8 +20,9 @@
                 url:'http://api.fixer.io/latest?base=' + base
             }).success(function(data) {
                 return data;
-            }).error(function() {
-                console.log("error");
+            }).error(function(response) {
+                console.log(response);
+                return response;
             })
         }
 
@@ -31,8 +32,9 @@
                 url:'http://api.fixer.io/latest'
             }).success(function(data) {
                 return data;
-            }).error(function() {
-                console.log("error");
+            }).error(function(response) {
+                console.log(response);
+                return response;
             })
         }
     }
