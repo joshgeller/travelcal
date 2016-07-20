@@ -55,16 +55,35 @@
         vm.baseCurrency = "USD";
         vm.total = 0;
         vm.calendar = {};
-        vm.trips;
+        vm.calendar.data = {0:{"title": "Modern Art Museum",
+                               "cost": 25,
+                               "currency": "AUD",
+                               "startsAt": "2016-07-17T07:00:00.000Z",
+                               "endsAt": "2016-07-17T07:00:00.000Z",
+                               "url": "http://www.moma.org",
+                               "quantity": 2},
+                            1: {"title": "AirBnB",
+                                "cost": 117,
+                                "currency": "CAD",
+                                "startsAt": "2016-07-17T07:00:00.000Z",
+                                "endsAt": "2016-07-18T07:00:00.000Z",
+                                "quantity": 1},
+                            2: {"title": "Taxi",
+                                "cost": 25,
+                                "currency": "DKK",
+                                "startsAt": "2016-07-19T07:00:00.000Z",
+                                "endsAt": "2016-07-19T07:00:00.000Z",
+                                "quantity": 1}
+                            };
 
         // TODO replace this with actually passing the correct trip to the budget
-        var getTrips = function getTrips(status, message) {
-            if(status) {
-                vm.trip = message.data[0];
-                vm.calendar = vm.trip.calendar;
-            }
-        }
-        TripService.list(getTrips);
+//        var getTrips = function getTrips(status, message) {
+//            if(status) {
+//                vm.trip = message.data[0];
+//                vm.calendar = vm.trip.calendar;
+//            }
+//        }
+//        TripService.list(getTrips);
 
 
         CurrencyService.getCurrencies()
@@ -92,12 +111,12 @@
                         vm.baseCurrency = newBase;
                         vm.currencies = response.data;
                         vm.total = 0;
-                        for (var item in vm.budget) {
-                            if (vm.budget[item].currency == vm.baseCurrency) {
-                                vm.total += vm.budget[item].cost * vm.budget[item].quantity;
+                        for (var item in vm.calendar.data) {
+                            if (vm.calendar.data[item].currency == vm.baseCurrency) {
+                                vm.total += vm.calendar.data[item].cost * vm.calendar.data[item].quantity;
                             }
                             else {
-                                vm.total += vm.budget[item].cost * vm.budget[item].quantity / vm.currencies.rates[vm.budget[item].currency];
+                                vm.total += vm.calendar.data[item].cost * vm.calendar.data[item].quantity / vm.currencies.rates[vm.calendar.data[item].currency];
                             }
                         }
                     }, function error(response) {
@@ -128,7 +147,8 @@
         };
 
         $scope.customFullscreen = $mdMedia('xs') || $mdMedia('sm');
-        $scope.editActivity = function(ev, activityIn) {
+
+        $scope.editActivity = function(ev, activityIn, keyIn) {
             var useFullScreen = ($mdMedia('sm') || $mdMedia('xs'))  && $scope.customFullscreen;
             var activity = {};
             var edit = false;
@@ -151,21 +171,22 @@
                 }
             })
             .then(function(activity) {
+                console.log(activity);
                 console.log(vm.calendar);
                 if (vm.calendar.data == null) {
                     vm.calendar.data = {};
                 }
-                vm.calendar.data[0] = activity;
-                console.log(vm.calendar.data);
+                vm.calendar.data[keyIn] = activity;
+                console.log(keyIn);
 
-                CalendarService.update(vm.calendar.id, vm.calendar.data, updateCalendar);
+//                CalendarService.update(vm.calendar.id, vm.calendar.data, updateCalendar);
 
                 var listCalendar = function listCalendar(status, message) {
                     if (status) {
                         console.log(message);
                     }
                 };
-                CalendarService.retrieve(vm.calendar.id, listCalendar);
+//                CalendarService.retrieve(vm.calendar.id, listCalendar);
 
             }, function() {
                 $scope.status = 'You cancelled the dialog.';
@@ -199,9 +220,6 @@ function DialogController($mdDialog, locals) {
         $mdDialog.cancel();
     };
 
-    vm.add = function(activity) {
-        $mdDialog.hide(activity);
-    };
     vm.update = function(activity) {
         $mdDialog.hide(activity);
     };
