@@ -9,8 +9,8 @@
             <md-list flex>
                 <md-list-item ng-repeat="trip in vm.trips" ng-click="null">
                     <div>
-                        <h4>{{trip.country}}</h4>
-                        {{trip.arrive}} - {{trip.depart}}
+                        <h4>{{trip.name}}</h4>
+                        {{trip.start_date}} - {{trip.end_date}}
                     </div>
                 </md-list-item>
             </md-list>
@@ -18,7 +18,6 @@
         </md-card-content>
     </md-card>
 </md-content>
-<div>{{newTrip.startDate}} {{newTrip.endDate}} {{newTrip.name}}</div>
 
 <script type="text/ng-template" id="new-trip.template.html">
     <md-dialog aria-label="Add A Trip"  ng-cloak>
