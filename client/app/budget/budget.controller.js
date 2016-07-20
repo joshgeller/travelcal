@@ -238,7 +238,10 @@ function DialogController($mdDialog, locals) {
     $mdDialog.cancel();
   };
 
-  vm.answer = function(answer) {
+  vm.add = function(answer) {
     $mdDialog.hide(answer);
+  };
+  vm.update = function(activity) {
+    $mdDialog.hide(activity);
   };
 }

@@ -89,9 +89,10 @@
                 </fieldset>
                 <textarea class="md-block" flex-gt-sm ng-model="vm.activity.notes" placeholder="Notes..."></textarea>
             </div>
-            <button ng-click="vm.submit(vm.activity)" ng-disabled="!vm.activity.title || !(vm.activity.cost || vm.activity.startsAt)">Submit</button>
+            <md-button class="md-primary md-raised md-warn" ng-click="dvm.cancel()">Cancel</md-button>
+            <md-button class="md-primary md-raised" ng-disabled="!vm.activity.title || !vm.activity.cost" ng-click="dvm.update(vm.activity)" ng-if="dvm.edit">Update</md-button>
+            <md-button class="md-primary md-raised" ng-disabled="!vm.activity.title || !vm.activity.cost" ng-click="dvm.update(vm.activity)" ng-if="!dvm.edit">Add</md-button>
         </form>
     </md-card-content>
-    <div> {{vm.activity}}</div>
 </md-card>
 
