@@ -17,9 +17,14 @@ class TripViewSet(viewsets.ModelViewSet):
         """
         Only return Trips associated with the current user.
         """
-
-        account = self.request.user
-        return Trip.objects.filter(account=account)
+        # TODO: Remove the try/except block to restrict Trips to
+        # the current user only. This is disabled for midpoint check
+        # demonstration purposes only.
+        try:
+            account = self.request.user
+            return Trip.objects.filter(account=account)
+        except TypeError:
+            return Trip.objects.all()
 
     def create(self, request, *args, **kwargs):
         """
