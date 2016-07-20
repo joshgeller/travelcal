@@ -43,16 +43,29 @@
         '$mdMedia',
         '$http',
         '$location',
-        'CurrencyService'
+        'CurrencyService',
+        'TripService',
+        'CalendarService'
     ];
 
 
-    function BudgetController($scope, $mdDialog, $mdMedia, $http, $location, CurrencyService) {
+    function BudgetController($scope, $mdDialog, $mdMedia, $http, $location, CurrencyService, TripService, CalendarService) {
         var vm = this;
         vm.currencies = null;
         vm.baseCurrency = "USD";
         vm.total = 0;
-        vm.budget = [];
+        vm.calendar = {};
+        vm.calendar.data = {};
+        vm.trips;
+
+        var getTrips = function getTrips(status, message) {
+            if(status) {
+                vm.trip = message.data[0];
+                vm.calendar = vm.trip.calendar;
+            }
+        }
+        TripService.list(getTrips);
+
 
         CurrencyService.getCurrencies()
             .then(function success(response) {
@@ -108,15 +121,19 @@
             }
         }
 
+        var updateCalendar = function updateCalendar(status, message) {
+            if (status) {
+                console.log(message);
+            }
+        };
+
         $scope.customFullscreen = $mdMedia('xs') || $mdMedia('sm');
         $scope.editActivity = function(ev, activityIn) {
             var useFullScreen = ($mdMedia('sm') || $mdMedia('xs'))  && $scope.customFullscreen;
             var activity = {};
             var edit = false;
             if (activityIn) {
-                console.log(activityIn);
                 activity = activityIn;
-                console.log(activity);
                 edit = true;
             }
 
@@ -133,8 +150,23 @@
                     activity: activity
                 }
             })
-            .then(function(answer) {
-                $scope.status = 'You said the information was "' + answer + '".';
+            .then(function(activity) {
+                console.log(vm.calendar);
+                if (vm.calendar.data == null) {
+                    vm.calendar.data = {};
+                }
+                vm.calendar.data[0] = activity;
+                console.log(vm.calendar.data);
+
+                CalendarService.update(vm.calendar.id, vm.calendar.data, updateCalendar);
+
+                var listCalendar = function listCalendar(status, message) {
+                    if (status) {
+                        console.log(message);
+                    }
+                };
+                CalendarService.retrieve(vm.calendar.id, listCalendar);
+
             }, function() {
                 $scope.status = 'You cancelled the dialog.';
             });
@@ -159,7 +191,6 @@ function DialogController($mdDialog, locals) {
     var vm = this;
     vm.edit = locals.edit;
     vm.activity = locals.activity;
-    console.log(vm.activity);
     vm.hide = function() {
         $mdDialog.hide();
     };
@@ -168,8 +199,8 @@ function DialogController($mdDialog, locals) {
         $mdDialog.cancel();
     };
 
-    vm.add = function(answer) {
-        $mdDialog.hide(answer);
+    vm.add = function(activity) {
+        $mdDialog.hide(activity);
     };
     vm.update = function(activity) {
         $mdDialog.hide(activity);

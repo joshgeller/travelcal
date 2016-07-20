@@ -7,10 +7,11 @@
 
   TripService.$inject = [
     'CalendarService',
-    '$http'
+    '$http',
+    '$localStorage'
   ];
 
-  function TripService($http, $localStorage) {
+  function TripService(CalendarService, $http, $localStorage) {
     var service = { };
 
     service.create = create;

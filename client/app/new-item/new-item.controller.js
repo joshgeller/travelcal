@@ -98,11 +98,10 @@
             vm.activity.currency = currentCurrency;
             return;
         }
-
-        vm.submit = function () {
-            // TODO use CalenderService to update the calendar, must pass the whole calendar back with the change made
-            vm.activity = {};
-            vm.NewItemForm.$setPristine();
-        }
+          // Not being used if the item is added via the budget
+//        vm.submit = function () {
+//            vm.activity = {};
+//            vm.NewItemForm.$setPristine();
+//        }
     }
 })();
