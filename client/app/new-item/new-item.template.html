@@ -1,4 +1,4 @@
-<md-card>
+<md-card style="display:inline-block" ng-controller="NewItemController as vm">
     <md-card-title>
         <h3>{{vm.title}}</h3>
     </md-card-title>
@@ -7,17 +7,17 @@
             <div layout-gt-sm="row">
                 <md-input-container flex>
                     <label>Name</label>
-                    <input ng-model="vm.activity.name" required name="name">
+                    <input ng-model="vm.activity.title" required name="name">
                 </md-input-container>
             </div>
             <div layout-gt-sm="row">
                 <div class="md-block" flex-gt-sm>
                     <label>Start</label>
-                    <md-datepicker class="md-block" ng-model="vm.activity.start" md-placeholder="Start date" ng-required="!vm.activity.cost"></md-datepicker>
+                    <md-datepicker class="md-block" ng-model="vm.activity.startsAt" md-placeholder="Start date" ng-required="!vm.activity.cost"></md-datepicker>
                 </div>
                 <div class="md-block" flex-gt-sm>
                     <label>End</label>
-                    <md-datepicker class="md-block" ng-model="vm.activity.end" md-min-date="vm.activity.start" md-placeholder="End date">End</md-datepicker>
+                    <md-datepicker class="md-block" ng-model="vm.activity.endsAt" md-min-date="vm.activity.startsAt" md-placeholder="End date">End</md-datepicker>
                 </div>
                 <md-input-container class="md-block" flex-gt-sm>
                     <input type="text" class="md-block" ng-model="vm.activity.url" placeholder="Link">
@@ -76,7 +76,6 @@
             <md-input-container class="md-block">
                 <input type="text" g-places-autocomplete ng-model="vm.activity.address" placeholder="Address"/>
             </md-input-container>
-            </div>
             <div layout-gt-sm="row">
                 <fieldset class="md-block" flex-gt-sm>
                     <legend>Hours</legend>
@@ -90,7 +89,10 @@
                 </fieldset>
                 <textarea class="md-block" flex-gt-sm ng-model="vm.activity.notes" placeholder="Notes..."></textarea>
             </div>
-            <button ng-click="vm.submit(vm.activity)" ng-disabled="!vm.activity.name || !(vm.activity.cost || vm.activity.start)">Submit</button>
+            <md-button class="md-primary md-raised md-warn" ng-click="dvm.cancel()">Cancel</md-button>
+            <md-button class="md-primary md-raised" ng-disabled="!vm.activity.title || !vm.activity.cost" ng-click="dvm.update(vm.activity)" ng-if="dvm.edit">Update</md-button>
+            <md-button class="md-primary md-raised" ng-disabled="!vm.activity.title || !vm.activity.cost" ng-click="dvm.update(vm.activity)" ng-if="!dvm.edit">Add</md-button>
         </form>
     </md-card-content>
 </md-card>
+

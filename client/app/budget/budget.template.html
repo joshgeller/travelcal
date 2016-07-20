@@ -7,10 +7,11 @@
         </md-card-title>
         <md-card-content>
             <md-list flex>
-                <md-list-item ng-repeat="item in vm.budget" class="row" ng-href="#/new-item?return=budget&edit=true&id={{item.id}}">
+                <div ng-if="vm.calendar.data == null"> You have nothing in your budget. Why don't you add an activity?</div>
+                <md-list-item ng-repeat="item in vm.calendar.data" class="row" ng-click="editActivity($event, item)">
                     <div flex layout="row" layout-padding layout-align="start center" >
                         <div flex style="max-width:200px;">
-                            {{item.name}}
+                            {{item.title}}
                         </div>
                         <div>
                             {{item.cost | number:2}} {{item.currency}}
@@ -28,13 +29,13 @@
                             {{(item.currency != vm.baseCurrency) ? (item.cost * item.quantity / vm.currencies.rates[item.currency] | number:2) :  (item.cost * item.quantity | number:2)}} {{vm.baseCurrency}}
                         </div>
                         <div>
-                            {{item.start | date : shortDate}}
+                            {{item.startsAt | date : shortDate}}
                         </div>
-                        <div ng-if="item.end != item.start">
+                        <div ng-if="item.endsAt != item.startsAt">
                             -
                         </div>
-                        <div ng-if="item.end != item.start">
-                            {{item.end | date : shortDate}}
+                        <div ng-if="item.endsAt != item.startsAt">
+                            {{item.endsAt | date : shortDate}}
                         </div>
                         <span flex ng-if="item.url"></span>
                         <div>
@@ -43,7 +44,7 @@
                     </div>
                     <md-divider></md-divider>
                 </md-list-item>
-                <md-list-item class="row" layout-padding layout-align="start center" >
+                <md-list-item ng-if="vm.calendar.data != null" class="row" layout-padding layout-align="start center" >
                     <h4>Total: {{vm.total | number:2}}</h4>
                     <h4>
                     <md-input-container class="md-block" flex-gt-sm>
@@ -66,7 +67,7 @@
                     </md-input-container></h4>
                 </md-list-item>
             </md-list>
-          <md-button class="md-raised" href="#/new-item">Add Activity</md-button>
+          <md-button class="md-raised" ng-click="editActivity($event)">Add Activity</md-button>
         </md-card-content>
     </md-card>
 </md-content>
