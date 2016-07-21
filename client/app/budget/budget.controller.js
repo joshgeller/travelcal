@@ -63,7 +63,6 @@
             if(status) {
                 vm.trip = message.data[0];
                 vm.calendar = vm.trip.calendar;
-                console.log(vm.calendar);
             }
         }
         TripService.list(getTrips);
