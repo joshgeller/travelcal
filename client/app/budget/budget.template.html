@@ -16,12 +16,14 @@
                         <div>
                             {{item.cost | number:2}} {{item.currency}}
                         </div>
-                        <div>
+                        <div ng-if="item.repetitionType != 'total'">
                             x
                         </div>
-                        <div>
+                        <div ng-if="item.repetitionType != 'total'">
                             {{item.quantity}}
                         </div>
+                            <ng-pluralize ng-if="item.repetitionType == 'per day'" count="item.quantity || 0" when="{'0': 'days', '1': 'day', 'other': 'days'}"></ng-pluralize>
+                            <ng-pluralize ng-if="item.repetitionType == 'per person'" count="item.quantity || 0" when="{'0': 'people', '1': 'person', 'other': 'people'}"></ng-pluralize>
                         <div>
                             =
                         </div>
