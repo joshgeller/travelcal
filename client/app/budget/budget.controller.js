@@ -160,7 +160,7 @@
                 if (vm.calendar.data == null) {
                     vm.calendar.data = {};
                 }
-                if (keyIn) {
+                if (keyIn != null) {
                     vm.calendar.data[keyIn] = activity;
                 }
                 else {
