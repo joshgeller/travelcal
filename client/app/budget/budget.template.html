@@ -33,7 +33,7 @@
                         <div>
                             {{item.startsAt | date : shortDate}}
                         </div>
-                        <div ng-if="item.endsAt != item.startsAt">
+                        <div ng-if="item.endsAt != item.startsAt && item.endsAt">
                             -
                         </div>
                         <div ng-if="item.endsAt != item.startsAt">
