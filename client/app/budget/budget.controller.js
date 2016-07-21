@@ -57,35 +57,35 @@
         vm.baseCurrency = "USD";
         vm.total = 0;
         vm.calendar = {};
-        vm.calendar.data = {0:{"title": "Modern Art Museum",
-                               "cost": 25,
-                               "currency": "AUD",
-                               "startsAt": "2016-07-17T07:00:00.000Z",
-                               "endsAt": "2016-07-17T07:00:00.000Z",
-                               "url": "http://www.moma.org",
-                               "quantity": 2},
-                            1: {"title": "AirBnB",
-                                "cost": 117,
-                                "currency": "CAD",
-                                "startsAt": "2016-07-17T07:00:00.000Z",
-                                "endsAt": "2016-07-18T07:00:00.000Z",
-                                "quantity": 1},
-                            2: {"title": "Taxi",
-                                "cost": 25,
-                                "currency": "DKK",
-                                "startsAt": "2016-07-19T07:00:00.000Z",
-                                "endsAt": "2016-07-19T07:00:00.000Z",
-                                "quantity": 1}
-                            };
+//        vm.calendar.data = {0:{"title": "Modern Art Museum",
+//                               "cost": 25,
+//                               "currency": "AUD",
+//                               "startsAt": "2016-07-17T07:00:00.000Z",
+//                               "endsAt": "2016-07-17T07:00:00.000Z",
+//                               "url": "http://www.moma.org",
+//                               "quantity": 2},
+//                            1: {"title": "AirBnB",
+//                                "cost": 117,
+//                                "currency": "CAD",
+//                                "startsAt": "2016-07-17T07:00:00.000Z",
+//                                "endsAt": "2016-07-18T07:00:00.000Z",
+//                                "quantity": 1},
+//                            2: {"title": "Taxi",
+//                                "cost": 25,
+//                                "currency": "DKK",
+//                                "startsAt": "2016-07-19T07:00:00.000Z",
+//                                "endsAt": "2016-07-19T07:00:00.000Z",
+//                                "quantity": 1}
+//                            };
 
         // TODO replace this with actually passing the correct trip to the budget
-//        var getTrips = function getTrips(status, message) {
-//            if(status) {
-//                vm.trip = message.data[0];
-//                vm.calendar = vm.trip.calendar;
-//            }
-//        }
-//        TripService.list(getTrips);
+        var getTrips = function getTrips(status, message) {
+            if(status) {
+                vm.trip = message.data[0];
+                vm.calendar = vm.trip.calendar;
+            }
+        }
+        TripService.list(getTrips);
 
 
         CurrencyService.getCurrencies()
@@ -145,6 +145,7 @@
         var updateCalendar = function updateCalendar(status, message) {
             if (status) {
                 console.log(message);
+                vm.calendar.data = message.data.data;
             }
         };
 
@@ -178,16 +179,22 @@
                 if (vm.calendar.data == null) {
                     vm.calendar.data = {};
                 }
-                vm.calendar.data[keyIn] = activity;
-                console.log(keyIn);
+                if (keyIn) {
+                    vm.calendar.data[keyIn] = activity;
+                }
+                else {
+                    vm.calendar.data.push(activity);
+                }
 
-//                CalendarService.update(vm.calendar.id, vm.calendar.data, updateCalendar);
+//                console.log(keyIn);
 
-                var listCalendar = function listCalendar(status, message) {
-                    if (status) {
-                        console.log(message);
-                    }
-                };
+                CalendarService.update(vm.calendar.id, vm.calendar.data, updateCalendar);
+
+//                var listCalendar = function listCalendar(status, message) {
+//                    if (status) {
+//                        console.log(message);
+//                    }
+//                };
 //                CalendarService.retrieve(vm.calendar.id, listCalendar);
 
             }, function() {
