@@ -15,6 +15,11 @@ class CalendarViewSet(viewsets.ModelViewSet):
         """
         Only return Calendars associated with the current user.
         """
-
-        account = self.request.user
-        return Calendar.objects.filter(trip__account=account)
+        # TODO: Remove the try/except block to restrict Calendar to
+        # the current user only. This is disabled for midpoint check
+        # demonstration purposes only.
+        try:
+            account = self.request.user
+            return Calendar.objects.filter(trip__account=account)
+        except TypeError:
+            return Calendar.objects.all()
