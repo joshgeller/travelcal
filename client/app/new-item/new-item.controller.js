@@ -50,6 +50,8 @@
         else {
             vm.title = "New Activity"
             vm.activity = {};
+            vm.activity.quantity = 1;
+            vm.activity.repetitionType = "total";
         }
 
         vm.toggle = function (item, list) {

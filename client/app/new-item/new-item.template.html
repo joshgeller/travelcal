@@ -53,13 +53,13 @@
                     </md-select>
                 </md-input-container>
                 <md-input-container ng-if="vm.activity.repetitionType == 'per person'" class="md-block" flex-gt-sm>
-                    <input ng-model="vm.activity.quantity" type="number">
+                    <input ng-model="vm.activity.quantity" min="1" type="number">
                 </md-input-container>
                 <md-input-container ng-if="vm.activity.repetitionType == 'per person'" class="md-block" flex-gt-sm>
                     <ng-pluralize count="vm.activity.quantity || 0" when="{'0': 'people', '1': 'person', 'other': 'people'}"></ng-pluralize>
                 </md-input-container>
                 <md-input-container ng-if="vm.activity.repetitionType == 'per day'" class="md-block" flex-gt-sm>
-                    <input ng-model="vm.activity.quantity" type="number">
+                    <input ng-model="vm.activity.quantity" min="1" type="number">
                 </md-input-container>
                 <md-input-container ng-if="vm.activity.repetitionType == 'per day'" class="md-block" flex-gt-sm>
                     <ng-pluralize count="vm.activity.quantity || 0" when="{'0': 'days', '1': 'day', 'other': 'days'}"></ng-pluralize>

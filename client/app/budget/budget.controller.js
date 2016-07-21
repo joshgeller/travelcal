@@ -57,26 +57,6 @@
         vm.baseCurrency = "USD";
         vm.total = 0;
         vm.calendar = {};
-//        vm.calendar.data = {0:{"title": "Modern Art Museum",
-//                               "cost": 25,
-//                               "currency": "AUD",
-//                               "startsAt": "2016-07-17T07:00:00.000Z",
-//                               "endsAt": "2016-07-17T07:00:00.000Z",
-//                               "url": "http://www.moma.org",
-//                               "quantity": 2},
-//                            1: {"title": "AirBnB",
-//                                "cost": 117,
-//                                "currency": "CAD",
-//                                "startsAt": "2016-07-17T07:00:00.000Z",
-//                                "endsAt": "2016-07-18T07:00:00.000Z",
-//                                "quantity": 1},
-//                            2: {"title": "Taxi",
-//                                "cost": 25,
-//                                "currency": "DKK",
-//                                "startsAt": "2016-07-19T07:00:00.000Z",
-//                                "endsAt": "2016-07-19T07:00:00.000Z",
-//                                "quantity": 1}
-//                            };
 
         // TODO replace this with actually passing the correct trip to the budget
         var getTrips = function getTrips(status, message) {
@@ -174,8 +154,9 @@
                 }
             })
             .then(function(activity) {
-                console.log(activity);
-                console.log(vm.calendar);
+                if (!activity.quantity){
+                    activity.quantity = 1;
+                }
                 if (vm.calendar.data == null) {
                     vm.calendar.data = {};
                 }
@@ -186,16 +167,7 @@
                     vm.calendar.data.push(activity);
                 }
 
-//                console.log(keyIn);
-
                 CalendarService.update(vm.calendar.id, vm.calendar.data, updateCalendar);
-
-//                var listCalendar = function listCalendar(status, message) {
-//                    if (status) {
-//                        console.log(message);
-//                    }
-//                };
-//                CalendarService.retrieve(vm.calendar.id, listCalendar);
 
             }, function() {
                 $scope.status = 'You cancelled the dialog.';
