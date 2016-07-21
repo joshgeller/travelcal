@@ -91,9 +91,9 @@
         }
 
         function createFilterFor(query) {
-            var lowercaseQuery = angular.lowercase(query);
+            var uppercaseQuery = angular.uppercase(query);
             return function filterFn(currency) {
-                return (currency.value.indexOf(lowercaseQuery) === 0);
+                return (currency.value.indexOf(uppercaseQuery) === 0);
             }
         }
         vm.updateCurrency = function updateCurrency (currentCurrency) {
