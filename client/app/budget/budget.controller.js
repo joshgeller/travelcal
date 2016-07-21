@@ -154,17 +154,25 @@
                 }
             })
             .then(function(activity) {
-                if (!activity.quantity){
-                    activity.quantity = 1;
-                }
-                if (vm.calendar.data == null) {
-                    vm.calendar.data = {};
-                }
-                if (keyIn != null) {
-                    vm.calendar.data[keyIn] = activity;
+
+                if (typeof activity == 'boolean' && activity == true) {
+                    if (keyIn > -1) {
+                        vm.calendar.data.splice(keyIn, 1);
+                    }
                 }
                 else {
-                    vm.calendar.data.push(activity);
+                    if (!activity.quantity){
+                        activity.quantity = 1;
+                    }
+                    if (vm.calendar.data == null) {
+                        vm.calendar.data = {};
+                    }
+                    if (keyIn != null) {
+                        vm.calendar.data[keyIn] = activity;
+                    }
+                    else {
+                        vm.calendar.data.push(activity);
+                    }
                 }
 
                 CalendarService.update(vm.calendar.id, vm.calendar.data, updateCalendar);
@@ -200,6 +208,10 @@ function DialogController($mdDialog, locals) {
     vm.cancel = function() {
         $mdDialog.cancel();
     };
+
+    vm.deleteActivity = function() {
+        $mdDialog.hide(true);
+    }
 
     vm.update = function(activity) {
         $mdDialog.hide(activity);
