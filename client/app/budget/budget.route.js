@@ -13,6 +13,9 @@
       $stateProvider
         .state('travelcal.budget', {
           url: '/budget',
+          params: {
+            tripId: null
+          },
           views: {
             'travelcalContent': {
               templateUrl: 'static/app/budget/budget.template.html',

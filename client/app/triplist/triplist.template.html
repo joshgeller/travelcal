@@ -8,7 +8,7 @@
         <md-card-content>
             <md-list flex>
                 <div ng-if="vm.trips.length == 0">You have no trips saved. Why don't you add a new one?</div>
-                <md-list-item ng-repeat="trip in vm.trips" ng-click="null">
+                <md-list-item ng-repeat="trip in vm.trips" ng-click="vm.loadTrip(trip)">
                     <div>
                         <h4>{{trip.name}}</h4>
                         {{trip.start_date}} - {{trip.end_date}}
@@ -38,7 +38,12 @@
                     <label>Start</label>
                     <md-datepicker class="md-block" ng-model="trip.start" md-placeholder="Start date"></md-datepicker>
                     <label>End</label>
-                    <md-datepicker class="md-block" ng-model="trip.end" md-min-date="trip.start" md-placeholder="End date"></md-datepicker>
+                    <md-datepicker 
+                      class="md-block" 
+                      ng-model="trip.end" 
+                      md-min-date="trip.start" 
+                      md-placeholder="End date">
+                    </md-datepicker>
                 </div>
             </md-dialog-content>
 
