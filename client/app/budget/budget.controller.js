@@ -190,6 +190,7 @@
                         }
                         if (keyIn != null) {
                             vm.calendar.data[keyIn] = activity;
+                            vm.updateCurrency(vm.baseCurrency);
                         }
                         else {
                             vm.calendar.data.push(activity);
