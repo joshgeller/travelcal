@@ -48,7 +48,7 @@
           url: '/logout',
           views: {
             'travelcalContent': {
-              templateUrl: 'static/app/login/logout.template.html',
+              templateUrl: 'static/app/login/login.template.html',
               controller: 'LoginController',
               controllerAs: 'vm'
             }
