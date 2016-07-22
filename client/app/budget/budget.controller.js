@@ -91,7 +91,6 @@
             })
             .then(CurrencyService.getCurrencies()
             .then(function success(response) {
-                console.log(vm.trip);
                 vm.currencies = response.data;
                 vm.currencyNames = Object.getOwnPropertyNames(vm.currencies.rates);
                 vm.currencyNames.push(response.data.base);

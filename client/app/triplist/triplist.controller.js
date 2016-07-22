@@ -21,7 +21,6 @@
     
         function loadTrip(trip) {
             $location.path('/budget').search({tripId: trip.id});
-            console.log(trip);
         }
 
         var updateTrips = function updateTrips(status, message) {
