@@ -1,5 +1,3 @@
-// Authentication method derived from: https://github.com/cornflourblue/angular-jwt-authentication-example/
-
 (function () {
   'use strict';
 
