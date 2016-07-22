@@ -1,3 +1,28 @@
-<div>
-  PROFILE
-</div>
+<md-card>
+  <md-card-header>
+    <md-card-avatar>
+      <img class="md-user-avatar" src="/static/img/default_user.png">
+    </md-card-avatar>
+    <md-card-header-text>
+      <span class="md-title">{{vm.username}}</span>
+    </md-card-header-text>
+  </md-card-header>
+  <md-card-title>
+    <!--
+    <md-card-title-text>
+      <span class="md-headline">Card headline</span>
+      <span class="md-subhead">Card subheader</span>
+    </md-card-title-text>
+    -->
+  </md-card-title>
+  <md-card-actions layout="row" layout-align="start center">
+    <md-button ui-sref="travelcal.triplist">View Trips</md-button>
+  </md-card-actions>
+  <!--
+  <md-card-content>
+    <p>
+     Card content
+    </p>
+  </md-card-content>
+  -->
+</md-card>

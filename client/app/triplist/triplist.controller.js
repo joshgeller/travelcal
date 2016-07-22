@@ -8,14 +8,21 @@
     TriplistController.$inject = [
         '$http',
         '$scope',
+        '$location',
         '$mdDialog',
         '$mdMedia',
         'TripService'
     ];
 
-    function TriplistController($http, $scope, $mdDialog, $mdMedia, TripService) {
+    function TriplistController($http, $scope, $location, $mdDialog, $mdMedia, TripService) {
         var vm = this;
+        vm.loadTrip = loadTrip;
         vm.trips = [];
+    
+        function loadTrip(trip) {
+            $location.path('/budget').search({tripId: trip.id});
+            console.log(trip);
+        }
 
         var updateTrips = function updateTrips(status, message) {
             if (status) {

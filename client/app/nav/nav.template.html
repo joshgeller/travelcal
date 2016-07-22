@@ -17,15 +17,6 @@
 
     <!-- Collect the nav links, forms, and other content for toggling -->
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-      <ul class="nav navbar-nav">
-        <li 
-            ng-repeat="link in vm.links" 
-            ng-class="{ 'active': link.selected }"
-            ng-click="vm.selectedLink($index)"
-            >
-            <a ng-href="{{link.link}}">{{link.text}}</a>
-        </li>
-      </ul>
       <md-menu class="pull-right">
           <md-button 
             ng-click="vm.openMenu($mdOpenMenu, $event)" 

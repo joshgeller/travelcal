@@ -14,15 +14,23 @@
     ];
 
     function HomeConfig($stateProvider, $urlRouterProvider) {
-      $urlRouterProvider.otherwise('/');
+      $urlRouterProvider.otherwise('/triplist');
       $stateProvider
         .state('travelcal.home', {
           url: '/',
           views: {
             'travelcalContent': {
-              templateUrl: 'static/app/home/home.template.html',
-              controller: 'HomeController',
+              templateUrl: 'static/app/triplist/triplist.template.html',
+              controller: 'TriplistController',
               controllerAs: 'vm'
+            }
+          }
+        })
+        .state('travelcal.home_old', {
+          url: '/old_homeas;ldfjas;ldfjas;ldfjas;dlf',
+          views: {
+            'travelcalContent': {
+              redirectTo: 'travelcal.home'
             }
           }
         })

@@ -28,7 +28,7 @@
         vm.password,
         function(authenticated, res) {
           if (authenticated) {
-            $location.path('/');
+            $location.path('/triplist');
           } else {
             console.log('auth error')
           }

@@ -53,23 +53,45 @@
 
     function BudgetController($scope, $mdDialog, $mdMedia, $http, $location, CurrencyService, TripService, CalendarService) {
         var vm = this;
+        var  tripId = $location.search().tripId || -1;
         vm.currencies = null;
         vm.baseCurrency = "USD";
         vm.total = 0;
         vm.calendar = {};
 
-        // TODO replace this with actually passing the correct trip to the budget
-        var getTrips = function getTrips(status, message) {
-            if(status) {
-                vm.trip = message.data[0];
-                vm.calendar = vm.trip.calendar;
-            }
-        }
-        TripService.list(getTrips);
+        //        // TODO replace this with actually passing the correct trip to the budget
+        //        var getTrips = function getTrips(status, message) {
+        //            if(status) {
+        //                vm.trip = message.data[0];
+        //                vm.calendar = vm.trip.calendar;
+        //            }
+        //        }
+        //        TripService.list(getTrips);
+        //
 
-
-        CurrencyService.getCurrencies()
+        if (tripId > -1) {
+            TripService.retrieve(tripId, function(result, response) {
+                if (result) {
+                    vm.trip = response.data;
+                    vm.calendar = response.data.calendar;
+                    if (!vm.calendar.data) {
+                        vm.calendar.data = [];
+                    }
+//                    else {
+//                        vm.total = (function() {
+//                            for (var i = 0; i < vm.calendar.data.length; i++) {
+//                                vm.total += vm.calendar.data[i].cost;
+//                            }
+//                        })();
+//                    }
+                }
+                else {
+                    console.log("INVALID TRIP ID");
+                }
+            })
+            .then(CurrencyService.getCurrencies()
             .then(function success(response) {
+                console.log(vm.trip);
                 vm.currencies = response.data;
                 vm.currencyNames = Object.getOwnPropertyNames(vm.currencies.rates);
                 vm.currencyNames.push(response.data.base);
@@ -84,7 +106,8 @@
                 }
             }, function error(response) {
                 console.log(response);
-        });
+            }));
+        }
 
         vm.updateCurrency = function updateCurrency(newBase){
             if (newBase) {
@@ -103,7 +126,7 @@
                         }
                     }, function error(response) {
                         console.log(response);
-                });
+                    });
             }
         }
 
@@ -152,39 +175,40 @@
                     activity: activity
                 }
             })
-            .then(function(activity) {
+                .then(function(activity) {
 
-                if (typeof activity == 'boolean' && activity == true) {
-                    if (keyIn > -1) {
-                        vm.calendar.data.splice(keyIn, 1);
-                    }
-                }
-                else {
-                    if (!activity.quantity){
-                        activity.quantity = 1;
-                    }
-                    if (vm.calendar.data == null) {
-                        vm.calendar.data = {};
-                    }
-                    if (keyIn != null) {
-                        vm.calendar.data[keyIn] = activity;
+                    if (typeof activity == 'boolean' && activity == true) {
+                        if (keyIn > -1) {
+                            vm.calendar.data.splice(keyIn, 1);
+                        }
                     }
                     else {
-                        vm.calendar.data.push(activity);
+                        if (!activity.quantity){
+                            activity.quantity = 1;
+                        }
+                        if (vm.calendar.data == null) {
+                            vm.calendar.data = {};
+                        }
+                        if (keyIn != null) {
+                            vm.calendar.data[keyIn] = activity;
+                        }
+                        else {
+                            vm.calendar.data.push(activity);
+                            vm.updateCurrency(vm.baseCurrency);
+                        }
                     }
-                }
 
-                CalendarService.update(vm.calendar.id, vm.calendar.data, updateCalendar);
+                    CalendarService.update(vm.calendar.id, vm.calendar.data, updateCalendar);
 
-            }, function() {
-                $scope.status = 'You cancelled the dialog.';
-            });
+                }, function() {
+                    $scope.status = 'You cancelled the dialog.';
+                });
 
-            $scope.$watch(function() {
-                return $mdMedia('xs') || $mdMedia('sm');
-            }, function(wantsFullScreen) {
-                $scope.customFullscreen = (wantsFullScreen === true);
-            });
+                $scope.$watch(function() {
+                    return $mdMedia('xs') || $mdMedia('sm');
+                }, function(wantsFullScreen) {
+                    $scope.customFullscreen = (wantsFullScreen === true);
+                });
         };
     }
 
@@ -213,6 +237,9 @@ function DialogController($mdDialog, locals) {
     }
 
     vm.update = function(activity) {
+        if (!activity.currency) {
+            activity.currency = 'USD';
+        }
         $mdDialog.hide(activity);
     };
 }
