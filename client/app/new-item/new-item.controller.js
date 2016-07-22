@@ -29,12 +29,27 @@
 
         if (vm.edit) {
             vm.title = "Edit Activity";
-            vm.activity.startsAt = new Date(vm.activity.startsAt);
-            vm.activity.endsAt = new Date(vm.activity.endsAt);
+            if (vm.activity.startsAt) {
+                vm.activity.startsAt = new Date(vm.activity.startsAt);
+            }
+            else {
+                vm.activity.startsAt = undefined;
+            }
+
+            if (vm.activity.endsAt) {
+                vm.activity.endsAt = new Date(vm.activity.endsAt);
+            }
+            else {
+                vm.activity.endsAt = undefined;
+            }
+
+
             if (vm.activity.days) {
                 var days = Object.getOwnPropertyNames(vm.activity.days);
                 days.forEach(function(value, index, array) {
+                    var emptyDate = undefined;
                     if (vm.activity.days[value].start) {
+                        console.log(vm.activity.days[value].end)
                         vm.activity.days[value].start = new Date(vm.activity.days[value].start);
                     }
                     if (vm.activity.days[value].end) {
@@ -50,6 +65,8 @@
         else {
             vm.title = "New Activity"
             vm.activity = {};
+            vm.activity.quantity = 1;
+            vm.activity.repetitionType = "total";
         }
 
         vm.toggle = function (item, list) {
@@ -89,9 +106,9 @@
         }
 
         function createFilterFor(query) {
-            var lowercaseQuery = angular.lowercase(query);
+            var uppercaseQuery = angular.uppercase(query);
             return function filterFn(currency) {
-                return (currency.value.indexOf(lowercaseQuery) === 0);
+                return (currency.value.indexOf(uppercaseQuery) === 0);
             }
         }
         vm.updateCurrency = function updateCurrency (currentCurrency) {

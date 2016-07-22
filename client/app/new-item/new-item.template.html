@@ -53,13 +53,13 @@
                     </md-select>
                 </md-input-container>
                 <md-input-container ng-if="vm.activity.repetitionType == 'per person'" class="md-block" flex-gt-sm>
-                    <input ng-model="vm.activity.quantity" type="number">
+                    <input ng-model="vm.activity.quantity" min="1" type="number">
                 </md-input-container>
                 <md-input-container ng-if="vm.activity.repetitionType == 'per person'" class="md-block" flex-gt-sm>
                     <ng-pluralize count="vm.activity.quantity || 0" when="{'0': 'people', '1': 'person', 'other': 'people'}"></ng-pluralize>
                 </md-input-container>
                 <md-input-container ng-if="vm.activity.repetitionType == 'per day'" class="md-block" flex-gt-sm>
-                    <input ng-model="vm.activity.quantity" type="number">
+                    <input ng-model="vm.activity.quantity" min="1" type="number">
                 </md-input-container>
                 <md-input-container ng-if="vm.activity.repetitionType == 'per day'" class="md-block" flex-gt-sm>
                     <ng-pluralize count="vm.activity.quantity || 0" when="{'0': 'days', '1': 'day', 'other': 'days'}"></ng-pluralize>
@@ -77,7 +77,7 @@
                 <input type="text" g-places-autocomplete ng-model="vm.activity.address" placeholder="Address"/>
             </md-input-container>
             <div layout-gt-sm="row">
-                <fieldset class="md-block" flex-gt-sm>
+                <fieldset class="md-block">
                     <legend>Hours</legend>
                     <table>
                         <tr ng-repeat="day in vm.days">
@@ -92,6 +92,8 @@
             <md-button class="md-primary md-raised md-warn" ng-click="dvm.cancel()">Cancel</md-button>
             <md-button class="md-primary md-raised" ng-disabled="!vm.activity.title || !vm.activity.cost" ng-click="dvm.update(vm.activity)" ng-if="dvm.edit">Update</md-button>
             <md-button class="md-primary md-raised" ng-disabled="!vm.activity.title || !vm.activity.cost" ng-click="dvm.update(vm.activity)" ng-if="!dvm.edit">Add</md-button>
+            <span flex></span>
+            <md-button class="md-primary md-raised md-warn pull-right" ng-click="dvm.deleteActivity()">Delete</md-button>
         </form>
     </md-card-content>
 </md-card>
