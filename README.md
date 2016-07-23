@@ -24,6 +24,7 @@
 ## Development
 
 * Icons can be references from [here](https://klarsys.github.io/angular-material-icons/#)
+
 ## Assumptions
 
 Base Ubuntu 14.04 installation (or other installation compatible with below packages)
