@@ -43,15 +43,6 @@
                 }
             });
 
-            $scope.addEvent = function() {
-                $scope.events.push({
-                    title: 'Open Sesame',
-                    start: new Date(y, m, 28),
-                    end: new Date(y, m, 29),
-                    className: ['openSesame']
-                });
-            };
-
             /* config object */
             $scope.uiConfig = {
                 calendar:{
@@ -177,13 +168,11 @@ function convertCalendarData(events) {
     formattedEvents = [];
 
     for (var i = 0; i < events.length; i++) {
-        console.log(events[i]);
-        if (events[i].hasOwnProperty("startsAt") && events[i].startsAt != null) {
-            events[i].start = new Date(events[i].startsAt);
+        if (events[i].hasOwnProperty("start") && events[i].start != null) {
+            events[i].start = new Date(events[i].start);
         }
-        if (events[i].hasOwnProperty("endsAt") && events[i].endsAt != null) {
-            console.log("ends at");
-            events[i].end  = new Date(events[i].endsAt);
+        if (events[i].hasOwnProperty("end") && events[i].end != null) {
+            events[i].end  = new Date(events[i].end);
         }
         if (events[i].start) {
             formattedEvents.push(events[i]);

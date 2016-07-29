@@ -29,18 +29,18 @@
 
         if (vm.edit) {
             vm.title = "Edit Activity";
-            if (vm.activity.startsAt) {
-                vm.activity.startsAt = new Date(vm.activity.startsAt);
+            if (vm.activity.start) {
+                vm.activity.start = new Date(vm.activity.start);
             }
             else {
-                vm.activity.startsAt = undefined;
+                vm.activity.start = undefined;
             }
 
-            if (vm.activity.endsAt) {
-                vm.activity.endsAt = new Date(vm.activity.endsAt);
+            if (vm.activity.end) {
+                vm.activity.end = new Date(vm.activity.end);
             }
             else {
-                vm.activity.endsAt = undefined;
+                vm.activity.end = undefined;
             }
 
 
