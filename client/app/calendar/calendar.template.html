@@ -2,11 +2,11 @@
     <md-card>
         <md-card-title>
             <md-card-title-text>
-                <h1>Calendar</h1>
+                <h1>{{vm.title}}</h1>
             </md-card-title-text>
         </md-card-title>
-        <div ui-calendar="calendarOptions" ng-model="vm.eventSources" calendar="travelCalendar"></div>
         <md-card-content>
+            <div ui-calendar="uiConfig" ng-model="eventSources"></div>
         </md-card-content>
     </md-card>
 </md-content>
