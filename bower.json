@@ -23,7 +23,8 @@
     "ngstorage": "^0.3.10",
     "angular-material-icons": "^0.7.1",
     "angular-moment": "^0.10.3",
-    "angular-google-places-autocomplete": "^0.2.7"
+    "angular-google-places-autocomplete": "^0.2.7",
+    "angular-ui-calendar": "^1.0.2"
   },
   "overrides": {
     "font-awesome": {
