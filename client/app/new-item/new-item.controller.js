@@ -26,7 +26,6 @@
         if ($scope.$parent.dvm.activity) {
             vm.activity = $scope.$parent.dvm.activity;
         }
-
         if (vm.edit) {
             vm.title = "Edit Activity";
             if (vm.activity.start) {
@@ -68,7 +67,9 @@
             vm.activity.quantity = 1;
             vm.activity.repetitionType = "total";
             vm.activity.allDay = true;
-            console.log(vm.activity.allDay);
+            if($scope.$parent.dvm.start) {
+                vm.activity.start = $scope.$parent.dvm.start;
+            }
         }
 
         vm.toggle = function (item, list) {
@@ -117,10 +118,5 @@
             vm.activity.currency = currentCurrency;
             return;
         }
-          // Not being used if the item is added via the budget
-//        vm.submit = function () {
-//            vm.activity = {};
-//            vm.NewItemForm.$setPristine();
-//        }
     }
 })();

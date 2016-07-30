@@ -224,6 +224,7 @@ function DialogController($mdDialog, locals) {
     var vm = this;
     vm.edit = locals.edit;
     vm.activity = locals.activity;
+    vm.start = locals.start;
     vm.hide = function() {
         $mdDialog.hide();
     };

@@ -31,7 +31,14 @@
                     vm.tripStart = new Date(vm.trip.start_date);
                     $scope.goToTripStart(vm.tripStart);
                     vm.tripEnd = new Date(vm.trip.end_date);
-                    $scope.eventSources.push({color: '#f00', events: [{title: "TRIP START", start: vm.tripStart, allDay: true}, {title: "TRIP END", start: vm.tripEnd, allDay: true}]});
+                    var dateRange = {
+                        color: '#f00',
+                        events: [
+                            {title: "TRIP START", start: vm.tripStart, class: 'start', allDay: true},
+                            {title: "TRIP END", start: vm.tripEnd, class: 'end', allDay: true}
+                        ]
+                    };
+                    $scope.eventSources.push(dateRange);
                     vm.calendar = response.data.calendar;
                     $scope.events = [];
                     if (vm.calendar.data) {
@@ -55,65 +62,103 @@
             }
 
             $scope.onEventResize = function (event, delta, revertFunc, jsEvent, ui, view) {
-                if (vm.calendar.data[event.position].end) {
-                    if (vm.calendar.data[event.position].end instanceof Date) {
-                        end = vm.calendar.data[event.position].end;
+                if (event.class != 'start' && event.class != 'end') {
+                    if (vm.calendar.data[event.position].end) {
+                        if (vm.calendar.data[event.position].end instanceof Date) {
+                            end = vm.calendar.data[event.position].end;
+                        }
+                        else {
+                            end = new Date(vm.calendar.data[event.position].end);
+                        }
+                        var oldEndDate = end.getDate();
+                        end.setDate(oldEndDate + delta._days);
+                        vm.calendar.data[event.position].end = end;
                     }
                     else {
-                        end = new Date(vm.calendar.data[event.position].end);
+                        var end = new Date(m.calendar.data[event.position].start);
+                        var oldEndDate = end.getDate();
+                        end.setDate(oldEndDate + delta_.days);
+                        vm.calendar.data[event.position].end = end;
                     }
-                    var oldEndDate = end.getDate();
-                    end.setDate(oldEndDate + delta._days);
-                    vm.calendar.data[event.position].end = end;
+                    CalendarService.update(vm.calendar.id, vm.calendar.data, updateCalendar);
+
                 }
-                else {
-                    var end = new Date(m.calendar.data[event.position].start);
-                    var oldEndDate = end.getDate();
-                    end.setDate(oldEndDate + delta_.days);
-                    vm.calendar.data[event.position].end = end;
-                }
-                CalendarService.update(vm.calendar.id, vm.calendar.data, updateCalendar);
             }
 
             $scope.onEventDrop = function(event, delta, revertFunc, jsEvent, ui, view) {
-                if (vm.calendar.data[event.position].start) {
+                if (event.class == 'start') {
                     var start;
-                    if (vm.calendar.data[event.position].start instanceof Date) {
-                        start = vm.calendar.data[event.position].start;
+                    if (vm.trip.start_date instanceof Date) {
+                        start = vm.trip.start_date;
                     }
                     else {
-                        start = new Date(vm.calendar.data[event.position].start);
+                        start = new Date(vm.trip.start_date);
                     }
                     var oldStartDate = start.getDate();
                     start.setDate(oldStartDate + delta._days);
-                    vm.calendar.data[event.position].start = start;
+                    start = JSON.stringify(start);
+                    vm.trip.start_date = start.slice(1,11);
+//                    TripService.update(vm.trip.id, vm.trip, updateTrip);
+
                 }
-                if (vm.calendar.data[event.position].end) {
+                else if (event.class = 'end') {
                     var end;
-                    if (vm.calendar.data[event.position].end instanceof Date) {
-                        end = vm.calendar.data[event.position].end;
+                    if (vm.trip.end_date instanceof Date) {
+                        end = vm.trip.end_date;
                     }
                     else {
-                        end = new Date(vm.calendar.data[event.position].end);
+                        end = new Date(vm.trip.end_date);
                     }
                     var oldEndDate = end.getDate();
                     end.setDate(oldEndDate + delta._days);
-                    vm.calendar.data[event.position].end = end;
+                    end = JSON.stringify(end);
+                    vm.trip.end_date = end.slice(1,11);
+//                    TripService.update(vm.trip.id, vm.trip, updateTrip);
                 }
                 else {
-                    var end;
-                    if (vm.calendar.data[event.position].start instanceof Date) {
-                        end = vm.calendar.data[event.position].start;
+                    if (vm.calendar.data[event.position].start) {
+                        var start;
+                        if (vm.calendar.data[event.position].start instanceof Date) {
+                            start = vm.calendar.data[event.position].start;
+                        }
+                        else {
+                            start = new Date(vm.calendar.data[event.position].start);
+                        }
+                        var oldStartDate = start.getDate();
+                        start.setDate(oldStartDate + delta._days);
+                        vm.calendar.data[event.position].start = start;
+                    }
+                    if (vm.calendar.data[event.position].end) {
+                        var end;
+                        if (vm.calendar.data[event.position].end instanceof Date) {
+                            end = vm.calendar.data[event.position].end;
+                        }
+                        else {
+                            end = new Date(vm.calendar.data[event.position].end);
+                        }
+                        var oldEndDate = end.getDate();
+                        end.setDate(oldEndDate + delta._days);
+                        vm.calendar.data[event.position].end = end;
                     }
                     else {
-                        end = new Date(vm.calendar.data[event.position].start);
+                        var end;
+                        if (vm.calendar.data[event.position].start instanceof Date) {
+                            end = vm.calendar.data[event.position].start;
+                        }
+                        else {
+                            end = new Date(vm.calendar.data[event.position].start);
+                        }
+                        var oldEndDate = end.getDate();
+                        end.setDate(oldEndDate + delta._days);
+                        vm.calendar.data[event.position].end = end;
                     }
-                    var oldEndDate = end.getDate();
-                    end.setDate(oldEndDate + delta._days);
-                    vm.calendar.data[event.position].end = end;
-                }
-                CalendarService.update(vm.calendar.id, vm.calendar.data, updateCalendar);
+                    CalendarService.update(vm.calendar.id, vm.calendar.data, updateTrip);
 
+                }
+            }
+
+            $scope.onDayClick = function(date, jsEvent, view) {
+                $scope.editActivity(jsEvent, null, date._d);
             }
 
             // Take the calendar to the appropriate month for the trip
@@ -132,12 +177,12 @@
                         center: '',
                         right: 'today prev,next'
                     },
-//                    defaultDate: "2015-03-25",
                     loading: $scope.goToTripStart,
                     eventRender: $scope.eventRender,
                     eventClick: $scope.onEventClick,
                     eventResize: $scope.onEventResize,
-                    eventDrop: $scope.onEventDrop
+                    eventDrop: $scope.onEventDrop,
+                    dayClick: $scope.onDayClick
                 }
             };
 
@@ -155,17 +200,31 @@
             }
         };
 
+        var updateTrip = function updateTrip(status, message) {
+            if (status) {
+                vm.trip = message.data;
+            }
+        };
+
         $scope.customFullscreen = $mdMedia('xs') || $mdMedia('sm');
 
         $scope.editActivity = function(ev, activityIn, keyIn) {
             var useFullScreen = ($mdMedia('sm') || $mdMedia('xs'))  && $scope.customFullscreen;
             var activity = {};
             var edit = false;
+            var start = undefined;
+
+
             if (activityIn) {
                 angular.copy(activityIn, activity);
                 edit = true;
             }
+            else if (keyIn) {
+                start = keyIn;
 
+            }
+
+            console.log(start);
             $mdDialog.show({
                 controller: DialogController,
                 controllerAs: 'dvm',
@@ -176,7 +235,8 @@
                 fullscreen: useFullScreen,
                 locals: {
                     edit: edit,
-                    activity: activity
+                    activity: activity,
+                    start: start
                 }
             })
             .then(function(activity) {
