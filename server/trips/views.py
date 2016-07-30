@@ -1,6 +1,10 @@
+import json
+
 from calendars.models import Calendar
 from rest_framework import permissions, status, viewsets
+from rest_framework.decorators import detail_route
 from rest_framework.response import Response
+from wkhtmltopdf.views import PDFTemplateResponse
 
 from .models import Trip
 from .serializers import TripSerializer
@@ -17,14 +21,29 @@ class TripViewSet(viewsets.ModelViewSet):
         """
         Only return Trips associated with the current user.
         """
-        # TODO: Remove the try/except block to restrict Trips to
-        # the current user only. This is disabled for midpoint check
-        # demonstration purposes only.
-        try:
-            account = self.request.user
-            return Trip.objects.filter(account=account)
-        except TypeError:
-            return Trip.objects.all()
+        # account = self.request.user
+        # return Trip.objects.filter(account=account)
+        return Trip.objects.all()
+
+    @detail_route(methods=['get'])
+    def pdf(self, request, pk=None, *args, **kwargs):
+        trip = self.get_object()
+        print(type(trip.calendar.data))
+        filename = '{}.pdf'.format(trip.name)
+        response = PDFTemplateResponse(
+            request=request,
+            template='pdf.html',
+            filename=filename,
+            context={'trip': trip, 'calendar': trip.calendar.data},
+            show_content_in_browser=True,
+            cmd_options={'margin-top': 10,
+                         "zoom": 1,
+                         "viewport-size": "1366 x 513",
+                         'javascript-delay': 1000,
+                         "no-stop-slow-scripts": True},
+
+        )
+        return response
 
     def create(self, request, *args, **kwargs):
         """

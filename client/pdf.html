@@ -1,0 +1,19 @@
+<html>
+
+<head>
+    <style>
+        html {
+          font-family: sans-serif;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>{{trip.name}} Itinerary</h1>
+    <h2>{{trip.start_date}} - {{trip.end_date}}</h2>
+    {% for activity in calendar %}
+    <p>{{activity.title}}</p>
+    {% endfor %}
+</body>
+
+</html>

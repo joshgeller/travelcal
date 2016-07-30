@@ -17,15 +17,15 @@
   ];
 
   function CalendarController(
-    $scope, 
-    $mdDialog, 
-    $mdMedia, 
-    $compile, 
-    uiCalendarConfig, 
-    $location, 
-    TripService, 
+    $scope,
+    $mdDialog,
+    $mdMedia,
+    $compile,
+    uiCalendarConfig,
+    $location,
+    TripService,
     CalendarService
-  ) 
+  )
   {
 
     var vm = this;
@@ -40,7 +40,7 @@
     // 'private' functions
     var convertCalendarData = convertCalendarData;
     var editActivity = editActivity;
-    var eventRender = eventRender; 
+    var eventRender = eventRender;
     var goToTripStart = goToTripStart;
     var init = init;
     var onDayClick = onDayClick;
@@ -51,6 +51,19 @@
     var updateTrip = updateTrip;
 
     init();
+
+    function convertCalendarData(event) {
+
+      if (event.hasOwnProperty("start") && event.start != null) {
+        event.start = new Date(event.start);
+      }
+      if (event.hasOwnProperty("end") && event.end != null) {
+        event.end  = new Date(event.end);
+      }
+      if (event.start) {
+        return event;
+      }
+    }
 
     function init() {
       tripId = $location.search().tripId || -1;
@@ -107,19 +120,6 @@
             console.log("INVALID TRIP ID");
           }
         });
-      }
-
-      function convertCalendarData(event) {
-
-        if (event.hasOwnProperty("start") && event.start != null) {
-          event.start = new Date(event.start);
-        }
-        if (event.hasOwnProperty("end") && event.end != null) {
-          event.end  = new Date(event.end);
-        }
-        if (event.start) {
-          return event;
-        }
       }
     }
 
@@ -330,5 +330,3 @@
   }
 
 })();
-
-

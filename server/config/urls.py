@@ -13,6 +13,7 @@ router.register(r'accounts', AccountViewSet)
 router.register(r'trips', TripViewSet)
 router.register(r'calendars', CalendarViewSet)
 
+
 urlpatterns = [
     # Obtain auth token
     url(r'^api-token-auth/', views.obtain_auth_token),
@@ -21,9 +22,6 @@ urlpatterns = [
     # Admin
     url(r'^admin/', admin.site.urls),
 ]
-#
-# if settings.DEBUG:
-#     urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 
 # Client app
 urlpatterns += patterns('',
