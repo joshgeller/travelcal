@@ -20,7 +20,7 @@
         var vm = this;
 
 //       var  tripId = $location.search().tripId || -1;
-        var tripId = 12;
+        var tripId = 13;
         if (tripId > -1) {
             $scope.eventSources = [];
 
@@ -29,6 +29,7 @@
                     vm.trip = response.data;
                     vm.title = vm.trip.name;
                     vm.tripStart = new Date(vm.trip.start_date);
+                    $scope.goToTripStart(vm.tripStart);
                     vm.tripEnd = new Date(vm.trip.end_date);
                     $scope.eventSources.push({color: '#f00', events: [{title: "TRIP START", start: vm.tripStart, allDay: true}, {title: "TRIP END", start: vm.tripEnd, allDay: true}]});
                     vm.calendar = response.data.calendar;
@@ -115,8 +116,13 @@
 
             }
 
+            // Take the calendar to the appropriate month for the trip
+            $scope.goToTripStart = function(startDate) {
+                uiCalendarConfig.calendars.tripCalendar.fullCalendar('gotoDate', startDate);
+            }
 
-            /* config object COPIED FROM CALENDAR DOCUMENTATION */
+
+            /* config object BASED ON CODE FROM CALENDAR DOCUMENTATION */
             $scope.uiConfig = {
                 calendar:{
                     height: 450,
@@ -126,6 +132,8 @@
                         center: '',
                         right: 'today prev,next'
                     },
+//                    defaultDate: "2015-03-25",
+                    loading: $scope.goToTripStart,
                     eventRender: $scope.eventRender,
                     eventClick: $scope.onEventClick,
                     eventResize: $scope.onEventResize,
