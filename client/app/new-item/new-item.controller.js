@@ -67,6 +67,8 @@
             vm.activity = {};
             vm.activity.quantity = 1;
             vm.activity.repetitionType = "total";
+            vm.activity.allDay = true;
+            console.log(vm.activity.allDay);
         }
 
         vm.toggle = function (item, list) {

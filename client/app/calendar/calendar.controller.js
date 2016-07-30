@@ -20,7 +20,7 @@
         var vm = this;
 
 //       var  tripId = $location.search().tripId || -1;
-        var tripId = 9;
+        var tripId = 12;
         if (tripId > -1) {
             $scope.eventSources = [];
 
@@ -30,18 +30,45 @@
                     vm.title = vm.trip.name;
                     vm.tripStart = new Date(vm.trip.start_date);
                     vm.tripEnd = new Date(vm.trip.end_date);
-                    $scope.eventSources.push({color: '#f00', events: [{title: "TRIP START", start: vm.tripStart}, {title: "TRIP END", start: vm.tripEnd}]});
+                    $scope.eventSources.push({color: '#f00', events: [{title: "TRIP START", start: vm.tripStart, allDay: true}, {title: "TRIP END", start: vm.tripEnd, allDay: true}]});
                     vm.calendar = response.data.calendar;
                     if (vm.calendar.data) {
-                        $scope.events = convertCalendarData(vm.calendar.data);
+                        $scope.events = [];
+                        for (var i = 0; i < vm.calendar.data.length; i++) {
+                            var newEvent = convertCalendarData(vm.calendar.data[i]);
+                            if (newEvent != null) {
+                                newEvent.position = i;
+                                $scope.events.push(newEvent);
+                            }
+                        }
                         $scope.eventSources.push($scope.events);
-                        console.log($scope.eventSources);
                     }
                 }
                 else {
                     console.log("INVALID TRIP ID");
                 }
             });
+
+            $scope.onEventClick = function ( date, jsEvent, view ) {
+                console.log(date);
+                console.log(date.position);
+                console.log(vm.calendar.data[date.position]);
+
+                // EDIT event HERE
+                $scope.editActivity(jsEvent, vm.calendar.data[date.position], date.position);
+
+            }
+
+            $scope.onEventResize = function (event, delta, revertFunc, jsEvent, ui, view) {
+                console.log(event);
+                console.log(delta);
+            }
+
+            $scope.onEventDrop = function(event, delta, revertFunc, jsEvent, ui, view) {
+                console.log(event);
+                console.log(delta);
+            }
+
 
             /* config object */
             $scope.uiConfig = {
@@ -53,9 +80,14 @@
                         center: '',
                         right: 'today prev,next'
                     },
-                    eventRender: $scope.eventRender
+                    eventRender: $scope.eventRender,
+                    eventClick: $scope.onEventClick,
+                    eventResize: $scope.onEventResize,
+                    eventDrop: $scope.onEventDrop
                 }
             };
+
+
 
             /* add and removes an event source of choice */
             $scope.addRemoveEventSource = function(sources,source) {
@@ -134,15 +166,18 @@
                         activity.quantity = 1;
                     }
                     if (vm.calendar.data == null) {
-                        vm.calendar.data = {};
+                        console.log(vm.calendar.data);
+                        vm.calendar.data = [];
                     }
                     if (keyIn != null) {
                         vm.calendar.data[keyIn] = activity;
-                        $scope.eventSources.events[keyIn] = convertCalendarData([activity])[0];
+                        $scope.eventSources[1][keyIn] = convertCalendarData(activity);
                     }
                     else {
+                        console.log(vm.calendar);
                         vm.calendar.data.push(activity);
-                        $scope.eventSources[1].push(convertCalendarData([activity])[0]);
+                        activity.position = vm.calendar.length;
+                        $scope.eventSources[1].push(convertCalendarData(activity));
                     }
                 }
 
@@ -164,22 +199,16 @@
 
 })();
 
-function convertCalendarData(events) {
-    formattedEvents = [];
+function convertCalendarData(event) {
 
-    for (var i = 0; i < events.length; i++) {
-        if (events[i].hasOwnProperty("start") && events[i].start != null) {
-            events[i].start = new Date(events[i].start);
-        }
-        if (events[i].hasOwnProperty("end") && events[i].end != null) {
-            events[i].end  = new Date(events[i].end);
-        }
-        if (events[i].start) {
-            formattedEvents.push(events[i]);
-        }
-
+    if (event.hasOwnProperty("start") && event.start != null) {
+        event.start = new Date(event.start);
     }
-
-    return formattedEvents;
+    if (event.hasOwnProperty("end") && event.end != null) {
+        event.end  = new Date(event.end);
+    }
+    if (event.start) {
+        return event;
+    }
 }
 

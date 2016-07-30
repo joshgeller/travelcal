@@ -19,6 +19,11 @@
                     <label>End</label>
                     <md-datepicker class="md-block" ng-model="vm.activity.end" md-min-date="vm.activity.start" md-placeholder="End date">End</md-datepicker>
                 </div>
+                <div class="md-block" flex-gt-sm>
+                    <md-checkbox ng-model="vm.activity.allDay">All Day Event</md-checkbox>
+                </div>
+            </div>
+            <div layout-gt-sm="row">
                 <md-input-container class="md-block" flex-gt-sm>
                     <input type="text" class="md-block" ng-model="vm.activity.url" placeholder="Link">
                 </md-input-container>
