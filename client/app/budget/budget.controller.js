@@ -59,6 +59,12 @@
         vm.total = 0;
         vm.calendar = {};
 
+        vm.loadCalendar = loadCalendar;
+
+        function loadCalendar() {
+          $location.path('/calendar');
+        }
+
         if (tripId > -1) {
             TripService.retrieve(tripId, function(result, response) {
                 if (result) {
