@@ -50,23 +50,64 @@
             });
 
             $scope.onEventClick = function ( date, jsEvent, view ) {
-                console.log(date);
-                console.log(date.position);
-                console.log(vm.calendar.data[date.position]);
-
-                // EDIT event HERE
                 $scope.editActivity(jsEvent, vm.calendar.data[date.position], date.position);
-
             }
 
             $scope.onEventResize = function (event, delta, revertFunc, jsEvent, ui, view) {
-                console.log(event);
-                console.log(delta);
+                if (vm.calendar.data[event.position].end) {
+                    var end;
+                    if (vm.calendar.data[event.position].end instanceof Date) {
+                        end = vm.calendar.data[event.position].end;
+                    }
+                    else {
+                        end = new Date(vm.calendar.data[event.position].end);
+                    }
+                    var oldEndDate = end.getDate();
+                    end.setDate(oldEndDate + delta._days);
+                    vm.calendar.data[event.position].end = end;
+                }
+                else {
+                    var end = new Date(m.calendar.data[event.position].start);
+                    var oldEndDate = end.getDate();
+                    end.setDate(oldEndDate + delta_.days);
+                    vm.calendar.data[event.position].end = end;
+                }
+                CalendarService.update(vm.calendar.id, vm.calendar.data, updateCalendar);
             }
 
             $scope.onEventDrop = function(event, delta, revertFunc, jsEvent, ui, view) {
-                console.log(event);
-                console.log(delta);
+                if (vm.calendar.data[event.position].start) {
+                    var start;
+                    if (vm.calendar.data[event.position].start instanceof Date) {
+                        start = vm.calendar.data[event.position].start;
+                    }
+                    else {
+                        start = new Date(vm.calendar.data[event.position].start);
+                    }
+                    var oldStartDate = start.getDate();
+                    start.setDate(oldStartDate + delta._days);
+                    vm.calendar.data[event.position].start = start;
+                }
+                if (vm.calendar.data[event.position].end) {
+                    var end;
+                    if (vm.calendar.data[event.position].end instanceof Date) {
+                        end = vm.calendar.data[event.position].end;
+                    }
+                    else {
+                        end = new Date(vm.calendar.data[event.position].end);
+                    }
+                    var oldEndDate = end.getDate();
+                    end.setDate(oldEndDate + delta._days);
+                    vm.calendar.data[event.position].end = end;
+                }
+                else {
+                    var end = new Date(m.calendar.data[event.position].start);
+                    var oldEndDate = end.getDate();
+                    end.setDate(oldEndDate + delta_.days);
+                    vm.calendar.data[event.position].end = end;
+                }
+                CalendarService.update(vm.calendar.id, vm.calendar.data, updateCalendar);
+
             }
 
 
