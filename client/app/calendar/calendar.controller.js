@@ -277,7 +277,7 @@
       }
 
       $mdDialog.show({
-        controller: DialogController,
+        controller: 'DialogController',
         controllerAs: 'dvm',
         templateUrl: 'static/app/new-item/new-item.template.html',
         parent: angular.element(document.body),
