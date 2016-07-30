@@ -53,7 +53,7 @@
                     </md-autocomplete>
                 </md-input-container>
                 <md-input-container class="md-block" flex-gt-sm>
-                    <md-select ng-model="vm.activity.repetitionType">
+                     <md-select ng-model="vm.activity.repetitionType" aria-label="select type">
                         <md-option ng-repeat="type in vm.repetitionTypes" value="{{type}}">{{type}}</md-option>
                     </md-select>
                 </md-input-container>
