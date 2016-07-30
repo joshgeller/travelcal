@@ -29,14 +29,105 @@
   {
 
     var vm = this;
-    var tripId = $location.search().tripId || -1;
+    vm.customFullscreen;
+    vm.events = [];
+    vm.eventSources = [];
+    vm.uiConfig = {};
 
+    // 'private' members
+    var tripId;
 
-    $scope.onEventClick = function ( date, jsEvent, view ) {
-      $scope.editActivity(jsEvent, vm.calendar.data[date.position], date.position);
+    // 'private' functions
+    var convertCalendarData = convertCalendarData;
+    var editActivity = editActivity;
+    var eventRender = eventRender; 
+    var goToTripStart = goToTripStart;
+    var init = init;
+    var onDayClick = onDayClick;
+    var onEventClick = onEventClick;
+    var onEventDrop = onEventDrop;
+    var onEventResize = onEventResize;
+    var updateCalendar =  updateCalendar;
+    var updateTrip = updateTrip;
+
+    init();
+
+    function init() {
+      tripId = $location.search().tripId || -1;
+      vm.customFullscreen = $mdMedia('xs') || $mdMedia('sm');
+
+      /* config object BASED ON CODE FROM CALENDAR DOCUMENTATION */
+      vm.uiConfig = {
+        calendar:{
+          height: 450,
+          editable: true,
+          header:{
+            left: 'title',
+            center: '',
+            right: 'today prev,next'
+          },
+          loading: goToTripStart,
+          eventRender: eventRender,
+          eventClick: onEventClick,
+          eventResize: onEventResize,
+          eventDrop: onEventDrop,
+          dayClick: onDayClick
+        }
+      };
+
+      if (tripId > -1) {
+        TripService.retrieve(tripId, function(result, response) {
+          if (result) {
+            vm.trip = response.data;
+            vm.title = vm.trip.name;
+            vm.tripStart = new Date(vm.trip.start_date);
+            goToTripStart(vm.tripStart);
+            vm.tripEnd = new Date(vm.trip.end_date);
+            var dateRange = {
+              color: '#f00',
+              events: [
+                {title: "TRIP START", start: vm.tripStart, class: 'start', allDay: true},
+                {title: "TRIP END", start: vm.tripEnd, class: 'end', allDay: true}
+              ]
+            };
+            vm.eventSources.push(dateRange);
+            vm.calendar = response.data.calendar;
+            if (vm.calendar.data) {
+              for (var i = 0; i < vm.calendar.data.length; i++) {
+                var newEvent = convertCalendarData(vm.calendar.data[i]);
+                if (newEvent != null) {
+                  newEvent.position = i;
+                  vm.events.push(newEvent);
+                }
+              }
+            }
+            vm.eventSources.push(vm.events);
+          }
+          else {
+            console.log("INVALID TRIP ID");
+          }
+        });
+      }
+
+      function convertCalendarData(event) {
+
+        if (event.hasOwnProperty("start") && event.start != null) {
+          event.start = new Date(event.start);
+        }
+        if (event.hasOwnProperty("end") && event.end != null) {
+          event.end  = new Date(event.end);
+        }
+        if (event.start) {
+          return event;
+        }
+      }
     }
 
-    $scope.onEventResize = function (event, delta, revertFunc, jsEvent, ui, view) {
+    function onEventClick( date, jsEvent, view ) {
+      editActivity(jsEvent, vm.calendar.data[date.position], date.position);
+    }
+
+    function onEventResize(event, delta, revertFunc, jsEvent, ui, view) {
       if (event.class != 'start' && event.class != 'end') {
         if (vm.calendar.data[event.position].end) {
           if (vm.calendar.data[event.position].end instanceof Date) {
@@ -66,7 +157,7 @@
       }
     }
 
-    $scope.onEventDrop = function(event, delta, revertFunc, jsEvent, ui, view) {
+    function onEventDrop(event, delta, revertFunc, jsEvent, ui, view) {
       if (event.class == 'start') {
         var start;
         if (vm.trip.start_date instanceof Date) {
@@ -138,58 +229,39 @@
       }
     }
 
-    $scope.onDayClick = function(date, jsEvent, view) {
-      $scope.editActivity(jsEvent, null, date._d);
+    function onDayClick(date, jsEvent, view) {
+      editActivity(jsEvent, null, date._d);
     }
 
     // Take the calendar to the appropriate month for the trip
-    $scope.goToTripStart = function(startDate) {
+    function goToTripStart(startDate) {
       uiCalendarConfig.calendars.tripCalendar.fullCalendar('gotoDate', startDate);
     }
 
 
-    /* config object BASED ON CODE FROM CALENDAR DOCUMENTATION */
-    $scope.uiConfig = {
-      calendar:{
-        height: 450,
-        editable: true,
-        header:{
-          left: 'title',
-          center: '',
-          right: 'today prev,next'
-        },
-        loading: $scope.goToTripStart,
-        eventRender: $scope.eventRender,
-        eventClick: $scope.onEventClick,
-        eventResize: $scope.onEventResize,
-        eventDrop: $scope.onEventDrop,
-        dayClick: $scope.onDayClick
-      }
-    };
 
     /* Render Tooltip COPIED FROM CALENDAR DOCUMENTATION */
-    $scope.eventRender = function( event, element, view ) {
+    function eventRender( event, element, view ) {
       element.attr({'tooltip': event.title, 'tooltip-append-to-body': true});
       $compile(element)($scope);
     };
 
 
-    var updateCalendar = function updateCalendar(status, message) {
+    function updateCalendar(status, message) {
       if (status) {
         vm.calendar.data = message.data.data;
       }
     };
 
-    var updateTrip = function updateTrip(status, message) {
+    function updateTrip(status, message) {
       if (status) {
         vm.trip = message.data;
       }
     };
 
-    $scope.customFullscreen = $mdMedia('xs') || $mdMedia('sm');
 
-    $scope.editActivity = function(ev, activityIn, keyIn) {
-      var useFullScreen = ($mdMedia('sm') || $mdMedia('xs'))  && $scope.customFullscreen;
+    function editActivity(ev, activityIn, keyIn) {
+      var useFullScreen = ($mdMedia('sm') || $mdMedia('xs'))  && vm.customFullscreen;
       var activity = {};
       var edit = false;
       var start = undefined;
@@ -235,12 +307,12 @@
             }
             if (keyIn != null && typeof keyIn == 'integer') {
               vm.calendar.data[keyIn] = activity;
-              $scope.eventSources[1][keyIn] = convertCalendarData(activity);
+              vm.eventSources[1][keyIn] = convertCalendarData(activity);
             }
             else {
               vm.calendar.data.push(activity);
               activity.position = vm.calendar.length - 1;
-              $scope.eventSources[1].push(convertCalendarData(activity));
+              vm.eventSources[1].push(convertCalendarData(activity));
             }
           }
           CalendarService.update(vm.calendar.id, vm.calendar.data, updateCalendar);
@@ -252,60 +324,11 @@
         $scope.$watch(function() {
           return $mdMedia('xs') || $mdMedia('sm');
         }, function(wantsFullScreen) {
-          $scope.customFullscreen = (wantsFullScreen === true);
+          vm.customFullscreen = (wantsFullScreen === true);
         });
     };
-
-    if (tripId > -1) {
-      $scope.eventSources = [];
-
-      TripService.retrieve(tripId, function(result, response) {
-        if (result) {
-          vm.trip = response.data;
-          vm.title = vm.trip.name;
-          vm.tripStart = new Date(vm.trip.start_date);
-          $scope.goToTripStart(vm.tripStart);
-          vm.tripEnd = new Date(vm.trip.end_date);
-          var dateRange = {
-            color: '#f00',
-            events: [
-              {title: "TRIP START", start: vm.tripStart, class: 'start', allDay: true},
-              {title: "TRIP END", start: vm.tripEnd, class: 'end', allDay: true}
-            ]
-          };
-          $scope.eventSources.push(dateRange);
-          vm.calendar = response.data.calendar;
-          $scope.events = [];
-          if (vm.calendar.data) {
-            for (var i = 0; i < vm.calendar.data.length; i++) {
-              var newEvent = convertCalendarData(vm.calendar.data[i]);
-              if (newEvent != null) {
-                newEvent.position = i;
-                $scope.events.push(newEvent);
-              }
-            }
-          }
-          $scope.eventSources.push($scope.events);
-        }
-        else {
-          console.log("INVALID TRIP ID");
-        }
-      });
-    }
   }
 
 })();
 
-function convertCalendarData(event) {
-
-  if (event.hasOwnProperty("start") && event.start != null) {
-    event.start = new Date(event.start);
-  }
-  if (event.hasOwnProperty("end") && event.end != null) {
-    event.end  = new Date(event.end);
-  }
-  if (event.start) {
-    return event;
-  }
-}
 
