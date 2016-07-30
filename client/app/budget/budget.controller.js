@@ -59,16 +59,6 @@
         vm.total = 0;
         vm.calendar = {};
 
-        //        // TODO replace this with actually passing the correct trip to the budget
-        //        var getTrips = function getTrips(status, message) {
-        //            if(status) {
-        //                vm.trip = message.data[0];
-        //                vm.calendar = vm.trip.calendar;
-        //            }
-        //        }
-        //        TripService.list(getTrips);
-        //
-
         if (tripId > -1) {
             TripService.retrieve(tripId, function(result, response) {
                 if (result) {

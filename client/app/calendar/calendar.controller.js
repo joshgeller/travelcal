@@ -224,7 +224,6 @@
 
             }
 
-            console.log(start);
             $mdDialog.show({
                 controller: DialogController,
                 controllerAs: 'dvm',
@@ -251,7 +250,6 @@
                         activity.quantity = 1;
                     }
                     if (vm.calendar.data == null) {
-                        console.log(vm.calendar.data);
                         vm.calendar.data = [];
                     }
                     if (keyIn != null) {
@@ -259,7 +257,6 @@
                         $scope.eventSources[1][keyIn] = convertCalendarData(activity);
                     }
                     else {
-                        console.log(vm.calendar);
                         vm.calendar.data.push(activity);
                         activity.position = vm.calendar.length - 1;
                         $scope.eventSources[1].push(convertCalendarData(activity));

@@ -48,7 +48,6 @@
                 days.forEach(function(value, index, array) {
                     var emptyDate = undefined;
                     if (vm.activity.days[value].start) {
-                        console.log(vm.activity.days[value].end)
                         vm.activity.days[value].start = new Date(vm.activity.days[value].start);
                     }
                     if (vm.activity.days[value].end) {
