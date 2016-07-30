@@ -20,7 +20,7 @@
         var vm = this;
 
 //       var  tripId = $location.search().tripId || -1;
-        var tripId = 13;
+        var tripId = 11;
         if (tripId > -1) {
             $scope.eventSources = [];
 
@@ -75,9 +75,15 @@
                         vm.calendar.data[event.position].end = end;
                     }
                     else {
-                        var end = new Date(m.calendar.data[event.position].start);
+                        var end;
+                        if (vm.calendar.data[event.position].start instanceof Date) {
+                            end = vm.calendar.data[event.position].start;
+                        }
+                        else {
+                            end = new Date(vm.calendar.data[event.position].start);
+                        }
                         var oldEndDate = end.getDate();
-                        end.setDate(oldEndDate + delta_.days);
+                        end.setDate(oldEndDate + delta._days);
                         vm.calendar.data[event.position].end = end;
                     }
                     CalendarService.update(vm.calendar.id, vm.calendar.data, updateCalendar);
@@ -246,13 +252,14 @@
                     }
                 }
                 else {
+
                     if (!activity.quantity){
                         activity.quantity = 1;
                     }
                     if (vm.calendar.data == null) {
                         vm.calendar.data = [];
                     }
-                    if (keyIn != null) {
+                    if (keyIn != null && typeof keyIn == 'integer') {
                         vm.calendar.data[keyIn] = activity;
                         $scope.eventSources[1][keyIn] = convertCalendarData(activity);
                     }
@@ -262,7 +269,6 @@
                         $scope.eventSources[1].push(convertCalendarData(activity));
                     }
                 }
-
                 CalendarService.update(vm.calendar.id, vm.calendar.data, updateCalendar);
 
             }, function() {
