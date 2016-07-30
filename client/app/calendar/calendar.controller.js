@@ -20,7 +20,7 @@
         var vm = this;
 
 //       var  tripId = $location.search().tripId || -1;
-        var tripId = 13;
+        var tripId = 11;
         if (tripId > -1) {
             $scope.eventSources = [];
 
@@ -246,13 +246,14 @@
                     }
                 }
                 else {
+
                     if (!activity.quantity){
                         activity.quantity = 1;
                     }
                     if (vm.calendar.data == null) {
                         vm.calendar.data = [];
                     }
-                    if (keyIn != null) {
+                    if (keyIn != null && typeof keyIn == 'integer') {
                         vm.calendar.data[keyIn] = activity;
                         $scope.eventSources[1][keyIn] = convertCalendarData(activity);
                     }
@@ -262,7 +263,6 @@
                         $scope.eventSources[1].push(convertCalendarData(activity));
                     }
                 }
-
                 CalendarService.update(vm.calendar.id, vm.calendar.data, updateCalendar);
 
             }, function() {

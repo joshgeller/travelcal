@@ -161,7 +161,8 @@
                 fullscreen: useFullScreen,
                 locals: {
                     edit: edit,
-                    activity: activity
+                    activity: activity,
+                    start: undefined
                 }
             })
                 .then(function(activity) {
