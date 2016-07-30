@@ -33,8 +33,8 @@
                     vm.tripEnd = new Date(vm.trip.end_date);
                     $scope.eventSources.push({color: '#f00', events: [{title: "TRIP START", start: vm.tripStart, allDay: true}, {title: "TRIP END", start: vm.tripEnd, allDay: true}]});
                     vm.calendar = response.data.calendar;
+                    $scope.events = [];
                     if (vm.calendar.data) {
-                        $scope.events = [];
                         for (var i = 0; i < vm.calendar.data.length; i++) {
                             var newEvent = convertCalendarData(vm.calendar.data[i]);
                             if (newEvent != null) {
@@ -42,8 +42,8 @@
                                 $scope.events.push(newEvent);
                             }
                         }
-                        $scope.eventSources.push($scope.events);
                     }
+                    $scope.eventSources.push($scope.events);
                 }
                 else {
                     console.log("INVALID TRIP ID");
@@ -201,7 +201,7 @@
                     else {
                         console.log(vm.calendar);
                         vm.calendar.data.push(activity);
-                        activity.position = vm.calendar.length;
+                        activity.position = vm.calendar.length - 1;
                         $scope.eventSources[1].push(convertCalendarData(activity));
                     }
                 }
