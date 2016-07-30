@@ -55,7 +55,6 @@
 
             $scope.onEventResize = function (event, delta, revertFunc, jsEvent, ui, view) {
                 if (vm.calendar.data[event.position].end) {
-                    var end;
                     if (vm.calendar.data[event.position].end instanceof Date) {
                         end = vm.calendar.data[event.position].end;
                     }
@@ -117,7 +116,7 @@
             }
 
 
-            /* config object */
+            /* config object COPIED FROM CALENDAR DOCUMENTATION */
             $scope.uiConfig = {
                 calendar:{
                     height: 450,
@@ -134,36 +133,7 @@
                 }
             };
 
-
-
-            /* add and removes an event source of choice */
-            $scope.addRemoveEventSource = function(sources,source) {
-              var canAdd = 0;
-              angular.forEach(sources,function(value, key){
-                if(sources[key] === source){
-                  sources.splice(key,1);
-                  canAdd = 1;
-                }
-              });
-              if(canAdd === 0){
-                sources.push(source);
-              }
-            };
-            /* remove event */
-            $scope.remove = function(index) {
-              $scope.events.splice(index,1);
-            };
-            /* Change View */
-            $scope.changeView = function(view,calendar) {
-              uiCalendarConfig.calendars[calendar].fullCalendar('changeView',view);
-            };
-            /* Change View */
-            $scope.renderCalender = function(calendar) {
-              if(uiCalendarConfig.calendars[calendar]){
-                uiCalendarConfig.calendars[calendar].fullCalendar('render');
-              }
-            };
-             /* Render Tooltip */
+             /* Render Tooltip COPIED FROM CALENDAR DOCUMENTATION */
             $scope.eventRender = function( event, element, view ) {
                 element.attr({'tooltip': event.title, 'tooltip-append-to-body': true});
                 $compile(element)($scope);
