@@ -101,9 +101,15 @@
                     vm.calendar.data[event.position].end = end;
                 }
                 else {
-                    var end = new Date(m.calendar.data[event.position].start);
+                    var end;
+                    if (vm.calendar.data[event.position].start instanceof Date) {
+                        end = vm.calendar.data[event.position].start;
+                    }
+                    else {
+                        end = new Date(vm.calendar.data[event.position].start);
+                    }
                     var oldEndDate = end.getDate();
-                    end.setDate(oldEndDate + delta_.days);
+                    end.setDate(oldEndDate + delta._days);
                     vm.calendar.data[event.position].end = end;
                 }
                 CalendarService.update(vm.calendar.id, vm.calendar.data, updateCalendar);
