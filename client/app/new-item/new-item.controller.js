@@ -26,21 +26,20 @@
         if ($scope.$parent.dvm.activity) {
             vm.activity = $scope.$parent.dvm.activity;
         }
-
         if (vm.edit) {
             vm.title = "Edit Activity";
-            if (vm.activity.startsAt) {
-                vm.activity.startsAt = new Date(vm.activity.startsAt);
+            if (vm.activity.start) {
+                vm.activity.start = new Date(vm.activity.start);
             }
             else {
-                vm.activity.startsAt = undefined;
+                vm.activity.start = undefined;
             }
 
-            if (vm.activity.endsAt) {
-                vm.activity.endsAt = new Date(vm.activity.endsAt);
+            if (vm.activity.end) {
+                vm.activity.end = new Date(vm.activity.end);
             }
             else {
-                vm.activity.endsAt = undefined;
+                vm.activity.end = undefined;
             }
 
 
@@ -49,7 +48,6 @@
                 days.forEach(function(value, index, array) {
                     var emptyDate = undefined;
                     if (vm.activity.days[value].start) {
-                        console.log(vm.activity.days[value].end)
                         vm.activity.days[value].start = new Date(vm.activity.days[value].start);
                     }
                     if (vm.activity.days[value].end) {
@@ -67,6 +65,10 @@
             vm.activity = {};
             vm.activity.quantity = 1;
             vm.activity.repetitionType = "total";
+            vm.activity.allDay = true;
+            if($scope.$parent.dvm.start) {
+                vm.activity.start = $scope.$parent.dvm.start;
+            }
         }
 
         vm.toggle = function (item, list) {
@@ -115,10 +117,5 @@
             vm.activity.currency = currentCurrency;
             return;
         }
-          // Not being used if the item is added via the budget
-//        vm.submit = function () {
-//            vm.activity = {};
-//            vm.NewItemForm.$setPristine();
-//        }
     }
 })();

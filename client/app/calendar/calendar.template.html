@@ -1,0 +1,12 @@
+<md-content class="travelcal-calendar">
+    <md-card>
+        <md-card-title>
+            <md-card-title-text>
+                <h1>{{vm.title}}</h1>
+            </md-card-title-text>
+        </md-card-title>
+        <md-card-content>
+            <div ui-calendar="vm.uiConfig.calendar" ng-model="vm.eventSources" calendar="tripCalendar"></div>
+        </md-card-content>
+    </md-card>
+</md-content>

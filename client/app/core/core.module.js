@@ -10,7 +10,8 @@
       'ngStorage',
       'ngMessages',
       'ngStorage',
-      'ui.router'
+      'ui.router',
+      'ui.calendar'
     ])
     .config(function($mdThemingProvider) {
       $mdThemingProvider

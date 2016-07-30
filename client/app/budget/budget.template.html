@@ -40,13 +40,13 @@
                             {{(item.currency != vm.baseCurrency) ? (item.cost * item.quantity / vm.currencies.rates[item.currency] | number:2) :  (item.cost * item.quantity | number:2)}} {{vm.baseCurrency}}
                         </div>
                         <div>
-                            {{item.startsAt | date : shortDate}}
+                            {{item.start | date : shortDate}}
                         </div>
-                        <div ng-if="item.endsAt != item.startsAt && item.endsAt">
+                        <div ng-if="item.end != item.start && item.end">
                             -
                         </div>
-                        <div ng-if="item.endsAt != item.startsAt">
-                            {{item.endsAt | date : shortDate}}
+                        <div ng-if="item.end != item.start">
+                            {{item.end | date : shortDate}}
                         </div>
                         <span flex ng-if="item.url"></span>
                         <div>
@@ -75,11 +75,12 @@
                             <md-not-found>
                                 No currencies matching "{{vm.searchText}}" were found.
                             </md-not-found>
-                        </md-auto>
+                        </md-autocomplete>
                     </md-input-container></h4>
                 </md-list-item>
             </md-list>
-          <md-button class="md-raised" ng-click="editActivity($event)">Add Activity</md-button>
+          <md-button class="md-raised" ng-click="vm.editActivity($event)">Add Activity</md-button>
+          <md-button class="md-raised" ng-click="vm.loadCalendar()">Load Calendar</md-button>
         </md-card-content>
     </md-card>
 </md-content>

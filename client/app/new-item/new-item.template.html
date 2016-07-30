@@ -13,12 +13,17 @@
             <div layout-gt-sm="row">
                 <div class="md-block" flex-gt-sm>
                     <label>Start</label>
-                    <md-datepicker class="md-block" ng-model="vm.activity.startsAt" md-placeholder="Start date" ng-required="!vm.activity.cost"></md-datepicker>
+                    <md-datepicker class="md-block" ng-model="vm.activity.start" md-placeholder="Start date" ng-required="!vm.activity.cost" md-open-on-focus></md-datepicker>
                 </div>
                 <div class="md-block" flex-gt-sm>
                     <label>End</label>
-                    <md-datepicker class="md-block" ng-model="vm.activity.endsAt" md-min-date="vm.activity.startsAt" md-placeholder="End date">End</md-datepicker>
+                    <md-datepicker class="md-block" ng-model="vm.activity.end" md-min-date="vm.activity.start" md-placeholder="End date" md-open-on-focus>End</md-datepicker>
                 </div>
+                <div class="md-block" flex-gt-sm>
+                    <md-checkbox ng-model="vm.activity.allDay">All Day Event</md-checkbox>
+                </div>
+            </div>
+            <div layout-gt-sm="row">
                 <md-input-container class="md-block" flex-gt-sm>
                     <input type="text" class="md-block" ng-model="vm.activity.url" placeholder="Link">
                 </md-input-container>
@@ -48,7 +53,7 @@
                     </md-autocomplete>
                 </md-input-container>
                 <md-input-container class="md-block" flex-gt-sm>
-                    <md-select ng-model="vm.activity.repetitionType">
+                     <md-select ng-model="vm.activity.repetitionType" aria-label="select type">
                         <md-option ng-repeat="type in vm.repetitionTypes" value="{{type}}">{{type}}</md-option>
                     </md-select>
                 </md-input-container>
