@@ -19,9 +19,22 @@
                         {{trip.start_date}} - {{trip.end_date}}
                     </div>
                     <div flex=""></div>
-                    <div>
-                        <md-button class="md-fab" aria-label="edit trip" ng-click="vm.editTrip(trip)" ng-show="vm.showOptions[$index]">
+                    <div layout="row">
+                        <md-button 
+                            class="md-fab" 
+                            aria-label="edit trip {{trip.name}}" 
+                            ng-click="vm.editTrip(trip)" 
+                            ng-show="vm.showOptions[$index]"
+                            >
                             <ng-md-icon icon="mode_edit" style="fill: white"></ng-md-icon>
+                        </md-button>
+                        <md-button 
+                            class="md-fab" 
+                            aria-label="delete trip {{trip.name}}" 
+                            ng-click="vm.deleteTrip(trip)" 
+                            ng-show="vm.showOptions[$index]"
+                            >
+                            <ng-md-icon icon="delete_forever" style="fill: red"></ng-md-icon>
                         </md-button>
                     </div>
                 </md-list-item>

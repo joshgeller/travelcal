@@ -17,6 +17,7 @@
   function TriplistController($http, $scope, $location, $mdDialog, $mdMedia, TripService) {
     var vm = this;
     vm.changeHighlighted = changeHighlighted;
+    vm.deleteTrip = deleteTrip;
     vm.editTrip = editTrip;
     vm.loadTrip = loadTrip;
     vm.newTrip = newTrip;
@@ -26,6 +27,24 @@
     function changeHighlighted(index) {
       vm.showOptions = {};
       vm.showOptions[index] = true;
+    }
+
+    function deleteTrip(trip) {
+      var confirm = $mdDialog.confirm()
+        .title('Delete trip?')
+        .ariaLabel('Delete trip ' + trip.name + '?')
+        .targetEvent(event)
+        .ok('YES')
+        .cancel('CANCEL');
+
+      $mdDialog.show(confirm).then(function() {
+        TripService.destroy(trip.id)
+          .then(function (response) {
+            TripService.list(updateTrips);
+          });
+      }, function() {
+        $scope.status = 'jens';
+      });
     }
 
     function editTrip(trip) {
