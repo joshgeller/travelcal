@@ -13,3 +13,17 @@ body {
 .navbar-inverse {
   border-radius: 0;
 }
+
+#travelcal-main {
+  .travelcal-triplist {
+    md-card._md {
+      md-card-content {
+        md-list {
+          md-list-item.highlight-row {
+            background-color: lightgrey;
+          }
+        }
+      }
+    }
+  }
+}

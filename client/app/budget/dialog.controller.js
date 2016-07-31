@@ -15,23 +15,52 @@
     vm.edit = locals.edit;
     vm.activity = locals.activity;
     vm.start = locals.start;
-    vm.hide = function() {
-      $mdDialog.hide();
-    };
+    vm.trip = locals.trip;
+    vm.updatingTrip = false;
 
-    vm.add = function(answer) {
+    vm.add = add;
+    vm.deleteActivity = deleteActivity;
+    vm.hide = hide;
+    vm.cancel = cancel;
+    vm.update = update;
+    vm.updateTrip = updateTrip;
+
+    init();
+
+    function init() {
+      if (vm.trip) {
+        vm.updatingTrip = true;
+        vm.trip.start = new Date(vm.trip.start_date);
+        vm.trip.end = new Date(vm.trip.end_date);
+      }
+    }
+
+    function updateTrip(answer) {
+      console.log('updating');
+      answer.updating = true;
       $mdDialog.hide(answer);
     }
 
-    vm.cancel = function() {
+    function hide() {
+      console.log('hiding');
+      $mdDialog.hide();
+    };
+
+    function add(answer) {
+      console.log('adding trip');
+      $mdDialog.hide(answer);
+    }
+
+    function cancel() {
+      console.log('canceling');
       $mdDialog.cancel();
     };
 
-    vm.deleteActivity = function() {
+    function deleteActivity() {
       $mdDialog.hide(true);
     }
 
-    vm.update = function(activity) {
+    function update(activity) {
       if (!activity.currency) {
         activity.currency = 'USD';
       }

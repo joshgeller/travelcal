@@ -54,21 +54,45 @@
     }
 
     function update(tripId, data, callback) {
-      return $http.patch('/api/v1/trips/' + tripId + '/', data)
-      .then(function(res) {
-        callback(true, res);
-      }, function(res) {
-        callback(false, res);
+      var _data = {};
+
+      _data.name = data.name;
+      _data.start_date = formatDate(data.start) || data.start_date;
+      _data.end_date = formatDate(data.end) || data.end_date;
+
+
+      return $http.patch('/api/v1/trips/' + tripId + '/', _data)
+        .then(function(res) {
+          callback(true, res);
+
+        }, function(res) {
+          callback(false, res);
+
       })
     }
 
     function destroy(tripId, callback) {
       return $http.delete('/api/v1/trips/' + tripId + '/')
-      .then(function(res) {
-        callback(true, res);
-      }, function(res) {
-        callback(false, res);
+        .then(function(res) {
+          if (callback) {
+            callback(true, res);
+          }
+          else {
+            return res;
+          }
+        }, function(res) {
+          if (callback) {
+            callback(false, res);
+          }
+          else {
+            return res;
+          }
       })
+    }
+
+
+    function formatDate(value) {
+      return JSON.stringify(value).slice(1,11);
     }
 
   }

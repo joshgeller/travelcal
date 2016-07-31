@@ -16,8 +16,40 @@
 
   function TriplistController($http, $scope, $location, $mdDialog, $mdMedia, TripService) {
     var vm = this;
+    vm.changeHighlighted = changeHighlighted;
+    vm.deleteTrip = deleteTrip;
+    vm.editTrip = editTrip;
     vm.loadTrip = loadTrip;
+    vm.newTrip = newTrip;
+    vm.showOptions = {};
     vm.trips = [];
+
+    function changeHighlighted(index) {
+      vm.showOptions = {};
+      vm.showOptions[index] = true;
+    }
+
+    function deleteTrip(trip) {
+      var confirm = $mdDialog.confirm()
+        .title('Delete trip?')
+        .ariaLabel('Delete trip ' + trip.name + '?')
+        .targetEvent(event)
+        .ok('YES')
+        .cancel('CANCEL');
+
+      $mdDialog.show(confirm).then(function() {
+        TripService.destroy(trip.id)
+          .then(function (response) {
+            TripService.list(updateTrips);
+          });
+      }, function() {
+        // on cancel do this ... 
+      });
+    }
+
+    function editTrip(trip) {
+      showDialog(trip);
+    }
 
     function loadTrip(trip) {
       $location.path('/budget').search({tripId: trip.id});
@@ -28,13 +60,18 @@
         vm.trips = message.data;
       }
     };
+
     TripService.list(updateTrips);
 
-    $scope.status = '  ';
-    $scope.customFullscreen = $mdMedia('xs') || $mdMedia('sm');
 
 
-    $scope.newTrip = function(ev) {
+    function newTrip(trip) {
+      showDialog(null);
+    }
+
+    function showDialog(trip) {
+      $scope.status = '  ';
+      $scope.customFullscreen = $mdMedia('xs') || $mdMedia('sm');
       var useFullScreen = ($mdMedia('sm') || $mdMedia('xs'))  && $scope.customFullscreen;
 
       var addTrip = function addTrip(status, message) {
@@ -48,12 +85,12 @@
         controllerAs: 'dvm',
         templateUrl: 'static/app/triplist/new-trip.template.html',
         locals: {
-          edit: true,
+          edit: false,
           activity: undefined,
-          start: undefined
+          start: undefined,
+          trip: trip
         },
         parent: angular.element(document.body),
-        targetEvent: ev,
         clickOutsideToClose:true,
         fullscreen: useFullScreen
       })
@@ -65,8 +102,13 @@
           $scope.tripEnd = $scope.tripEnd.slice(1,11);
 
           $scope.tripName = answer.name;
-
-          TripService.create($scope.tripName, $scope.tripStart, $scope.tripEnd, addTrip);
+        
+          if (answer.updating) {
+            TripService.update(answer.id, answer, addTrip); 
+          }
+          else {
+            TripService.create($scope.tripName, $scope.tripStart, $scope.tripEnd, addTrip);
+          }
 
         }, function() {
           $scope.status = 'No trip was added.';
@@ -77,7 +119,7 @@
         }, function(wantsFullScreen) {
           $scope.customFullscreen = (wantsFullScreen === true);
         });
-    };
+    }
   }
 })();
 
