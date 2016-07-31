@@ -43,7 +43,7 @@
             TripService.list(updateTrips);
           });
       }, function() {
-        $scope.status = 'jens';
+        // on cancel do this ... 
       });
     }
 
