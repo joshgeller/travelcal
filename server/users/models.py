@@ -1,4 +1,5 @@
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
+from django.core.mail import send_mail
 from django.db import models
 
 
@@ -36,6 +37,15 @@ class Account(AbstractBaseUser):
 
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = []
+
+    def send_email(self, subject, message, fail_silently=False):
+        send_mail(
+            subject,
+            message,
+            'reminder@travelcal.me',
+            [self.email],
+            fail_silently
+        )
 
     def __unicode__(self):
         return self.email

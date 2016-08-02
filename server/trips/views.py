@@ -21,9 +21,9 @@ class TripViewSet(viewsets.ModelViewSet):
         """
         Only return Trips associated with the current user.
         """
-        # account = self.request.user
-        # return Trip.objects.filter(account=account)
-        return Trip.objects.all()
+        account = self.request.user
+        return Trip.objects.filter(account=account)
+        # return Trip.objects.all()
 
     @detail_route(methods=['get'])
     def pdf(self, request, pk=None, *args, **kwargs):
