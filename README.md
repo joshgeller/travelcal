@@ -70,6 +70,20 @@ Base Ubuntu 14.04 installation (or other installation compatible with below pack
 
 ### PDF Generation dependencies
 
-Install `wkhtmltopdf`
+Install `wkhtmltopdf` binary, or build from source.
 
 http://wkhtmltopdf.org/downloads.html
+
+### Sendgrid configuration
+
+To avoid storing plaintext username/password in the public repo, Sendgrid reads
+this information from OS environment variables. Make sure to set the
+`SENDGRID_USERNAME` and `SENDGRID_PASSWORD` environment variables on the
+target OS.
+
+### Cron jobs
+
+Configure crontab to run this command in order to send email reminders
+each day at midnight:
+
+`* 0 * * * python3 manage.py send_email_reminders >/dev/null 2>&1`
