@@ -108,8 +108,9 @@
           }
         });
       }
+    }
 
-      function convertCalendarData(event) {
+          function convertCalendarData(event) {
 
         if (event.hasOwnProperty("start") && event.start != null) {
           event.start = new Date(event.start);
@@ -121,7 +122,6 @@
           return event;
         }
       }
-    }
 
     function onEventClick( date, jsEvent, view ) {
       editActivity(jsEvent, vm.calendar.data[date.position], date.position);
