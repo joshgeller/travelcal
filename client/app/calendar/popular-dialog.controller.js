@@ -6,11 +6,13 @@
     .controller('PopularDialogController', PopularDialogController);
 
   PopularDialogController.$inject = [
-    '$mdDialog'
+    '$mdDialog',
+    '$scope'
   ];
 
-  function PopularDialogController($mdDialog) {
+  function PopularDialogController($mdDialog, $scope) {
     var vm = this;
+    vm.addActivity = addActivity;
     init();
 
     function init() {
