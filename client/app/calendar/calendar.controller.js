@@ -363,22 +363,8 @@
         .then(function(activity) {
             console.log(activity);
             console.log("completed");
-//            if (!activity.quantity){
-//              activity.quantity = 1;
-//            }
-//            if (vm.calendar.data == null) {
-//              vm.calendar.data = [];
-//            }
-//            if (keyIn != null && typeof keyIn == 'integer') {
-//              vm.calendar.data[keyIn] = activity;
-//              vm.eventSources[1][keyIn] = convertCalendarData(activity);
-//            }
-//            else {
-//              vm.calendar.data.push(activity);
-//              activity.position = vm.calendar.length - 1;
-//              vm.eventSources[1].push(convertCalendarData(activity));
-//            }
-//            CalendarService.update(vm.calendar.id, vm.calendar.data, updateCalendar);
+
+            editActivity(ev, activity);
 
         }, function() {
           console.log('You cancelled the dialog.');
@@ -390,13 +376,6 @@
           vm.customFullscreen = (wantsFullScreen === true);
         });
     };
-
-
-
-
-
-
-
 
   }
 
