@@ -1,0 +1,14 @@
+<md-card style="display:inline-block">
+    <md-card-title>
+        <h3>Popular Activities</h3>
+    </md-card-title>
+    <md-card-content>
+        <md-list-item ng-repeat="activity in vm.popular_activities" ng-click="addToTrip(activity, $event)">
+            <div>
+                <h5>{{activity.title}}</h5>
+                <h6>{{activity.address.formatted_address}}</h6>
+            </div>
+        </md-list-item>
+    </md-card-content>
+</md-card>
+

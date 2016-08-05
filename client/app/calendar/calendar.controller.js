@@ -166,11 +166,20 @@
         else {
           start = new Date(vm.trip.start_date);
         }
+        if (vm.trip.end_date instanceof Date) {
+          end = vm.trip.end_date;
+        }
+        else {
+          end = new Date(vm.trip.end_date);
+        }
+        vm.trip.end = end;
         var oldStartDate = start.getDate();
         start.setDate(oldStartDate + delta._days);
+        vm.trip.start = start;
         start = JSON.stringify(start);
         vm.trip.start_date = start.slice(1,11);
-        //                    TripService.update(vm.trip.id, vm.trip, updateTrip);
+        console.log(vm.trip);
+        TripService.update(vm.trip.id, vm.trip, updateTrip);
 
       }
       else if (event.class = 'end') {
@@ -181,11 +190,20 @@
         else {
           end = new Date(vm.trip.end_date);
         }
+        if (vm.trip.start_date instanceof Date) {
+          start = vm.trip.start_date;
+        }
+        else {
+          start = new Date(vm.trip.start_date);
+        }
+        vm.trip.start = start;
         var oldEndDate = end.getDate();
         end.setDate(oldEndDate + delta._days);
+        vm.trip.end = end;
         end = JSON.stringify(end);
         vm.trip.end_date = end.slice(1,11);
-        //                    TripService.update(vm.trip.id, vm.trip, updateTrip);
+        console.log(vm.trip);
+        TripService.update(vm.trip.id, vm.trip, updateTrip);
       }
       else {
         if (vm.calendar.data[event.position].start) {
