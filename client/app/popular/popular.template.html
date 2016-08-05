@@ -1,10 +1,10 @@
-<md-card style="display:inline-block">
+<md-card style="display:inline-block" ng-controller="PopularController as vm">
     <md-card-title>
         <h3>Popular Activities</h3>
     </md-card-title>
     <md-card-content>
         <input ng-model="query" type="text" placeholder="Filter by location">
-        <md-list-item ng-repeat="activity in vm.popular_activities | filter:query | orderBy: 'popularityScore' : true" ng-click="addToTrip(activity, $event)">
+        <md-list-item ng-repeat="activity in vm.popular_activities | filter:query | orderBy: 'popularityScore' : true" ng-click="dvm.addActivity(activity)">
             <div flex>
                 <h5>{{activity.title}}</h5>
                 <h6>{{activity.address.formatted_address}}</h6>

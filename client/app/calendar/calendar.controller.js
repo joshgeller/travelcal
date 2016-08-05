@@ -345,6 +345,59 @@
           vm.customFullscreen = (wantsFullScreen === true);
         });
     };
+
+    vm.customFullscreen = $mdMedia('xs') || $mdMedia('sm');
+
+    vm.popularActivities = function (ev) {
+      var useFullScreen = ($mdMedia('sm') || $mdMedia('xs'))  && vm.customFullscreen;
+
+      $mdDialog.show({
+        controller: 'PopularDialogController',
+        controllerAs: 'dvm',
+        templateUrl: 'static/app/popular/popular.template.html',
+        parent: angular.element(document.body),
+        targetEvent: ev,
+        clickOutsideToClose:true,
+        fullscreen: useFullScreen
+      })
+        .then(function(activity) {
+            console.log(activity);
+            console.log("completed");
+//            if (!activity.quantity){
+//              activity.quantity = 1;
+//            }
+//            if (vm.calendar.data == null) {
+//              vm.calendar.data = [];
+//            }
+//            if (keyIn != null && typeof keyIn == 'integer') {
+//              vm.calendar.data[keyIn] = activity;
+//              vm.eventSources[1][keyIn] = convertCalendarData(activity);
+//            }
+//            else {
+//              vm.calendar.data.push(activity);
+//              activity.position = vm.calendar.length - 1;
+//              vm.eventSources[1].push(convertCalendarData(activity));
+//            }
+//            CalendarService.update(vm.calendar.id, vm.calendar.data, updateCalendar);
+
+        }, function() {
+          console.log('You cancelled the dialog.');
+        });
+
+        $scope.$watch(function() {
+          return $mdMedia('xs') || $mdMedia('sm');
+        }, function(wantsFullScreen) {
+          vm.customFullscreen = (wantsFullScreen === true);
+        });
+    };
+
+
+
+
+
+
+
+
   }
 
 })();

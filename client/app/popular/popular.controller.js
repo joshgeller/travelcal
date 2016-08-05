@@ -60,56 +60,5 @@
                                 {"title": "Modern Art Museum", "address": {"formatted_address": "123 Main St, New York, NY 10019, USA"}, "popularityScore": 50},
                                 {"title": "Forest Park", "address": {"formatted_address": "11194 NW Germantown Rd, Portland, OR 97229, USA"}, "popularityScore": 99}]
 
-
-        vm.customFullscreen = $mdMedia('xs') || $mdMedia('sm');
-
-        $scope.addToTrip = function (activity, event) {
-            var useFullScreen = ($mdMedia('sm') || $mdMedia('xs'))  && vm.customFullscreen;
-            var edit = true;
-
-            $mdDialog.show({
-                controller: 'DialogController',
-                controllerAs: 'dvm',
-                templateUrl: 'static/app/new-item/new-item.template.html',
-                parent: angular.element(document.body),
-                targetEvent: event,
-                clickOutsideToClose:true,
-                fullscreen: useFullScreen,
-                locals: {
-                    edit: edit,
-                    activity: activity,
-                    start: undefined
-                }
-            })
-            .then(function(activity) {
-
-                if (!activity.quantity){
-                    activity.quantity = 1;
-                }
-                if (vm.calendar.data == null) {
-                    vm.calendar.data = {};
-                }
-                if (keyIn != null) {
-                    vm.calendar.data[keyIn] = activity;
-                    vm.updateCurrency(vm.baseCurrency);
-                }
-                else {
-                    vm.calendar.data.push(activity);
-                    vm.updateCurrency(vm.baseCurrency);
-                }
-
-                CalendarService.update(vm.calendar.id, vm.calendar.data, updateCalendar);
-
-            }, function() {
-                $scope.status = 'You cancelled the dialog.';
-            });
-
-            $scope.$watch(function() {
-                return $mdMedia('xs') || $mdMedia('sm');
-            }, function(wantsFullScreen) {
-                vm.customFullscreen = (wantsFullScreen === true);
-            });
-
-        }
     }
 })();
