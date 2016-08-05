@@ -3,11 +3,14 @@
         <h3>Popular Activities</h3>
     </md-card-title>
     <md-card-content>
-        <md-list-item ng-repeat="activity in vm.popular_activities" ng-click="addToTrip(activity, $event)">
-            <div>
+        <input ng-model="query" type="text" placeholder="Filter by location">
+        <md-list-item ng-repeat="activity in vm.popular_activities | filter:query | orderBy: 'popularityScore' : true" ng-click="addToTrip(activity, $event)">
+            <div flex>
                 <h5>{{activity.title}}</h5>
                 <h6>{{activity.address.formatted_address}}</h6>
             </div>
+            <h5>{{activity.popularityScore}}</h5>
+
         </md-list-item>
     </md-card-content>
 </md-card>
