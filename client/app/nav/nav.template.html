@@ -13,14 +13,15 @@
         <i class='fa fa-plane'></i>
         TravelCal
       </a>
+      <a ng-show="vm.authenticated">Stuff</a>
     </div>
 
     <!-- Collect the nav links, forms, and other content for toggling -->
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
       <md-menu class="pull-right">
-          <md-button 
-            ng-click="vm.openMenu($mdOpenMenu, $event)" 
-            class="md-icon-button" 
+          <md-button
+            ng-click="vm.openMenu($mdOpenMenu, $event)"
+            class="md-icon-button"
             aria-label="Open some menu"
             >
             <ng-md-icon md-menu-origin="" icon="menu" style="fill: white"></mg-md-icon>

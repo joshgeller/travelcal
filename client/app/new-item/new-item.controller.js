@@ -15,7 +15,6 @@
         var vm = this;
 
         vm.newItemForm = {};
-        vm.days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
         vm.repetitionTypes = ['total', 'per person', 'per day'];
         vm.selected = [];
         vm.currency = '';
@@ -28,36 +27,10 @@
         }
         if (vm.edit) {
             vm.title = "Edit Activity";
-            if (vm.activity.start) {
-                vm.activity.start = new Date(vm.activity.start);
-            }
-            else {
-                vm.activity.start = undefined;
-            }
-
-            if (vm.activity.end) {
-                vm.activity.end = new Date(vm.activity.end);
-            }
-            else {
-                vm.activity.end = undefined;
-            }
-
-
-            if (vm.activity.days) {
-                var days = Object.getOwnPropertyNames(vm.activity.days);
-                days.forEach(function(value, index, array) {
-                    var emptyDate = undefined;
-                    if (vm.activity.days[value].start) {
-                        vm.activity.days[value].start = new Date(vm.activity.days[value].start);
-                    }
-                    if (vm.activity.days[value].end) {
-                        vm.activity.days[value].end = new Date(vm.activity.days[value].end);
-                    }
-                    if (vm.activity.days[value].open) {
-                        vm.selected.push(value);
-                    }
-                });
-            }
+            vm.activity.start = new Date(vm.activity.start) || undefined;
+            vm.activity.end = new Date(vm.activity.end) || undefined;
+            vm.activity.startTime = new Date(vm.activity.startTime) || undefined;
+            vm.activity.endTime = new Date(vm.activity.endTime) || undefined;
             vm.currency = vm.activity.currency;
         }
         else {
@@ -66,8 +39,10 @@
             vm.activity.quantity = 1;
             vm.activity.repetitionType = "total";
             vm.activity.allDay = true;
-            if($scope.$parent.dvm.start) {
+            console.log($scope.$parent.dvm)
+            if ($scope.$parent.dvm.start) {
                 vm.activity.start = $scope.$parent.dvm.start;
+                vm.activity.end = $scope.$parent.dvm.start;
             }
         }
 

@@ -3,10 +3,17 @@
         <md-card-title>
             <md-card-title-text>
                 <h1>{{vm.title}}</h1>
+                <p>Click a date to add a new activity!</p
             </md-card-title-text>
         </md-card-title>
         <md-card-content>
-            <div ui-calendar="vm.uiConfig.calendar" ng-model="vm.eventSources" calendar="tripCalendar"></div>
+            <div ng-model-options="{timezone:'UTC'}" ui-calendar="vm.uiConfig.calendar" ng-model="vm.eventSources" calendar="tripCalendar"></div>
         </md-card-content>
+
     </md-card>
+</md-content>
+<md-content>
+  <md-button class="md-raised" ng-click="vm.loadBudget()">View Budget</md-button>
+  <md-button class="md-raised" ng-click="vm.exportPDF()">Export PDF Itinerary</md-button>
+  <md-button class="md-raised" ng-click="vm.triggerReminders()">Trigger Reminder Emails</md-button>
 </md-content>

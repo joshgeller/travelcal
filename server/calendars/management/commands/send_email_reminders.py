@@ -12,8 +12,4 @@ class Command(BaseCommand):
         tomorrow = datetime.date.today() + datetime.timedelta(days=1)
         trips = Trip.objects.filter(start_date=tomorrow)
         for trip in trips:
-            print('Sending email reminder to {}...'.format(trip.account.email))
-            trip.account.send_email(
-                'Your Travelcal Trip Reminder',
-                'You have an upcoming trip!\n{}'.format(trip)
-            )
+            trip.remind()

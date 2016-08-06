@@ -23,3 +23,9 @@ class Trip(models.Model):
 
     def get_absolute_url(self):
         return reverse('trip-detail', kwargs={'pk': self.pk})
+
+    def remind(self):
+        self.account.send_email(
+            'Your Travelcal Trip Reminder',
+            'You have an upcoming trip!\n{}'.format(self)
+        )

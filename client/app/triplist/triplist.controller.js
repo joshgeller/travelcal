@@ -52,7 +52,7 @@
     }
 
     function loadTrip(trip) {
-      $location.path('/budget').search({tripId: trip.id});
+      $location.path('/calendar').search({tripId: trip.id});
     }
 
     var updateTrips = function updateTrips(status, message) {
@@ -122,5 +122,3 @@
     }
   }
 })();
-
-

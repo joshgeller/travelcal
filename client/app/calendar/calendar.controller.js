@@ -123,6 +123,22 @@
       }
     }
 
+    vm.loadBudget = function exportPDF() {
+      $location.path('/budget').search({tripId:tripId});
+    }
+
+    vm.exportPDF = function exportPDF() {
+      TripService.exportPDF(tripId, function(result, response) {});
+    }
+
+    vm.triggerReminders = function triggerReminders() {
+      TripService.triggerReminders(tripId, function(result, response) {
+        if (result) {
+          alert('Email reminders were sent to ' + response.data.email + '!')
+        }
+      });
+    }
+
     function onEventClick( date, jsEvent, view ) {
       editActivity(jsEvent, vm.calendar.data[date.position], date.position);
     }

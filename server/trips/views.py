@@ -28,14 +28,13 @@ class TripViewSet(viewsets.ModelViewSet):
     @detail_route(methods=['get'])
     def pdf(self, request, pk=None, *args, **kwargs):
         trip = self.get_object()
-        print(type(trip.calendar.data))
         filename = '{}.pdf'.format(trip.name)
         response = PDFTemplateResponse(
             request=request,
             template='pdf.html',
             filename=filename,
             context={'trip': trip, 'calendar': trip.calendar.data},
-            show_content_in_browser=True,
+            show_content_in_browser=False,
             cmd_options={'margin-top': 10,
                          "zoom": 1,
                          "viewport-size": "1366 x 513",
@@ -44,6 +43,12 @@ class TripViewSet(viewsets.ModelViewSet):
 
         )
         return response
+
+    @detail_route(methods=['get'])
+    def remind(self, request, pk=None, *args, **kwargs):
+        trip = self.get_object()
+        trip.remind()
+        return Response({'email': trip.account.email}, status=status.HTTP_200_OK)
 
     def create(self, request, *args, **kwargs):
         """

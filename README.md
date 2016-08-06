@@ -81,6 +81,10 @@ this information from OS environment variables. Make sure to set the
 `SENDGRID_USERNAME` and `SENDGRID_PASSWORD` environment variables on the
 target OS.
 
+For Linux/OSX, use `export SENDGRID_USERNAME=<username>`
+
+See Josh for the credentials.
+
 ### Cron jobs
 
 Configure crontab to run this command in order to send email reminders

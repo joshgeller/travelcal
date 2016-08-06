@@ -2,13 +2,13 @@
     <md-card>
         <md-card-title>
             <md-card-title-text>
-                <h1>Trip List</h1>
+                <h1>Your Trips</h1>
             </md-card-title-text>
         </md-card-title>
         <md-card-content>
             <md-list flex ng-mouseleave="vm.changeHighlighted(-1)">
                 <div ng-if="vm.trips.length == 0">You have no trips saved. Why don't you add a new one?</div>
-                <md-list-item 
+                <md-list-item
                     layout="row"
                     ng-class="{'highlight-row': vm.showOptions[$index]}"
                     ng-repeat="trip in vm.trips"
@@ -20,18 +20,18 @@
                     </div>
                     <div flex=""></div>
                     <div layout="row">
-                        <md-button 
-                            class="md-fab" 
-                            aria-label="edit trip {{trip.name}}" 
-                            ng-click="vm.editTrip(trip)" 
+                        <md-button
+                            class="md-fab"
+                            aria-label="edit trip {{trip.name}}"
+                            ng-click="vm.editTrip(trip)"
                             ng-show="vm.showOptions[$index]"
                             >
                             <ng-md-icon icon="mode_edit" style="fill: white"></ng-md-icon>
                         </md-button>
-                        <md-button 
-                            class="md-fab" 
-                            aria-label="delete trip {{trip.name}}" 
-                            ng-click="vm.deleteTrip(trip)" 
+                        <md-button
+                            class="md-fab"
+                            aria-label="delete trip {{trip.name}}"
+                            ng-click="vm.deleteTrip(trip)"
                             ng-show="vm.showOptions[$index]"
                             >
                             <ng-md-icon icon="delete_forever" style="fill: red"></ng-md-icon>
