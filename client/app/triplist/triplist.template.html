@@ -6,51 +6,40 @@
             </md-card-title-text>
         </md-card-title>
         <md-card-content>
-            <md-list flex>
+            <md-list flex ng-mouseleave="vm.changeHighlighted(-1)">
                 <div ng-if="vm.trips.length == 0">You have no trips saved. Why don't you add a new one?</div>
-                <md-list-item ng-repeat="trip in vm.trips" ng-click="vm.loadTrip(trip)">
-                    <div>
+                <md-list-item 
+                    layout="row"
+                    ng-class="{'highlight-row': vm.showOptions[$index]}"
+                    ng-repeat="trip in vm.trips"
+                    ng-mouseover="vm.changeHighlighted($index)"
+                    >
+                    <div flex="100" ng-click="vm.loadTrip(trip)">
                         <h4>{{trip.name}}</h4>
                         {{trip.start_date}} - {{trip.end_date}}
                     </div>
+                    <div flex=""></div>
+                    <div layout="row">
+                        <md-button 
+                            class="md-fab" 
+                            aria-label="edit trip {{trip.name}}" 
+                            ng-click="vm.editTrip(trip)" 
+                            ng-show="vm.showOptions[$index]"
+                            >
+                            <ng-md-icon icon="mode_edit" style="fill: white"></ng-md-icon>
+                        </md-button>
+                        <md-button 
+                            class="md-fab" 
+                            aria-label="delete trip {{trip.name}}" 
+                            ng-click="vm.deleteTrip(trip)" 
+                            ng-show="vm.showOptions[$index]"
+                            >
+                            <ng-md-icon icon="delete_forever" style="fill: red"></ng-md-icon>
+                        </md-button>
+                    </div>
                 </md-list-item>
             </md-list>
-          <md-button class="md-raised" ng-click="newTrip($event)">New Trip</md-button>
+          <md-button class="md-raised" ng-click="vm.newTrip()">New Trip</md-button>
         </md-card-content>
     </md-card>
 </md-content>
-
-<script type="text/ng-template" id="aaanew-trip.template.html">
-    <md-dialog aria-label="Add A Trip"  ng-cloak>
-        <form>
-            <md-toolbar>
-                <div class="md-toolbar-tools">
-                    <h2>Add A Trip</h2>
-                </div>
-            </md-toolbar>
-            <md-dialog-content>
-                <span layout="row"></span>
-                <md-input-container class="md-block" flex-gt-sm>
-                    <label>Name</label>
-                    <input ng-model="trip.name" required name="name">
-                </md-input-container>
-                <div class="md-block" flex-gt-sm>
-                    <label>Start</label>
-                    <md-datepicker class="md-block" ng-model="trip.start" md-placeholder="Start date"></md-datepicker>
-                    <label>End</label>
-                    <md-datepicker 
-                      class="md-block" 
-                      ng-model="trip.end" 
-                      md-min-date="trip.start" 
-                      md-placeholder="End date">
-                    </md-datepicker>
-                </div>
-            </md-dialog-content>
-
-            <md-dialog-actions layout="row">
-                <md-button ng-click="cancel()">Cancel</md-button>
-                <md-button ng-click="add(trip)" ng-disabled="!trip.name || !trip.start || !trip.end">Add</md-button>
-            </md-dialog-actions>
-        </form>
-    </md-dialog>
-</script>

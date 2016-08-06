@@ -1,32 +1,51 @@
 <md-card style="display:inline-block;" ng-controller="TriplistController as vm">
-  <form>
+<form>
     <md-toolbar>
     <div class="md-toolbar-tools">
-      <h2>Add A Trip</h2>
+        <h2 ng-if="!dvm.updatingTrip">Add A Trip</h2>
+        <h2 ng-if="dvm.updatingTrip">Edit Trip</h2>
     </div>
     </md-toolbar>
-    <md-dialog-content>
-    <span layout="row"></span>
-    <md-input-container class="md-block" flex-gt-sm>
-    <label>Name</label>
-    <input ng-model="vm.trip.name" required name="name">
-    </md-input-container>
-    <div class="md-block" flex-gt-sm>
-      <label>Start</label>
-      <md-datepicker class="md-block" ng-model="vm.trip.start" md-placeholder="Start date"></md-datepicker>
-      <label>End</label>
-      <md-datepicker 
-      class="md-block" 
-      ng-model="vm.trip.end" 
-      md-min-date="vm.trip.start" 
-      md-placeholder="End date">
-      </md-datepicker>
-    </div>
+    <md-dialog-content layout-padding flex>
+        <span layout="row"></span>
+        <md-input-container class="md-block" flex-gt-sm>
+            <label>Name</label>
+            <input ng-model="dvm.trip.name" required name="name">
+        </md-input-container>
+        <div class="md-block" flex-gt-sm>
+            <label>Start</label>
+            <md-datepicker 
+                class="md-block" 
+                ng-model="dvm.trip.start" 
+                md-placeholder="Start date"
+                >
+            </md-datepicker>
+            <label>End</label>
+            <md-datepicker 
+                class="md-block" 
+                ng-model="dvm.trip.end" 
+                md-min-date="dvm.trip.start" 
+                md-placeholder="End date">
+            </md-datepicker>
+        </div>
     </md-dialog-content>
 
     <md-dialog-actions layout="row">
-    <md-button ng-click="dvm.cancel()">Cancel</md-button>
-    <md-button ng-click="dvm.add(vm.trip)" ng-disabled="!vm.trip.name || !vm.trip.start || !vm.trip.end">Add</md-button>
+        <md-button ng-click="dvm.cancel()">Cancel</md-button>
+        <md-button 
+            ng-if="!dvm.updatingTrip" 
+            ng-click="dvm.add(dvm.trip)" 
+            ng-disabled="!dvm.trip.name || !dvm.trip.start || !dvm.trip.end"
+            >
+            Add
+        </md-button>
+        <md-button 
+            ng-if="dvm.updatingTrip" 
+            ng-click="dvm.updateTrip(dvm.trip)" 
+            ng-disabled="!dvm.trip.name || !dvm.trip.start || !dvm.trip.end"
+            >
+            Update
+        </md-button>
     </md-dialog-actions>
-  </form>
+</form>
 </md-card>

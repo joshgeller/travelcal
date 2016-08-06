@@ -52,7 +52,7 @@ module.exports = function(grunt) {
         options: {
           stdout: true
         },
-        command: 'python server/manage.py runserver <%= serverConfig.server %>:<%= serverConfig.port %>'
+        command: 'echo Starting server on <%= serverConfig.server %>:<%= serverConfig.port %>; python server/manage.py runserver <%= serverConfig.server %>:<%= serverConfig.port %>'
       }
     },
 
