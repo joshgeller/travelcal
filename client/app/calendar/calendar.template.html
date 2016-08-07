@@ -1,9 +1,17 @@
+
+
 <md-content class="travelcal-calendar">
+
     <md-card>
         <md-card-title>
             <md-card-title-text>
                 <h1>{{vm.title}}</h1>
-                <p>Click a date to add a new activity!</p
+                <p>Click a date to add a new activity!</p>
+                <content>
+                  <md-button class="md-raised" ng-click="vm.loadBudget()">View Budget</md-button>
+                  <md-button class="md-raised" ng-click="vm.exportPDF()">Export PDF Itinerary</md-button>
+                  <md-button class="md-raised" ng-click="vm.triggerReminders()">Trigger Reminder Emails</md-button>
+                <content>
             </md-card-title-text>
         </md-card-title>
         <md-card-content>
@@ -11,9 +19,4 @@
         </md-card-content>
 
     </md-card>
-</md-content>
-<md-content>
-  <md-button class="md-raised" ng-click="vm.loadBudget()">View Budget</md-button>
-  <md-button class="md-raised" ng-click="vm.exportPDF()">Export PDF Itinerary</md-button>
-  <md-button class="md-raised" ng-click="vm.triggerReminders()">Trigger Reminder Emails</md-button>
 </md-content>

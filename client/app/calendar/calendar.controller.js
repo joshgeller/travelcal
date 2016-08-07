@@ -13,7 +13,8 @@
     'uiCalendarConfig',
     '$location',
     'TripService',
-    'CalendarService'
+    'CalendarService',
+    'moment'
   ];
 
   function CalendarController(
@@ -24,7 +25,8 @@
     uiCalendarConfig,
     $location,
     TripService,
-    CalendarService
+    CalendarService,
+    moment
   )
   {
 
@@ -55,10 +57,10 @@
     function convertCalendarData(event) {
 
       if (event.hasOwnProperty("start") && event.start != null) {
-        event.start = new Date(event.start);
+        event.start = new moment(event.start);
       }
       if (event.hasOwnProperty("end") && event.end != null) {
-        event.end  = new Date(event.end);
+        event.end  = new moment(event.end);
       }
       if (event.start) {
         return event;
@@ -93,9 +95,9 @@
           if (result) {
             vm.trip = response.data;
             vm.title = vm.trip.name;
-            vm.tripStart = new Date(vm.trip.start_date);
+            vm.tripStart = new moment(vm.trip.start_date);
             goToTripStart(vm.tripStart);
-            vm.tripEnd = new Date(vm.trip.end_date);
+            vm.tripEnd = new moment(vm.trip.end_date);
             var dateRange = {
               color: '#f00',
               events: [
@@ -246,7 +248,8 @@
     }
 
     function onDayClick(date, jsEvent, view) {
-      editActivity(jsEvent, null, date._d);
+      // add 1 day to make up for off-by-one bug
+      editActivity(jsEvent, null, date.add(1, 'd').toDate());
     }
 
     // Take the calendar to the appropriate month for the trip

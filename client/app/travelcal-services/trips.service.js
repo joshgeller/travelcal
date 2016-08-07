@@ -95,7 +95,6 @@
           callback(false, res);
 
       })
-
     }
 
     function destroy(tripId, callback) {
