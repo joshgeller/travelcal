@@ -1,5 +1,7 @@
 import json
 
+import dateutil.parser
+
 from calendars.models import Calendar
 from rest_framework import permissions, status, viewsets
 from rest_framework.decorators import detail_route
@@ -29,11 +31,15 @@ class TripViewSet(viewsets.ModelViewSet):
     def pdf(self, request, pk=None, *args, **kwargs):
         trip = self.get_object()
         filename = '{}.pdf'.format(trip.name)
+        activities = sorted(trip.calendar.data, key=lambda a: a['start'])
+        for activity in activities:
+            activity.update({'start': dateutil.parser.parse((activity['start']))})
+            activity.update({'end': dateutil.parser.parse((activity['end']))})
         response = PDFTemplateResponse(
             request=request,
             template='pdf.html',
             filename=filename,
-            context={'trip': trip, 'calendar': trip.calendar.data},
+            context={'trip': trip, 'calendar': activities},
             show_content_in_browser=False,
             cmd_options={'margin-top': 10,
                          "zoom": 1,

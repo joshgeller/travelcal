@@ -5,3 +5,4 @@ psycopg2==2.6.2
 wheel==0.26.0
 pdfkit==0.5.0
 django-wkhtmltopdf==3.0.0
+python-dateutil==2.5.3

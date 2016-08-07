@@ -38,13 +38,14 @@ class Account(AbstractBaseUser):
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = []
 
-    def send_email(self, subject, message, fail_silently=False):
+    def send_email(self, subject, message, html, fail_silently=False):
         send_mail(
-            subject,
-            message,
-            'reminder@travelcal.me',
-            [self.email],
-            fail_silently
+            subject=subject,
+            message=message,
+            from_email='reminder@travelcal.me',
+            recipient_list=[self.email],
+            fail_silently=fail_silently,
+            html_message=html
         )
 
     def __unicode__(self):
