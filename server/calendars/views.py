@@ -32,22 +32,27 @@ class CalendarViewSet(viewsets.ModelViewSet):
                     if addr:
                         if addr not in popular_activities:
                             popular_activities.update({
-                                addr: 1
+                                addr: {
+                                    'score': 1,
+                                    'address': activity.get('address')
+                                }
                             })
                         else:
-                            popularity = popular_activities.get(addr)
+                            popularity = popular_activities.get(addr).get('score')
                             popular_activities.update({
-                                addr: popularity + 1
+                                addr: {
+                                    'score': popularity + 1,
+                                    'address': activity.get('address')
+                                }
                             })
+        print('pa', popular_activities)
         results = []
-        for name, score in popular_activities.items():
+        for name, data in popular_activities.items():
             results.append(
                 {
                     'title': name,
-                    'address': {
-                        'name': name
-                    },
-                    'score': score,
+                    'address': data['address'],
+                    'score': data['score'],
                     'start': datetime.datetime.now(),
                     'end': datetime.datetime.now()
                 }
