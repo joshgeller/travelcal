@@ -310,14 +310,30 @@
         }
       })
         .then(function(activity) {
-
           if (typeof activity == 'boolean' && activity == true) {
             if (keyIn > -1) {
               vm.calendar.data.splice(keyIn, 1);
             }
           }
           else {
-
+            var start = moment(activity.start) || undefined
+            if (activity.startTime) {
+              var time = moment(activity.startTime)
+              var hour = time.hours()
+              var min = time.minutes()
+              start.hour(hour)
+              start.minute(min)
+            }
+            activity.start = start
+            var end = moment(activity.end) || undefined
+            if (activity.endTime) {
+              var time = moment(activity.endTime)
+              var hour = time.hours()
+              var min = time.minutes()
+              end.hour(hour)
+              end.minute(min)
+            }
+            activity.end = end
             if (!activity.quantity){
               activity.quantity = 1;
             }
@@ -335,7 +351,6 @@
             }
           }
           CalendarService.update(vm.calendar.id, vm.calendar.data, updateCalendar);
-
         }, function() {
           $scope.status = 'You cancelled the dialog.';
         });

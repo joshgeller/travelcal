@@ -81,19 +81,17 @@
     }
 
     function update(tripId, data, callback) {
-      var _data = {};
+      // var _data = {};
+      //
+      // _data.name = data.name;
+      // _data.start_date = formatDate(data.start) || data.start_date;
+      // _data.end_date = formatDate(data.end) || data.end_date;
 
-      _data.name = data.name;
-      _data.start_date = formatDate(data.start) || data.start_date;
-      _data.end_date = formatDate(data.end) || data.end_date;
-
-      return $http.patch('/api/v1/trips/' + tripId + '/', _data)
+      return $http.patch('/api/v1/trips/' + tripId + '/', data)
         .then(function(res) {
           callback(true, res);
-
         }, function(res) {
           callback(false, res);
-
       })
     }
 
@@ -120,7 +118,6 @@
     function formatDate(value) {
       return JSON.stringify(value).slice(1,11);
     }
-
   }
 
 })();
