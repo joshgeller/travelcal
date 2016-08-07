@@ -99,7 +99,7 @@
     }
 
     function destroy(tripId, callback) {
-
+      return $http.delete('/api/v1/trips/' + tripId + '/')
         .then(function(res) {
           if (callback) {
             callback(true, res);
