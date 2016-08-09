@@ -147,6 +147,7 @@
     }
 
     function onEventClick(activity, jsEvent, view ) {
+        console.log(activity);
       editActivity(jsEvent, vm.calendar.data[activity.position], activity.position);
     }
 
@@ -267,6 +268,7 @@
       })
         .then(function(activity) {
             console.log(activity);
+            console.log(keyIn);
           if (typeof activity == 'boolean' && activity == true) {
             if (keyIn > -1) {
               vm.calendar.data.splice(keyIn, 1);
@@ -305,14 +307,14 @@
             if (vm.calendar.data == null) {
               vm.calendar.data = [];
             }
-            if (keyIn != null && typeof keyIn == 'integer') {
 
+            if (typeof keyIn == 'number' && keyIn != null) {
               vm.calendar.data[keyIn] = activity;
               vm.eventSources[1][keyIn] = convertCalendarData(activity);
             }
             else {
+              activity.position = vm.calendar.data.length;
               vm.calendar.data.push(activity);
-              activity.position = vm.calendar.data.length - 1;
               vm.eventSources[1].push(convertCalendarData(activity));
             }
           }
