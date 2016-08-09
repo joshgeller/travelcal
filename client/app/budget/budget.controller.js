@@ -113,10 +113,10 @@
                         vm.currencies = response.data;
                         vm.total = 0;
                         for (var item in vm.calendar.data) {
-                            if (vm.calendar.data[item].currency == vm.baseCurrency) {
+                            if (vm.calendar.data[item].cost && vm.calendar.data[item].currency == vm.baseCurrency) {
                                 vm.total += vm.calendar.data[item].cost * vm.calendar.data[item].quantity;
                             }
-                            else {
+                            else if (vm.calendar.data[item].cost) {
                                 vm.total += vm.calendar.data[item].cost * vm.calendar.data[item].quantity / vm.currencies.rates[vm.calendar.data[item].currency];
                             }
                         }

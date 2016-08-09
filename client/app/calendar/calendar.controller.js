@@ -85,6 +85,7 @@
     function updateActivity(activityArray, update, activityId) {
         for (var i = 0; i < activityArray.length; i++) {
             if (activityArray[i].id == activityId) {
+                console.log(activityArray[i]);
                 activityArray[i] = update;
                 return activityArray;
             }
@@ -198,6 +199,7 @@
               activity.end = end;
             }
             vm.calendar.data = updateActivity(vm.calendar.data, activity, activity.id);
+            vm.eventSources[1] = updateActivity(vm.eventSources[1], activity, activity.id);
             CalendarService.update(vm.calendar.id, vm.calendar.data, updateCalendar);
         }
       }
@@ -234,6 +236,7 @@
           activity.end = end;
         }
         vm.calendar.data = updateActivity(vm.calendar.data, activity, activity.id);
+        vm.eventSources[1] = updateActivity(vm.eventSources[1], activity, activity.id);
         CalendarService.update(vm.calendar.id, vm.calendar.data, updateTrip);
       }
     }
@@ -304,7 +307,6 @@
           if (typeof activity == 'boolean' && activity == true) {
             if (keyIn) {
               vm.calendar.data = deleteActivity(vm.calendar.data, keyIn);
-              console.log(vm.eventSources[1]);
               vm.eventSources[1] = deleteActivity(vm.eventSources[1], keyIn);
             }
           }

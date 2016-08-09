@@ -100,8 +100,8 @@
                 </fieldset>
             </div>
             <md-button class="md-primary md-raised md-warn" ng-click="dvm.cancel()">Cancel</md-button>
-            <md-button class="md-primary md-raised" ng-disabled="!vm.activity.title || !vm.activity.cost" ng-click="dvm.update(vm.activity)" ng-if="dvm.edit">Update</md-button>
-            <md-button class="md-primary md-raised" ng-disabled="!vm.activity.title || !vm.activity.cost" ng-click="dvm.update(vm.activity)" ng-if="!dvm.edit">
+            <md-button class="md-primary md-raised" ng-disabled="!vm.activity.title" ng-click="dvm.update(vm.activity)" ng-if="dvm.edit">Update</md-button>
+            <md-button class="md-primary md-raised" ng-disabled="!vm.activity.title" ng-click="dvm.update(vm.activity)" ng-if="!dvm.edit">
                 Add
             </md-button>
             <span flex></span>
