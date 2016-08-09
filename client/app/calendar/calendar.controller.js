@@ -41,6 +41,7 @@
 
     // 'private' functions
     var convertCalendarData = convertCalendarData;
+    var getDateObject = getDateObject;
     var editActivity = editActivity;
     var eventRender = eventRender;
     var goToTripStart = goToTripStart;
@@ -55,7 +56,6 @@
     init();
 
     function convertCalendarData(event) {
-
       if (event.hasOwnProperty("start") && event.start != null) {
         event.start = new moment(event.start);
       }
@@ -65,6 +65,10 @@
       if (event.start) {
         return event;
       }
+    }
+
+    function getDateObject(date) {
+      return (date instanceof Date) ? date : new Date(date);
     }
 
     function init() {
@@ -111,6 +115,7 @@
               for (var i = 0; i < vm.calendar.data.length; i++) {
                 var newEvent = convertCalendarData(vm.calendar.data[i]);
                 if (newEvent != null) {
+                  console.log(newEvent);
                   newEvent.position = i;
                   vm.events.push(newEvent);
                 }
@@ -141,33 +146,20 @@
       });
     }
 
-    function onEventClick( date, jsEvent, view ) {
-      editActivity(jsEvent, vm.calendar.data[date.position], date.position);
+    function onEventClick(activity, jsEvent, view ) {
+      editActivity(jsEvent, vm.calendar.data[activity.position], activity.position);
     }
 
     function onEventResize(event, delta, revertFunc, jsEvent, ui, view) {
       if (event.class != 'start' && event.class != 'end') {
         if (vm.calendar.data[event.position].end) {
-          if (vm.calendar.data[event.position].end instanceof Date) {
-            end = vm.calendar.data[event.position].end;
-          }
-          else {
-            end = new Date(vm.calendar.data[event.position].end);
-          }
-          var oldEndDate = end.getDate();
-          end.setDate(oldEndDate + delta._days);
+          var end = getDateObject(vm.calendar.data[event.position].end);
+          end.setDate(end.getDate() + delta._days);
           vm.calendar.data[event.position].end = end;
         }
         else {
-          var end;
-          if (vm.calendar.data[event.position].start instanceof Date) {
-            end = vm.calendar.data[event.position].start;
-          }
-          else {
-            end = new Date(vm.calendar.data[event.position].start);
-          }
-          var oldEndDate = end.getDate();
-          end.setDate(oldEndDate + delta._days);
+          var end = getDateObject(vm.calendar.data[event.position].start);
+          end.setDate(end.getDate() + delta._days);
           vm.calendar.data[event.position].end = end;
         }
         CalendarService.update(vm.calendar.id, vm.calendar.data, updateCalendar);
@@ -177,69 +169,34 @@
 
     function onEventDrop(event, delta, revertFunc, jsEvent, ui, view) {
       if (event.class == 'start') {
-        var start;
-        if (vm.trip.start_date instanceof Date) {
-          start = vm.trip.start_date;
-        }
-        else {
-          start = new Date(vm.trip.start_date);
-        }
-        var oldStartDate = start.getDate();
-        start.setDate(oldStartDate + delta._days);
+        var start = getDateObject(vm.trip.start_date);
+        start.setDate(start.getDate() + delta._days);
         start = JSON.stringify(start);
         vm.trip.start_date = start.slice(1,11);
-        //                    TripService.update(vm.trip.id, vm.trip, updateTrip);
+        TripService.update(vm.trip.id, vm.trip, updateTrip);
 
       }
       else if (event.class = 'end') {
-        var end;
-        if (vm.trip.end_date instanceof Date) {
-          end = vm.trip.end_date;
-        }
-        else {
-          end = new Date(vm.trip.end_date);
-        }
-        var oldEndDate = end.getDate();
-        end.setDate(oldEndDate + delta._days);
+        var end = getDateObject(vm.trip.end_date);
+        end.setDate(end.getDate() + delta._days);
         end = JSON.stringify(end);
         vm.trip.end_date = end.slice(1,11);
-        //                    TripService.update(vm.trip.id, vm.trip, updateTrip);
+        TripService.update(vm.trip.id, vm.trip, updateTrip);
       }
       else {
         if (vm.calendar.data[event.position].start) {
-          var start;
-          if (vm.calendar.data[event.position].start instanceof Date) {
-            start = vm.calendar.data[event.position].start;
-          }
-          else {
-            start = new Date(vm.calendar.data[event.position].start);
-          }
-          var oldStartDate = start.getDate();
-          start.setDate(oldStartDate + delta._days);
+          var start = getDateObject(vm.calendar.data[event.position].start);
+          start.setDate(start.getDate() + delta._days);
           vm.calendar.data[event.position].start = start;
         }
         if (vm.calendar.data[event.position].end) {
-          var end;
-          if (vm.calendar.data[event.position].end instanceof Date) {
-            end = vm.calendar.data[event.position].end;
-          }
-          else {
-            end = new Date(vm.calendar.data[event.position].end);
-          }
-          var oldEndDate = end.getDate();
-          end.setDate(oldEndDate + delta._days);
+          var end = getDateObject(vm.calendar.data[event.position].end);
+          end.setDate(end.getDate() + delta._days);
           vm.calendar.data[event.position].end = end;
         }
         else {
-          var end;
-          if (vm.calendar.data[event.position].start instanceof Date) {
-            end = vm.calendar.data[event.position].start;
-          }
-          else {
-            end = new Date(vm.calendar.data[event.position].start);
-          }
-          var oldEndDate = end.getDate();
-          end.setDate(oldEndDate + delta._days);
+          var end = getDateObject(vm.calendar.data[event.position].start);
+          end.setDate(end.getDate() + delta._days);
           vm.calendar.data[event.position].end = end;
         }
         CalendarService.update(vm.calendar.id, vm.calendar.data, updateTrip);
@@ -293,6 +250,7 @@
       else if (keyIn) {
         start = keyIn;
 
+
       }
 
       $mdDialog.show({
@@ -310,9 +268,11 @@
         }
       })
         .then(function(activity) {
+            console.log(activity);
           if (typeof activity == 'boolean' && activity == true) {
             if (keyIn > -1) {
               vm.calendar.data.splice(keyIn, 1);
+              vm.eventSources[1].splice(keyIn, 1);
             }
           }
           else {
@@ -346,7 +306,7 @@
             }
             else {
               vm.calendar.data.push(activity);
-              activity.position = vm.calendar.length - 1;
+              activity.position = vm.calendar.data.length - 1;
               vm.eventSources[1].push(convertCalendarData(activity));
             }
           }

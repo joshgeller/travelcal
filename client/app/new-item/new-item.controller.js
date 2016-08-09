@@ -34,6 +34,7 @@
         var min = time.split(':')[1]
         start.hour(hour)
         start.minute(min)
+        vm.allDay = false;
       }
       var end = moment(vm.activity.end) || undefined
       if (vm.activity.endTime) {
@@ -53,6 +54,7 @@
       vm.title = "New Activity"
       vm.activity = {};
       vm.activity.quantity = 1;
+      vm.currency = 'USD';      // default currency
       vm.activity.repetitionType = "total";
       vm.activity.allDay = true;
       if ($scope.$parent.dvm.start) {
