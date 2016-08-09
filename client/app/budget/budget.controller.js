@@ -172,41 +172,41 @@
                     start: undefined
                 }
             })
-                .then(function(activity) {
+            .then(function(activity) {
 
-                    if (typeof activity == 'boolean' && activity == true) {
-                        if (keyIn > -1) {
-                            vm.calendar.data.splice(keyIn, 1);
-                        }
+                if (typeof activity == 'boolean' && activity == true) {
+                    if (keyIn > -1) {
+                        vm.calendar.data.splice(keyIn, 1);
+                    }
+                }
+                else {
+                    if (!activity.quantity){
+                        activity.quantity = 1;
+                    }
+                    if (vm.calendar.data == null) {
+                        vm.calendar.data = {};
+                    }
+                    if (keyIn != null) {
+                        vm.calendar.data[keyIn] = activity;
+                        vm.updateCurrency(vm.baseCurrency);
                     }
                     else {
-                        if (!activity.quantity){
-                            activity.quantity = 1;
-                        }
-                        if (vm.calendar.data == null) {
-                            vm.calendar.data = {};
-                        }
-                        if (keyIn != null) {
-                            vm.calendar.data[keyIn] = activity;
-                            vm.updateCurrency(vm.baseCurrency);
-                        }
-                        else {
-                            vm.calendar.data.push(activity);
-                            vm.updateCurrency(vm.baseCurrency);
-                        }
+                        vm.calendar.data.push(activity);
+                        vm.updateCurrency(vm.baseCurrency);
                     }
+                }
 
-                    CalendarService.update(vm.calendar.id, vm.calendar.data, updateCalendar);
+                CalendarService.update(vm.calendar.id, vm.calendar.data, updateCalendar);
 
-                }, function() {
-                    $scope.status = 'You cancelled the dialog.';
-                });
+            }, function() {
+                $scope.status = 'You cancelled the dialog.';
+            });
 
-                $scope.$watch(function() {
-                    return $mdMedia('xs') || $mdMedia('sm');
-                }, function(wantsFullScreen) {
-                    vm.customFullscreen = (wantsFullScreen === true);
-                });
+            $scope.$watch(function() {
+                return $mdMedia('xs') || $mdMedia('sm');
+            }, function(wantsFullScreen) {
+                vm.customFullscreen = (wantsFullScreen === true);
+            });
         };
     }
 

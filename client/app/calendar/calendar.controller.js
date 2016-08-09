@@ -41,7 +41,7 @@
 
     // 'private' functions
     var convertCalendarData = convertCalendarData;
-    var getDateObject = getDateObject;
+    var getMoment = getMoment;
     var editActivity = editActivity;
     var eventRender = eventRender;
     var goToTripStart = goToTripStart;
@@ -52,6 +52,11 @@
     var onEventResize = onEventResize;
     var updateCalendar =  updateCalendar;
     var updateTrip = updateTrip;
+    var updateActivity = updateActivity;
+    var deleteActivity = deleteActivity;
+    var getActivity = getActivity;
+
+
 
     init();
 
@@ -67,8 +72,38 @@
       }
     }
 
-    function getDateObject(date) {
-      return (date instanceof Date) ? date : new Date(date);
+    function getActivity(activityArray, activityId) {
+        for (var i = 0; i < activityArray.length; i++) {
+            if (activityArray[i].id == activityId) {
+                return activityArray[i];
+            }
+        }
+        return null;
+    }
+
+
+    function updateActivity(activityArray, update, activityId) {
+        for (var i = 0; i < activityArray.length; i++) {
+            if (activityArray[i].id == activityId) {
+                activityArray[i] = update;
+                return activityArray;
+            }
+        }
+        return activityArray;
+    }
+
+    function deleteActivity(activityArray, activityId) {
+        for (var i = 0; i < activityArray.length; i++) {
+            if (activityArray[i].id == activityId) {
+                activityArray.splice(i, 1);
+                return activityArray;
+            }
+        }
+        return activityArray;
+    }
+
+    function getMoment(date) {
+      return (date instanceof moment) ? date : new moment(date);
     }
 
     function init() {
@@ -105,8 +140,8 @@
             var dateRange = {
               color: '#f00',
               events: [
-                {title: "TRIP START", start: vm.tripStart, class: 'start', allDay: true},
-                {title: "TRIP END", start: vm.tripEnd, class: 'end', allDay: true}
+                {title: "TRIP START", start: vm.tripStart, class: 'trip_start', allDay: true},
+                {title: "TRIP END", start: vm.tripEnd, class: 'trip_end', allDay: true}
               ]
             };
             vm.eventSources.push(dateRange);
@@ -115,8 +150,6 @@
               for (var i = 0; i < vm.calendar.data.length; i++) {
                 var newEvent = convertCalendarData(vm.calendar.data[i]);
                 if (newEvent != null) {
-                  console.log(newEvent);
-                  newEvent.position = i;
                   vm.events.push(newEvent);
                 }
               }
@@ -147,61 +180,61 @@
     }
 
     function onEventClick(activity, jsEvent, view ) {
-        console.log(activity);
-      editActivity(jsEvent, vm.calendar.data[activity.position], activity.position);
+      editActivity(jsEvent, activity, activity.id);
     }
 
-    function onEventResize(event, delta, revertFunc, jsEvent, ui, view) {
-      if (event.class != 'start' && event.class != 'end') {
-        if (vm.calendar.data[event.position].end) {
-          var end = getDateObject(vm.calendar.data[event.position].end);
-          end.setDate(end.getDate() + delta._days);
-          vm.calendar.data[event.position].end = end;
+    function onEventResize(event, delta, revertFunc, jsEEvent, ui, view) {
+      if (event.class != 'trip_start' && event.class != 'trip_end') {
+        var activity = getActivity(vm.calendar.data, event.id);
+        if (activity) {
+            if (activity.end) {
+              var end = getMoment(activity.end);
+              end.add(delta._days, 'd');
+              activity.end = end;
+            }
+            else {
+              var end = getMoment(activity.start);
+              end.add(delta._days, 'd');
+              activity.end = end;
+            }
+            vm.calendar.data = updateActivity(vm.calendar.data, activity, activity.id);
+            CalendarService.update(vm.calendar.id, vm.calendar.data, updateCalendar);
         }
-        else {
-          var end = getDateObject(vm.calendar.data[event.position].start);
-          end.setDate(end.getDate() + delta._days);
-          vm.calendar.data[event.position].end = end;
-        }
-        CalendarService.update(vm.calendar.id, vm.calendar.data, updateCalendar);
-
       }
     }
 
     function onEventDrop(event, delta, revertFunc, jsEvent, ui, view) {
-      if (event.class == 'start') {
-        var start = getDateObject(vm.trip.start_date);
-        start.setDate(start.getDate() + delta._days);
-        start = JSON.stringify(start);
-        vm.trip.start_date = start.slice(1,11);
+      console.log(event);
+      if (event.class == 'trip_start') {
+        var start = getMoment(vm.trip.start_date);
+        start.add(delta._days, 'd');
         TripService.update(vm.trip.id, vm.trip, updateTrip);
 
       }
-      else if (event.class = 'end') {
-        var end = getDateObject(vm.trip.end_date);
-        end.setDate(end.getDate() + delta._days);
-        end = JSON.stringify(end);
-        vm.trip.end_date = end.slice(1,11);
+      else if (event.class == 'trip_end') {
+        var end = getMoment(vm.trip.end_date);
+        end.add(delta._days, 'd');
         TripService.update(vm.trip.id, vm.trip, updateTrip);
       }
       else {
-        if (vm.calendar.data[event.position].start) {
-          var start = getDateObject(vm.calendar.data[event.position].start);
-          start.setDate(start.getDate() + delta._days);
-          vm.calendar.data[event.position].start = start;
+        var activity = getActivity(vm.calendar.data, event.id);
+        if (activity.start) {
+          var start = getMoment(activity.start);
+          start.add(delta._days, 'd');
+          activity.start = start;
         }
-        if (vm.calendar.data[event.position].end) {
-          var end = getDateObject(vm.calendar.data[event.position].end);
-          end.setDate(end.getDate() + delta._days);
-          vm.calendar.data[event.position].end = end;
+        if (activity.end) {
+          var end = getMoment(activity.end);
+          end.add(delta._days, 'd');
+          activity.end = end;
         }
         else {
-          var end = getDateObject(vm.calendar.data[event.position].start);
+          var end = getMoment(activity.start);
           end.setDate(end.getDate() + delta._days);
-          vm.calendar.data[event.position].end = end;
+          activity.end = end;
         }
+        vm.calendar.data = updateActivity(vm.calendar.data, activity, activity.id);
         CalendarService.update(vm.calendar.id, vm.calendar.data, updateTrip);
-
       }
     }
 
@@ -267,18 +300,12 @@
         }
       })
         .then(function(activity) {
-            console.log(activity);
-            console.log(keyIn);
-            console.log(vm.calendar.data);
-            console.log(vm.eventSources[1]);
+          // Delete Activity
           if (typeof activity == 'boolean' && activity == true) {
-            if (keyIn > -1) {
-              vm.calendar.data.splice(keyIn, 1);
-              vm.eventSources[1].splice(keyIn, 1);
-              for (var i = keyIn; i < vm.calendar.data.length; i++) {
-                vm.calendar.data[i].position--;
-                vm.eventSources[1][i].position--;
-              }
+            if (keyIn) {
+              vm.calendar.data = deleteActivity(vm.calendar.data, keyIn);
+              console.log(vm.eventSources[1]);
+              vm.eventSources[1] = deleteActivity(vm.eventSources[1], keyIn);
             }
           }
           else {
@@ -306,13 +333,14 @@
             if (vm.calendar.data == null) {
               vm.calendar.data = [];
             }
-
-            if (typeof keyIn == 'number' && keyIn != null) {
-              vm.calendar.data[keyIn] = activity;
-              vm.eventSources[1][keyIn] = convertCalendarData(activity);
+            // Update activity
+            if (typeof keyIn == 'string' && keyIn != null) {
+              vm.calendar.data = updateActivity(vm.calendar.data, activity, keyIn);
+              vm.eventSources[1] = updateActivity(vm.eventSources[1], activity, keyIn);
             }
+            // New activity
             else {
-              activity.position = vm.calendar.data.length;
+              activity.id = CalendarService.createActivityId(activity);
               vm.calendar.data.push(activity);
               vm.eventSources[1].push(convertCalendarData(activity));
             }
