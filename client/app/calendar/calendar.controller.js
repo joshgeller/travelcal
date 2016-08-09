@@ -192,6 +192,7 @@
               var end = getMoment(activity.end);
               end.add(delta._days, 'd');
               activity.end = end;
+              activity.end_date = end
             }
             else {
               var end = getMoment(activity.start);
@@ -199,7 +200,6 @@
               activity.end = end;
             }
             vm.calendar.data = updateActivity(vm.calendar.data, activity, activity.id);
-            vm.eventSources[1] = updateActivity(vm.eventSources[1], activity, activity.id);
             CalendarService.update(vm.calendar.id, vm.calendar.data, updateCalendar);
         }
       }
@@ -210,12 +210,14 @@
       if (event.class == 'trip_start') {
         var start = getMoment(vm.trip.start_date);
         start.add(delta._days, 'd');
+        vm.trip.start_date = start;
         TripService.update(vm.trip.id, vm.trip, updateTrip);
 
       }
       else if (event.class == 'trip_end') {
         var end = getMoment(vm.trip.end_date);
         end.add(delta._days, 'd');
+        vm.trip.end_date = end;
         TripService.update(vm.trip.id, vm.trip, updateTrip);
       }
       else {
@@ -236,7 +238,6 @@
           activity.end = end;
         }
         vm.calendar.data = updateActivity(vm.calendar.data, activity, activity.id);
-        vm.eventSources[1] = updateActivity(vm.eventSources[1], activity, activity.id);
         CalendarService.update(vm.calendar.id, vm.calendar.data, updateTrip);
       }
     }

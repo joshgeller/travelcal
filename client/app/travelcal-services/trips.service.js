@@ -84,8 +84,8 @@
        var _data = {};
 
        _data.name = data.name;
-       _data.start_date = formatDate(data.start) || data.start_date;
-       _data.end_date = formatDate(data.end) || data.end_date;
+       _data.start_date = formatDate(data.start_date) || data.start_date;
+       _data.end_date = formatDate(data.end_date) || data.end_date;
 
       return $http.patch('/api/v1/trips/' + tripId + '/', _data)
         .then(function(res) {
