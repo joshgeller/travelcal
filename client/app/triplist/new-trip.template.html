@@ -18,6 +18,7 @@
                 class="md-block" 
                 ng-model="dvm.trip.start" 
                 md-placeholder="Start date"
+                md-open-on-focus
                 >
             </md-datepicker>
             <label>End</label>
@@ -25,7 +26,9 @@
                 class="md-block" 
                 ng-model="dvm.trip.end" 
                 md-min-date="dvm.trip.start" 
-                md-placeholder="End date">
+                md-placeholder="End date"
+                md-open-on-focus
+                >
             </md-datepicker>
         </div>
     </md-dialog-content>

@@ -48,9 +48,9 @@
                         <div ng-if="item.end != item.start">
                             {{item.end | date : shortDate}}
                         </div>
-                        <span flex ng-if="item.url"></span>
+                        <span flex ng-if="item.info_url"></span>
                         <div>
-                            <md-button ng-if="item.url" ng-href="{{item.url}}" target="_blank">{{item.url}}</md-button>
+                            <md-button ng-if="item.info_url" ng-href="{{item.info_url}}" target="_blank">{{item.info_url}}</md-button>
                         </div>
                     </div>
                     <md-divider></md-divider>

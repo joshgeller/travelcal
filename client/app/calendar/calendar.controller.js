@@ -269,17 +269,16 @@
         .then(function(activity) {
             console.log(activity);
             console.log(keyIn);
+            console.log(vm.calendar.data);
+            console.log(vm.eventSources[1]);
           if (typeof activity == 'boolean' && activity == true) {
             if (keyIn > -1) {
               vm.calendar.data.splice(keyIn, 1);
               vm.eventSources[1].splice(keyIn, 1);
-              console.log(vm.eventSources[1]);
-              for (var i = 0; i < vm.calendar.data.length; i++) {
+              for (var i = keyIn; i < vm.calendar.data.length; i++) {
                 vm.calendar.data[i].position--;
                 vm.eventSources[1][i].position--;
               }
-              console.log(vm.eventSources[1]);
-              console.log(vm.calendar.data)
             }
           }
           else {
