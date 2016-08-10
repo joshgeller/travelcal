@@ -7,6 +7,7 @@
 
   CalendarController.$inject = [
     '$scope',
+    '$window',
     '$mdDialog',
     '$mdMedia',
     '$compile',
@@ -19,6 +20,7 @@
 
   function CalendarController(
     $scope,
+    $window,
     $mdDialog,
     $mdMedia,
     $compile,
@@ -355,6 +357,11 @@
             }
           }
           CalendarService.update(vm.calendar.id, vm.calendar.data, updateCalendar);
+  
+          // @TODO
+          // force reloading page after making changes -- need to find out why calendar isn't
+          // updating when eventSurces or calendar.data changes
+          $window.location.reload();
         }, function() {
           $scope.status = 'You cancelled the dialog.';
         });
