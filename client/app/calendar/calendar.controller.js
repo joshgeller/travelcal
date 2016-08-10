@@ -6,7 +6,6 @@
     .controller('CalendarController', CalendarController);
 
   CalendarController.$inject = [
-    '$state',
     '$scope',
     '$mdDialog',
     '$mdMedia',
@@ -19,7 +18,6 @@
   ];
 
   function CalendarController(
-    $state,
     $scope,
     $mdDialog,
     $mdMedia,
@@ -266,8 +264,7 @@
     };
 
     function eventDataTransform(events) {
-      console.log(events);
-      return events;
+      // not currently used but could be useful ... 
     };
 
 
