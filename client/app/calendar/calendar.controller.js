@@ -6,6 +6,7 @@
     .controller('CalendarController', CalendarController);
 
   CalendarController.$inject = [
+    '$state',
     '$scope',
     '$mdDialog',
     '$mdMedia',
@@ -18,6 +19,7 @@
   ];
 
   function CalendarController(
+    $state,
     $scope,
     $mdDialog,
     $mdMedia,
@@ -84,13 +86,13 @@
 
 
     function updateActivity(activityArray, update, activityId) {
-        for (var i = 0; i < activityArray.length; i++) {
-            if (activityArray[i].id == activityId) {
-                activityArray[i] = update;
-                return activityArray;
-            }
+      for (var i = 0; i < activityArray.length; i++) {
+        if (activityArray[i].id == activityId) {
+          activityArray.splice(i, 1);
         }
-        return activityArray;
+      }
+      activityArray.push(update);
+      return activityArray;
     }
 
     function deleteActivity(activityArray, activityId) {
@@ -182,7 +184,8 @@
     }
 
     function onEventClick(activity, jsEvent, view ) {
-      editActivity(jsEvent, activity, activity._id);
+      activity = getActivity(vm.calendar.data, activity.id);
+      editActivity(jsEvent, activity, activity.id);
     }
 
     function onEventResize(event, delta, revertFunc, jsEEvent, ui, view) {
@@ -278,7 +281,6 @@
       }
     };
 
-
     function editActivity(ev, activityIn, keyIn) {
       var useFullScreen = ($mdMedia('sm') || $mdMedia('xs'))  && vm.customFullscreen;
       var activity = {};
@@ -342,8 +344,8 @@
             }
             // Update activity
             if (typeof keyIn == 'string' && keyIn != null) {
-              vm.calendar.data = updateActivity(vm.calendar.data, activity, keyIn);
-              vm.eventSources[1] = updateActivity(vm.eventSources[1], activity, keyIn);
+              vm.calendar.data = updateActivity(vm.calendar.data, activity, activity.id);
+              vm.eventSources[1] = updateActivity(vm.eventSources[1], activity, activity.id);
             }
             // New activity
             else {

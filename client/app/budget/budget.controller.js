@@ -201,8 +201,9 @@
                         vm.updateCurrency(vm.baseCurrency);
                     }
                     else {
-                        vm.calendar.data.push(activity);
-                        vm.updateCurrency(vm.baseCurrency);
+                      activity.id = CalendarService.createActivityId(activity);
+                      vm.calendar.data.push(activity);
+                      vm.updateCurrency(vm.baseCurrency);
                     }
                 }
 
