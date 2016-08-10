@@ -88,10 +88,12 @@
     function updateActivity(activityArray, update, activityId) {
       for (var i = 0; i < activityArray.length; i++) {
         if (activityArray[i].id == activityId) {
+          activityArray[i] = update;
+          return activityArray;
           activityArray.splice(i, 1);
         }
       }
-      activityArray.push(update);
+      
       return activityArray;
     }
 
