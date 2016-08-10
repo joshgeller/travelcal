@@ -265,6 +265,7 @@
 
     function eventDataTransform(events) {
       // not currently used but could be useful ... 
+      return events;
     };
 
 
