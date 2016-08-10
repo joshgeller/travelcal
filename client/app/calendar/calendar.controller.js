@@ -44,6 +44,7 @@
     var getMoment = getMoment;
     var editActivity = editActivity;
     var eventRender = eventRender;
+    var eventDataTransform = eventDataTransform;
     var goToTripStart = goToTripStart;
     var init = init;
     var onDayClick = onDayClick;
@@ -85,7 +86,6 @@
     function updateActivity(activityArray, update, activityId) {
         for (var i = 0; i < activityArray.length; i++) {
             if (activityArray[i].id == activityId) {
-                console.log(activityArray[i]);
                 activityArray[i] = update;
                 return activityArray;
             }
@@ -123,6 +123,7 @@
           },
           loading: goToTripStart,
           eventRender: eventRender,
+          eventDataTransform: eventDataTransform,
           eventClick: onEventClick,
           eventResize: onEventResize,
           eventDrop: onEventDrop,
@@ -181,7 +182,7 @@
     }
 
     function onEventClick(activity, jsEvent, view ) {
-      editActivity(jsEvent, activity, activity.id);
+      editActivity(jsEvent, activity, activity._id);
     }
 
     function onEventResize(event, delta, revertFunc, jsEEvent, ui, view) {
@@ -206,7 +207,6 @@
     }
 
     function onEventDrop(event, delta, revertFunc, jsEvent, ui, view) {
-      console.log(event);
       if (event.class == 'trip_start') {
         var start = getMoment(vm.trip.start_date);
         start.add(delta._days, 'd');
@@ -260,6 +260,11 @@
       $compile(element)($scope);
     };
 
+    function eventDataTransform(events) {
+      console.log(events);
+      return events;
+    };
+
 
     function updateCalendar(status, message) {
       if (status) {
@@ -279,8 +284,7 @@
       var activity = {};
       var edit = false;
       var start = undefined;
-
-
+  
       if (activityIn) {
         angular.copy(activityIn, activity);
         edit = true;
