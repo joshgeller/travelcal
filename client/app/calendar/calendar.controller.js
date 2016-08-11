@@ -121,7 +121,7 @@
         calendar: {
           timezone: 'utc',
           height: 450,
-          editable: true,
+          editable: false,
           header: {
             left: 'title',
             center: '',

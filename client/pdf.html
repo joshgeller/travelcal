@@ -22,10 +22,6 @@
     <h3>{{activity.title}}</h3>
     <p>
       {{activity.start|date}}
-      {% if activity.allDay %} (all day)
-      {% else %}
-      @ {{activity.startTime|date:"P"}} - {{activity.endTime|date:"P"}}
-      {% endif %}
     </p>
     <p>
       {{activity.notes}}
