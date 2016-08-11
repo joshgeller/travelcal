@@ -27,13 +27,13 @@
       .then(function(res) {
         // store login state in service
         service.loggedIn = true;
-        
+
         // store username and token so that user remains logged in between page refreshes
         $localStorage.authenticatedUser = { username: username, token: res.data.token };
 
         // add auth token to header for all requests made by the $http service
         $http.defaults.headers.common.Authorization = 'Token ' + res.data.token;
-        
+
         // indicate successful login
         callback(true, res);
       }, function(res) {
@@ -47,6 +47,7 @@
       // remove user from local storage and clear http auth header
       service.loggedIn = false;
       delete $localStorage.authenticatedUser;
+      console.log($localStorage);
       $http.defaults.headers.common.Authorization = '';
     }
   }

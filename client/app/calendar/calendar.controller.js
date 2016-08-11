@@ -13,19 +13,21 @@
     'uiCalendarConfig',
     '$location',
     'TripService',
-    'CalendarService'
+    'CalendarService',
+    'moment'
   ];
 
   function CalendarController(
-    $scope, 
-    $mdDialog, 
-    $mdMedia, 
-    $compile, 
-    uiCalendarConfig, 
-    $location, 
-    TripService, 
-    CalendarService
-  ) 
+    $scope,
+    $mdDialog,
+    $mdMedia,
+    $compile,
+    uiCalendarConfig,
+    $location,
+    TripService,
+    CalendarService,
+    moment
+  )
   {
 
     var vm = this;
@@ -40,7 +42,7 @@
     // 'private' functions
     var convertCalendarData = convertCalendarData;
     var editActivity = editActivity;
-    var eventRender = eventRender; 
+    var eventRender = eventRender;
     var goToTripStart = goToTripStart;
     var init = init;
     var onDayClick = onDayClick;
@@ -51,6 +53,19 @@
     var updateTrip = updateTrip;
 
     init();
+
+    function convertCalendarData(event) {
+
+      if (event.hasOwnProperty("start") && event.start != null) {
+        event.start = new moment(event.start);
+      }
+      if (event.hasOwnProperty("end") && event.end != null) {
+        event.end  = new moment(event.end);
+      }
+      if (event.start) {
+        return event;
+      }
+    }
 
     function init() {
       tripId = $location.search().tripId || -1;
@@ -80,9 +95,9 @@
           if (result) {
             vm.trip = response.data;
             vm.title = vm.trip.name;
-            vm.tripStart = new Date(vm.trip.start_date);
+            vm.tripStart = new moment(vm.trip.start_date);
             goToTripStart(vm.tripStart);
-            vm.tripEnd = new Date(vm.trip.end_date);
+            vm.tripEnd = new moment(vm.trip.end_date);
             var dateRange = {
               color: '#f00',
               events: [
@@ -110,18 +125,23 @@
       }
     }
 
-          function convertCalendarData(event) {
 
-        if (event.hasOwnProperty("start") && event.start != null) {
-          event.start = new Date(event.start);
+    vm.loadBudget = function exportPDF() {
+      $location.path('/budget').search({tripId:tripId});
+    }
+
+    vm.exportPDF = function exportPDF() {
+      TripService.exportPDF(tripId, function(result, response) {});
+    }
+
+    vm.triggerReminders = function triggerReminders() {
+      TripService.triggerReminders(tripId, function(result, response) {
+        if (result) {
+          alert('Email reminders were sent to ' + response.data.email + '!')
         }
-        if (event.hasOwnProperty("end") && event.end != null) {
-          event.end  = new Date(event.end);
-        }
-        if (event.start) {
-          return event;
-        }
-      }
+
+      });
+    }
 
     function onEventClick( date, jsEvent, view ) {
       editActivity(jsEvent, vm.calendar.data[date.position], date.position);
@@ -248,7 +268,8 @@
     }
 
     function onDayClick(date, jsEvent, view) {
-      editActivity(jsEvent, null, date._d);
+      // add 1 day to make up for off-by-one bug
+      editActivity(jsEvent, null, date.add(1, 'd').toDate());
     }
 
     // Take the calendar to the appropriate month for the trip
@@ -309,14 +330,30 @@
         }
       })
         .then(function(activity) {
-
           if (typeof activity == 'boolean' && activity == true) {
             if (keyIn > -1) {
               vm.calendar.data.splice(keyIn, 1);
             }
           }
           else {
-
+            var start = moment(activity.start) || undefined
+            if (activity.startTime) {
+              var time = moment(activity.startTime)
+              var hour = time.hours()
+              var min = time.minutes()
+              start.hour(hour)
+              start.minute(min)
+            }
+            activity.start = start
+            var end = moment(activity.end) || undefined
+            if (activity.endTime) {
+              var time = moment(activity.endTime)
+              var hour = time.hours()
+              var min = time.minutes()
+              end.hour(hour)
+              end.minute(min)
+            }
+            activity.end = end
             if (!activity.quantity){
               activity.quantity = 1;
             }
@@ -334,7 +371,6 @@
             }
           }
           CalendarService.update(vm.calendar.id, vm.calendar.data, updateCalendar);
-
         }, function() {
           $scope.status = 'You cancelled the dialog.';
         });
@@ -380,5 +416,3 @@
   }
 
 })();
-
-

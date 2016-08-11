@@ -17,11 +17,21 @@
     service.list = list;
     service.retrieve = retrieve;
     service.update = update;
+    service.retreivePopular = retrievePopular;
 
     return service;
 
     function retrieve(calendarId, callback) {
       return $http.get('/api/v1/calendars/' + calendarId + '/')
+      .then(function(res) {
+        callback(true, res);
+      }, function(res) {
+        callback(false, res);
+      })
+    }
+  
+    function retrievePopular(callback) {
+      return $http.get('/api/v1/calendars/popular/')
       .then(function(res) {
         callback(true, res);
       }, function(res) {

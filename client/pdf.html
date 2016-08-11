@@ -1,0 +1,42 @@
+<html>
+
+<head>
+    <style>
+        html {
+          font-family: sans-serif;
+        }
+        .activity {
+          padding: 1em;
+          border: 1px solid #eee;
+          border-radius: 4px;
+          margin-bottom: 1em;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>{{trip.name}} Itinerary</h1>
+    <h2>{{trip.start_date|date}} through {{trip.end_date|date}}</h2>
+    {% for activity in calendar %}
+    <div class="activity">
+    <h3>{{activity.title}}</h3>
+    <p>
+      {{activity.start|date}}
+      {% if activity.allDay %} (all day)
+      {% else %}
+      @ {{activity.start|date:"P"}} - {{activity.end|date:"P"}}
+      {% endif %}
+    </p>
+    <p>
+      {{activity.notes}}
+    </p>
+    <p>
+      {% if activity.address %}
+      {{activity.address.formatted_address}}
+      {% endif %}
+    </p>
+  </div>
+    {% endfor %}
+</body>
+
+</html>

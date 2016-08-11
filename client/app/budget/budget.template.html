@@ -22,15 +22,15 @@
                         <div ng-if="item.repetitionType != 'total'">
                             {{item.quantity}}
                         </div>
-                            <ng-pluralize 
-                              ng-if="item.repetitionType == 'per day'" 
-                              count="item.quantity || 0" 
+                            <ng-pluralize
+                              ng-if="item.repetitionType == 'per day'"
+                              count="item.quantity || 0"
                               when="{'0': 'days', '1': 'day', 'other': 'days'}"
                               >
                             </ng-pluralize>
-                            <ng-pluralize 
-                              ng-if="item.repetitionType == 'per person'" 
-                              count="item.quantity || 0" 
+                            <ng-pluralize
+                              ng-if="item.repetitionType == 'per person'"
+                              count="item.quantity || 0"
                               when="{'0': 'people', '1': 'person', 'other': 'people'}">
                             </ng-pluralize>
                         <div>
@@ -60,7 +60,7 @@
                     <h4>
                     <md-input-container class="md-block" flex-gt-sm>
                         <md-autocomplete
-                         
+
                           md-selected-item="vm.selectedItem"
                           md-search-text="vm.searchText"
                           md-selected-item-change="vm.updateCurrency(curr.value)"
@@ -79,8 +79,8 @@
                     </md-input-container></h4>
                 </md-list-item>
             </md-list>
-          <md-button class="md-raised" ng-click="vm.editActivity($event)">Add Activity</md-button>
-          <md-button class="md-raised" ng-click="vm.loadCalendar()">Load Calendar</md-button>
+          <md-button class="md-raised" ng-click="vm.editActivity($event)">Add New Activity</md-button>
+          <md-button class="md-raised" ng-click="vm.loadCalendar()">View Calendar</md-button>
         </md-card-content>
     </md-card>
 </md-content>

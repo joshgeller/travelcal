@@ -38,10 +38,10 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'rest_framework.authtoken',
+    'wkhtmltopdf',
     # Apps
     'users',
     'calendars',
-    'budgets',
     'trips',
 ]
 
@@ -142,9 +142,24 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.9/howto/static-files/
 
 STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+
 STATICFILES_DIRS = (
     os.path.join(BASE_DIR, '../client'),
 )
 
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_URL = '/media/'
 
 AUTH_USER_MODEL = 'users.Account'
+
+WKHTMLTOPDF_CMD_OPTIONS = {
+    'quiet': True,
+}
+
+# Email
+EMAIL_HOST = 'smtp.sendgrid.net'
+EMAIL_HOST_USER = os.environ['SENDGRID_USERNAME']
+EMAIL_HOST_PASSWORD = os.environ['SENDGRID_PASSWORD']
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
