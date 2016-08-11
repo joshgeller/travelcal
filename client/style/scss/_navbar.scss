@@ -1,4 +1,13 @@
 #travelcal-main {
+  .navbar {
+    &.navbar-inverse {
+      .container { 
+        height: 28px; 
+      }
+    }
+  }
+
   .travelcal-navbar {
+
   }
 }
