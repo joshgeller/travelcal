@@ -140,27 +140,19 @@
           if (result) {
             vm.trip = response.data;
             vm.title = vm.trip.name;
-            vm.tripStart = new moment(vm.trip.start_date);
-            goToTripStart(vm.tripStart);
-            vm.tripEnd = new moment(vm.trip.end_date);
+            goToTripStart(vm.trip.start_date);
             var dateRange = {
               color: '#f00',
               events: [
-                {title: "TRIP START", start: vm.tripStart, class: 'trip_start', allDay: true},
-                {title: "TRIP END", start: vm.tripEnd, class: 'trip_end', allDay: true}
+                {title: "TRIP START", start: vm.trip.start_date, class: 'trip_start', allDay: true},
+                {title: "TRIP END", start: vm.trip.end_date, class: 'trip_end', allDay: true}
               ]
             };
             vm.eventSources.push(dateRange);
             vm.calendar = response.data.calendar;
             if (vm.calendar.data) {
-              for (var i = 0; i < vm.calendar.data.length; i++) {
-                var newEvent = convertCalendarData(vm.calendar.data[i]);
-                if (newEvent != null) {
-                  vm.events.push(newEvent);
-                }
-              }
+              vm.eventSources.push(vm.calendar.data);
             }
-            vm.eventSources.push(vm.events);
           }
           else {
             console.log("INVALID TRIP ID");
@@ -197,15 +189,12 @@
         var activity = getActivity(vm.calendar.data, event.id);
         if (activity) {
             if (activity.end) {
-              var end = getMoment(activity.end);
-              end.add(delta._days, 'd');
-              activity.end = end;
-              activity.end_date = end
+              activity.end = new moment(activity.end);
+              activity.end.add(delta._days, 'd');
             }
             else {
-              var end = getMoment(activity.start);
-              end.add(delta._days, 'd');
-              activity.end = end;
+              activity.end = new moment(activity.start);
+              activity.end.add(delta._days, 'd');
             }
             vm.calendar.data = updateActivity(vm.calendar.data, activity, activity.id);
             CalendarService.update(vm.calendar.id, vm.calendar.data, updateCalendar);
@@ -214,69 +203,30 @@
     }
 
     function onEventDrop(event, delta, revertFunc, jsEvent, ui, view) {
-      if (event.class == 'start') {
-        var start;
-        if (vm.trip.start_date instanceof Date) {
-          start = vm.trip.start_date;
-        }
-        else {
-          start = new Date(vm.trip.start_date);
-        }
-        if (vm.trip.end_date instanceof Date) {
-          end = vm.trip.end_date;
-        }
-        else {
-          end = new Date(vm.trip.end_date);
-        }
-        vm.trip.end = end;
-        var oldStartDate = start.getDate();
-        start.setDate(oldStartDate + delta._days);
-        vm.trip.start = start;
-        start = JSON.stringify(start);
-        vm.trip.start_date = start.slice(1,11);
-        console.log(vm.trip);
+      if (event.class == 'trip_start') {
+        vm.trip.start_date = new moment(vm.trip.start_date);
+        vm.trip.start_date.add(delta._days, 'd');
         TripService.update(vm.trip.id, vm.trip, updateTrip);
 
       }
-      else if (event.class = 'end') {
-        var end;
-        if (vm.trip.end_date instanceof Date) {
-          end = vm.trip.end_date;
-        }
-        else {
-          end = new Date(vm.trip.end_date);
-        }
-        if (vm.trip.start_date instanceof Date) {
-          start = vm.trip.start_date;
-        }
-        else {
-          start = new Date(vm.trip.start_date);
-        }
-        vm.trip.start = start;
-        var oldEndDate = end.getDate();
-        end.setDate(oldEndDate + delta._days);
-        vm.trip.end = end;
-        end = JSON.stringify(end);
-        vm.trip.end_date = end.slice(1,11);
-        console.log(vm.trip);
+      else if (event.class == 'trip_end') {
+        vm.trip.end_date = new moment(vm.trip.end_date);
+        vm.trip.end_date.add(delta._days, 'd');
         TripService.update(vm.trip.id, vm.trip, updateTrip);
       }
       else {
         var activity = getActivity(vm.calendar.data, event.id);
         if (activity.start) {
-          var start = getMoment(activity.start);
-          start.add(delta._days, 'd');
-          activity.start = start;
+          activity.start = new moment(activity.start);
+          activity.start.add(delta._days, 'd');
         }
         if (activity.end) {
-          var end = getMoment(activity.end);
-          end.add(delta._days, 'd');
-          activity.end = end;
+          activity.end = new moment(activity.end);
+          activity.end.add(delta._days, 'd');
         }
         else {
-          var end = getMoment(activity.start);
-          end.setDate(end.getDate() + delta._days);
-          activity.end = end;
+          activity.end = new moment (activity.start);
+          activity.end.add(delta._days, 'd');
         }
         vm.calendar.data = updateActivity(vm.calendar.data, activity, activity.id);
         CalendarService.update(vm.calendar.id, vm.calendar.data, updateTrip);
