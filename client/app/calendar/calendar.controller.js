@@ -417,7 +417,7 @@
       $mdDialog.show({
         controller: 'PopularDialogController',
         controllerAs: 'dvm',
-        templateUrl: 'static/app/popular/popular.template.html',
+        templateUrl: 'static/app/calendar/popular.template.html',
         parent: angular.element(document.body),
         targetEvent: ev,
         clickOutsideToClose:true,

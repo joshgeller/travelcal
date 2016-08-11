@@ -15,8 +15,7 @@
       'travelcal.profile',
       'travelcal.triplist',
       'travelcal.nav',
-      'travelcal.calendar',
-      'travelcal.popular'
+      'travelcal.calendar'
     ]
   );
 
