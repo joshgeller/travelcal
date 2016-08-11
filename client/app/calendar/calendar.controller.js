@@ -149,10 +149,11 @@
               ]
             };
             vm.eventSources.push(dateRange);
-            vm.calendar = response.data.calendar;
-            if (vm.calendar.data) {
-              vm.eventSources.push(vm.calendar.data);
+            vm.calendar_id = response.data.id;
+            if (!response.data.calendar.data) {
+              response.data.calendar.data = [];
             }
+            vm.eventSources.push(response.data.calendar.data);
           }
           else {
             console.log("INVALID TRIP ID");
@@ -160,8 +161,6 @@
         });
       }
     }
-
-
     vm.loadBudget = function exportPDF() {
       $location.path('/budget').search({tripId:tripId});
     }
@@ -186,50 +185,50 @@
 
     function onEventResize(event, delta, revertFunc, jsEEvent, ui, view) {
       if (event.class != 'trip_start' && event.class != 'trip_end') {
-        var activity = getActivity(vm.calendar.data, event.id);
+        var activity = getActivity(vm.eventSources[1], event.id);
         if (activity) {
             if (activity.end) {
-              activity.end = new moment(activity.end);
+              activity.end = moment(activity.end);
               activity.end.add(delta._days, 'd');
             }
             else {
-              activity.end = new moment(activity.start);
+              activity.end = moment(activity.start);
               activity.end.add(delta._days, 'd');
             }
-            vm.calendar.data = updateActivity(vm.calendar.data, activity, activity.id);
-            CalendarService.update(vm.calendar.id, vm.calendar.data, updateCalendar);
+            vm.eventSources[1] = updateActivity(vm.eventSources[1], activity, activity.id);
+            CalendarService.update(vm.calendar_id, vm.eventSources[1], updateCalendar);
         }
       }
     }
 
     function onEventDrop(event, delta, revertFunc, jsEvent, ui, view) {
       if (event.class == 'trip_start') {
-        vm.trip.start_date = new moment(vm.trip.start_date);
+        vm.trip.start_date = moment(vm.trip.start_date);
         vm.trip.start_date.add(delta._days, 'd');
         TripService.update(vm.trip.id, vm.trip, updateTrip);
 
       }
       else if (event.class == 'trip_end') {
-        vm.trip.end_date = new moment(vm.trip.end_date);
+        vm.trip.end_date = moment(vm.trip.end_date);
         vm.trip.end_date.add(delta._days, 'd');
         TripService.update(vm.trip.id, vm.trip, updateTrip);
       }
       else {
-        var activity = getActivity(vm.calendar.data, event.id);
+        var activity = getActivity(vm.eventSources[1], event.id);
         if (activity.start) {
-          activity.start = new moment(activity.start);
+          activity.start = moment(activity.start);
           activity.start.add(delta._days, 'd');
         }
         if (activity.end) {
-          activity.end = new moment(activity.end);
+          activity.end = moment(activity.end);
           activity.end.add(delta._days, 'd');
         }
         else {
-          activity.end = new moment (activity.start);
+          activity.end = moment(activity.start);
           activity.end.add(delta._days, 'd');
         }
-        vm.calendar.data = updateActivity(vm.calendar.data, activity, activity.id);
-        CalendarService.update(vm.calendar.id, vm.calendar.data, updateTrip);
+        vm.eventSources[1] = updateActivity(vm.eventSources[1], activity, activity.id);
+        CalendarService.update(vm.calendar_id, vm.eventSources[1], updateTrip);
       }
     }
 
@@ -259,7 +258,7 @@
 
     function updateCalendar(status, message) {
       if (status) {
-        vm.calendar.data = message.data.data;
+        vm.eventSources[1] = message.data.data;
       }
     };
 
@@ -301,7 +300,6 @@
           // Delete Activity
           if (typeof activity == 'boolean' && activity == true) {
             if (keyIn) {
-              vm.calendar.data = deleteActivity(vm.calendar.data, keyIn);
               vm.eventSources[1] = deleteActivity(vm.eventSources[1], keyIn);
             }
           }
@@ -327,22 +325,21 @@
             if (!activity.quantity){
               activity.quantity = 1;
             }
-            if (vm.calendar.data == null) {
-              vm.calendar.data = [];
+            if (vm.eventSources[1] == null) {
+              vm.eventSources[1] = [];
             }
             // Update activity
             if (typeof keyIn == 'string' && keyIn != null) {
-              vm.calendar.data = updateActivity(vm.calendar.data, activity, activity.id);
               vm.eventSources[1] = updateActivity(vm.eventSources[1], activity, activity.id);
             }
             // New activity
             else {
+              console.log(vm.eventSources[1]);
               activity.id = CalendarService.createActivityId(activity);
-              vm.calendar.data.push(activity);
-              vm.eventSources[1].push(convertCalendarData(activity));
+              vm.eventSources[1].push(activity);
             }
           }
-          CalendarService.update(vm.calendar.id, vm.calendar.data, updateCalendar);
+          CalendarService.update(vm.calendar_id, vm.eventSources[1], updateCalendar);
   
           // @TODO
           // force reloading page after making changes -- need to find out why calendar isn't
