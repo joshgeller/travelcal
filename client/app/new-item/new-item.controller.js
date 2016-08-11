@@ -20,6 +20,12 @@
     vm.selected = [];
     vm.currency = '';
 
+    vm.formIsValid = formIsValid;
+
+    function formIsValid(form) {
+      return form.$valid;
+    }
+
     if ($scope.$parent.dvm.edit) {
       vm.edit = $scope.$parent.dvm.edit;
     }
