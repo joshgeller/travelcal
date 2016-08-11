@@ -12,11 +12,16 @@
             </div>
             <div layout-gt-sm="row">
                 <md-content>
+                    <label>Date: {{vm.renderStart()}}</label>
+                </md-content>
+            </div>
+            <!-- <div layout-gt-sm="row">
+                <md-content>
                     <label>Dates</label>
                     <md-datepicker ng-model-options="{timezone:'UTC'}" ng-model="vm.activity.start" md-placeholder="Start date" md-open-on-focus></md-datepicker>
                     <md-datepicker ng-model-options="{timezone:'UTC'}" ng-model="vm.activity.end" md-min-date="vm.activity.start" md-placeholder="End date" md-open-on-focus></md-datepicker>
                 </md-content>
-            </div>
+            </div> -->
             <div layout-gt-sm="row">
                 <md-input-container>
                     <md-checkbox ng-model="vm.activity.allDay">All Day Event</md-checkbox>
@@ -107,17 +112,17 @@
                 </fieldset>
             </div>
             <md-button class="md-primary md-raised md-warn" ng-click="dvm.cancel()">Cancel</md-button>
-            <md-button 
-                class="md-primary md-raised" 
-                ng-disabled="!vm.formIsValid(NewItemForm)" 
+            <md-button
+                class="md-primary md-raised"
+                ng-disabled="!vm.formIsValid(NewItemForm)"
                 ng-click="dvm.update(vm.activity)" ng-if="dvm.edit"
                 >
                 Update
             </md-button>
-            <md-button 
-                class="md-primary md-raised" 
-                ng-disabled="!vm.formIsValid(NewItemForm)" 
-                ng-click="dvm.update(vm.activity)" 
+            <md-button
+                class="md-primary md-raised"
+                ng-disabled="!vm.formIsValid(NewItemForm)"
+                ng-click="dvm.update(vm.activity)"
                 ng-if="!dvm.edit"
                 >
                 Add

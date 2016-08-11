@@ -24,7 +24,7 @@
       {{activity.start|date}}
       {% if activity.allDay %} (all day)
       {% else %}
-      @ {{activity.start|date:"P"}} - {{activity.end|date:"P"}}
+      @ {{activity.startTime|date:"P"}} - {{activity.endTime|date:"P"}}
       {% endif %}
     </p>
     <p>

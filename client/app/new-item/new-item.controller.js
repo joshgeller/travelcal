@@ -36,45 +36,44 @@
       vm.activity = $scope.$parent.dvm.activity;
     }
     if (vm.edit) {
-      var start = moment(vm.activity.start) || undefined;
-      var end = moment(vm.activity.end) || undefined;
+      vm.activity.startTime = moment(vm.activity.startTime).toDate()
+      vm.activity.endTime = moment(vm.activity.endTime).toDate()
+      vm.activity.start = moment(vm.activity.start) || undefined;
+      vm.activity.end = moment(vm.activity.end) || undefined;
 
       if (vm.activity.startTime) {
-        var time = vm.activity.startTime.split('T')[1];
-        var hour = time.split(':')[0];
-        var min = time.split(':')[1]
-        start.hour(hour)
-        start.minute(min)
-        vm.allDay = false;
+        var time = moment(vm.activity.startTime)
+        var hour = time.hours()
+        var min = time.minutes()
+        vm.activity.start.hour(hour)
+        vm.activity.start.minute(min)
       }
-      
       if (vm.activity.endTime) {
-        var time = vm.activity.endTime.split('T')[1];
-        var hour = time.split(':')[0];
-        var min = time.split(':')[1]
-        end.hour(hour)
-        end.minute(min)
+        var time = moment(vm.activity.endTime)
+        var hour = time.hours()
+        var min = time.minutes()
+        vm.activity.end.hour(hour)
+        vm.activity.end.minute(min)
       }
-      
-      vm.title = "Edit Activity";
 
-      // if have valid moment object then ._f will be set
-      vm.activity.start = start._f ? start.toDate() : undefined;
-      vm.activity.end = end._f ? end.toDate() : undefined;
-      vm.activity.startTime = moment(vm.activity.startTime).toDate() || undefined;
-      vm.activity.endTime = moment(vm.activity.endTime).toDate() || undefined;
+      vm.title = 'Edit Activity';
       vm.currency = vm.activity.currency;
 
     } else {
-      vm.title = "New Activity"
+
+      vm.title = 'Add a New Activity'
       vm.activity = {};
-      vm.activity.quantity = 1;
-      vm.currency = 'USD';      // default currency
-      vm.activity.repetitionType = "total";
       vm.activity.allDay = true;
+      vm.activity.quantity = 1;
+      vm.activity.repetitionType = 'total';
+      vm.currency = 'USD';      // default currency
+      vm.endTime = undefined;
+      vm.startTime = undefined;
       if ($scope.$parent.dvm.start) {
-        vm.activity.start = moment($scope.$parent.dvm.start).toDate();
-        vm.activity.end = moment($scope.$parent.dvm.start).toDate();
+        // Start/end dates are passed from calendar controller as Moments
+        // so we convert them here for the datepicker, which wants native Dates
+        vm.activity.start = $scope.$parent.dvm.start;
+        vm.activity.end = $scope.$parent.dvm.start;
       }
     }
 
@@ -107,7 +106,7 @@
       });
 
     vm.newCurrency = function newCurrency(currency) {
-      alert("Sorry, that currency is not supported.")
+      alert('Sorry, that currency is not supported.')
     }
     vm.querySearch = function querySearch(query) {
       return query ? vm.currencyAutoComplete.filter(createFilterFor(query)) : vm.currencyAutoComplete;
@@ -122,6 +121,13 @@
     vm.updateCurrency = function updateCurrency(currentCurrency) {
       vm.activity.currency = currentCurrency;
       return;
+    }
+
+    vm.renderStart = function() {
+      if (!moment.isMoment(vm.activity.start)) {
+        vm.activity.start = moment(vm.activity.start)
+      }
+      return vm.activity.start.utc().format('MMMM Do, YYYY')
     }
   }
 })();
