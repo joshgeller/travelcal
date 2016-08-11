@@ -16,7 +16,12 @@
             </md-card-title-text>
         </md-card-title>
         <md-card-content>
-            <div ng-model-options="{timezone:'UTC'}" ui-calendar="vm.uiConfig.calendar" ng-model="vm.eventSources" calendar="tripCalendar"></div>
+            <div 
+                ng-model-options="{timezone:'UTC'}" 
+                ui-calendar="uiConfig.calendar" 
+                ng-model="eventSources"
+                calendar="tripCalendar">
+            </div>
         </md-card-content>
 
     </md-card>
