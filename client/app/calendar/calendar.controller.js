@@ -101,7 +101,7 @@
       $scope.uiConfig = {
         calendar:{
           height: 450,
-          editable: true,
+          editable: false,
           header:{
             left: 'title',
             center: '',
@@ -130,12 +130,12 @@
                 {title: "TRIP END", start: vm.trip.end_date, class: 'trip_end', allDay: true}
               ]
             };
-            $scope.eventSources.push(dateRange);
+            $scope.eventSources[0] = dateRange;
             vm.calendar_id = response.data.id;
             if (!response.data.calendar.data) {
               response.data.calendar.data = [];
             }
-            $scope.eventSources.push(response.data.calendar.data);
+            $scope.eventSources[1] = response.data.calendar.data;
           }
           else {
             console.log("INVALID TRIP ID");
@@ -184,6 +184,8 @@
     }
 
     function onEventDrop(event, delta, revertFunc, jsEvent, ui, view) {
+      var calendar = angular.copy($scope.eventSources[1]);
+
       if (event.class == 'trip_start') {
         vm.trip.start_date = moment(vm.trip.start_date);
         vm.trip.start_date.add(delta._days, 'd');
@@ -196,7 +198,10 @@
         TripService.update(vm.trip.id, vm.trip, updateTrip);
       }
       else {
-        var activity = getActivity($scope.eventSources[1], event.id);
+        var _activity = getActivity(calendar, event.id);
+        var activty = angular.copy(_activity);
+        delete activity._id;
+
         if (activity.start) {
           activity.start = moment(activity.start);
           activity.start.add(delta._days, 'd');
@@ -209,8 +214,11 @@
           activity.end = moment(activity.start);
           activity.end.add(delta._days, 'd');
         }
-        $scope.eventSources[1] = updateActivity($scope.eventSources[1], activity, activity.id);
-        CalendarService.update(vm.calendar_id, $scope.eventSources[1], updateTrip);
+        //$scope.eventSources[1] = updateActivity($scope.eventSources[1], activity, activity.id);
+        CalendarService.update(vm.calendar_id, calendar, updateTrip)
+          .then(function() {
+            init();
+          });
       }
     }
 
@@ -255,6 +263,7 @@
       var activity = {};
       var edit = false;
       var start = undefined;
+      var calendar = angular.copy($scope.eventSources[1]);
   
       if (activityIn) {
         angular.copy(activityIn, activity);
@@ -282,7 +291,7 @@
           // Delete Activity
           if (typeof activity == 'boolean' && activity == true) {
             if (keyIn) {
-              $scope.eventSources[1] = deleteActivity($scope.eventSources[1], keyIn);
+              calendar = deleteActivity(calendar, keyIn);
             }
           }
           else {
@@ -304,25 +313,31 @@
               end.minute(min)
             }
             activity.end = end
+
             if (!activity.quantity){
               activity.quantity = 1;
             }
-            if ($scope.eventSources[1] == null) {
-              $scope.eventSources[1] = [];
-            }
+//            if ($scope.eventSources[1] == null) {
+//              $scope.eventSources[1] = [];
+            //            }
+
+            activity.start.toDate();
+            activity.end.toDate();
             // Update activity
+            
             if (typeof keyIn == 'string' && keyIn != null) {
-              $scope.eventSources[1] = updateActivity($scope.eventSources[1], activity, activity.id);
+              calendar = updateActivity(calendar, activity, activity.id);
             }
             // New activity
             else {
-              console.log($scope.eventSources[1]);
               activity.id = CalendarService.createActivityId(activity);
-              $scope.eventSources[1].push(activity);
-              console.log($scope.eventSources[1]);
+              calendar.push(activity);
             }
           }
-          CalendarService.update(vm.calendar_id, $scope.eventSources[1], updateCalendar);
+          CalendarService.update(vm.calendar_id, calendar, updateCalendar)
+            .then(function() {
+              init();
+            });
   
           // @TODO
           // force reloading page after making changes -- need to find out why calendar isn't

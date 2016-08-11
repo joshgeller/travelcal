@@ -66,12 +66,23 @@
     }
 
     function update(calendarId, data, callback) {
+      if (data.source) {
+        delete date.source;
+      }
+
       return $http.patch('/api/v1/calendars/' + calendarId + '/', { data: data })
-      .then(function(res) {
-        callback(true, res);
-      }, function(res) {
-        callback(false, res);
-      })
+        .then(function(res) {
+          if (callback) {
+            callback(true, res);
+          }
+          return res;
+
+        }, function(res) {
+          if (callback) {
+            callback(false, res);
+          }
+          return res;
+        })
     }
 
     function destroy(calendarId, callback) {
