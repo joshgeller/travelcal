@@ -18,8 +18,13 @@
     service.retrieve = retrieve;
     service.update = update;
     service.retrievePopular = retrievePopular;
+    service.createActivityId = createActivityId;
 
     return service;
+
+    function createActivityId(activity) {
+        return activity.title + activity.start.toString();
+    }
 
     function retrieve(calendarId, callback) {
       return $http.get('/api/v1/calendars/' + calendarId + '/')

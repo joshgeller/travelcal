@@ -3,9 +3,8 @@
         <h3>{{vm.title}}</h3>
     </md-card-title>
     <md-card-content>
-        <form ng-submit="vm.submit" name="vm.NewItemForm">
+        <form ng-submit="vm.submit" novalidate name="NewItemForm">
             <div layout-gt-xs="row">
-
                 <md-input-container flex>
                     <label>Activity name</label>
                     <input ng-model="vm.activity.title" required name="name">
@@ -14,7 +13,7 @@
             <div layout-gt-sm="row">
                 <md-content>
                     <label>Dates</label>
-                    <md-datepicker ng-model-options="{timezone:'UTC'}" ng-model="vm.activity.start" md-placeholder="Start date" ng-required="!vm.activity.cost" md-open-on-focus></md-datepicker>
+                    <md-datepicker ng-model-options="{timezone:'UTC'}" ng-model="vm.activity.start" md-placeholder="Start date" md-open-on-focus></md-datepicker>
                     <md-datepicker ng-model-options="{timezone:'UTC'}" ng-model="vm.activity.end" md-min-date="vm.activity.start" md-placeholder="End date" md-open-on-focus></md-datepicker>
                 </md-content>
             </div>
@@ -45,8 +44,16 @@
             </div>
             <div layout-gt-sm="row">
                 <md-input-container>
-                    <input type="text" ng-model="vm.activity.url" placeholder="Link">
+                    <input type="url" name="url" ng-model="vm.activity.info_url" placeholder="Link">
                 </md-input-container>
+                <div style="color:red" ng-if="!NewItemForm.url.$valid">*invalid url</div>
+                <md-button ng-if="NewItemForm.url.$valid && vm.activity.info_url.length" href={{vm.activity.info_url}}
+                 title="Launch in new window"
+                 target="_blank"
+                 aria-label="NewItemForm.url"
+                 class="md-icon-button launch" >
+                 <ng-md-icon md-menu-align-target icon="launch"></ng-md-icon>
+                </md-button>
             </div>
             <div layout-gt-sm="row">
                 <md-input-container class="md-block" flex-gt-sm>
@@ -100,8 +107,19 @@
                 </fieldset>
             </div>
             <md-button class="md-primary md-raised md-warn" ng-click="dvm.cancel()">Cancel</md-button>
-            <md-button class="md-primary md-raised" ng-disabled="!vm.activity.title || !vm.activity.cost" ng-click="dvm.update(vm.activity)" ng-if="dvm.edit">Update</md-button>
-            <md-button class="md-primary md-raised" ng-disabled="!vm.activity.title || !vm.activity.cost" ng-click="dvm.update(vm.activity)" ng-if="!dvm.edit">
+            <md-button 
+                class="md-primary md-raised" 
+                ng-disabled="!vm.formIsValid(NewItemForm)" 
+                ng-click="dvm.update(vm.activity)" ng-if="dvm.edit"
+                >
+                Update
+            </md-button>
+            <md-button 
+                class="md-primary md-raised" 
+                ng-disabled="!vm.formIsValid(NewItemForm)" 
+                ng-click="dvm.update(vm.activity)" 
+                ng-if="!dvm.edit"
+                >
                 Add
             </md-button>
             <span flex></span>
