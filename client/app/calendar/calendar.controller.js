@@ -42,8 +42,6 @@
     var tripId;
 
     // 'private' functions
-    var convertCalendarData = convertCalendarData;
-    var getMoment = getMoment;
     var editActivity = editActivity;
     var eventRender = eventRender;
     var eventDataTransform = eventDataTransform;
@@ -62,18 +60,6 @@
 
 
     init();
-
-    function convertCalendarData(event) {
-      if (event.hasOwnProperty("start") && event.start != null) {
-        event.start = new moment(event.start);
-      }
-      if (event.hasOwnProperty("end") && event.end != null) {
-        event.end  = new moment(event.end);
-      }
-      if (event.start) {
-        return event;
-      }
-    }
 
     function getActivity(activityArray, activityId) {
         for (var i = 0; i < activityArray.length; i++) {
@@ -105,10 +91,6 @@
             }
         }
         return activityArray;
-    }
-
-    function getMoment(date) {
-      return (date instanceof moment) ? date : new moment(date);
     }
 
     function init() {
@@ -179,7 +161,7 @@
     }
 
     function onEventClick(activity, jsEvent, view ) {
-      activity = getActivity(vm.calendar.data, activity.id);
+      activity = getActivity(vm.eventSources[1], activity.id);
       editActivity(jsEvent, activity, activity.id);
     }
 
@@ -337,6 +319,7 @@
               console.log(vm.eventSources[1]);
               activity.id = CalendarService.createActivityId(activity);
               vm.eventSources[1].push(activity);
+              console.log(vm.eventSources[1]);
             }
           }
           CalendarService.update(vm.calendar_id, vm.eventSources[1], updateCalendar);
