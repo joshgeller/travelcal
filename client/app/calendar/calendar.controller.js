@@ -397,9 +397,6 @@
         fullscreen: useFullScreen
       })
         .then(function(activity) {
-            console.log(activity);
-            console.log("completed");
-
             editActivity(ev, activity);
 
         }, function() {

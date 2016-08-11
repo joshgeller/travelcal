@@ -17,7 +17,7 @@
     service.list = list;
     service.retrieve = retrieve;
     service.update = update;
-    service.retreivePopular = retrievePopular;
+    service.retrievePopular = retrievePopular;
 
     return service;
 

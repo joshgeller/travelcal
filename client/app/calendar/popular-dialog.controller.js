@@ -7,16 +7,21 @@
 
   PopularDialogController.$inject = [
     '$mdDialog',
-    '$scope'
+    '$scope',
+    'CalendarService'
   ];
 
-  function PopularDialogController($mdDialog, $scope) {
+  function PopularDialogController($mdDialog, $scope, CalendarService) {
     var vm = this;
     vm.addActivity = addActivity;
     init();
 
     function init() {
-      // get activity list?
+      CalendarService.retrievePopular(function(result, response) {
+        if (result) {
+            vm.popular_activities = response.data;
+        }
+      });
     };
 
     function hide() {
