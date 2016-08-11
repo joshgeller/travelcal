@@ -47,7 +47,7 @@
       // remove user from local storage and clear http auth header
       service.loggedIn = false;
       delete $localStorage.authenticatedUser;
-      console.log($localStorage);
+      console.log('local', $localStorage);
       $http.defaults.headers.common.Authorization = '';
     }
   }

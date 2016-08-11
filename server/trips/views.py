@@ -36,7 +36,6 @@ class TripViewSet(viewsets.ModelViewSet):
             activity.update({'start': dateutil.parser.parse((activity['start']))})
             activity.update({'end': dateutil.parser.parse((activity['end']))})
             if activity.get('allDay') is False:
-                print(activity['startTime'], activity['endTime'])
                 activity.update({'startTime': dateutil.parser.parse((activity['startTime']))})
                 activity.update({'endTime': dateutil.parser.parse((activity['endTime']))})
         response = PDFTemplateResponse(
@@ -44,13 +43,7 @@ class TripViewSet(viewsets.ModelViewSet):
             template='pdf.html',
             filename=filename,
             context={'trip': trip, 'calendar': activities},
-            show_content_in_browser=False,
-            cmd_options={'margin-top': 10,
-                         "zoom": 1,
-                         "viewport-size": "1366 x 513",
-                         'javascript-delay': 1000,
-                         "no-stop-slow-scripts": True},
-
+            show_content_in_browser=False
         )
         return response
 
