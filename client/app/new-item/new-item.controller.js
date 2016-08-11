@@ -23,7 +23,10 @@
     vm.formIsValid = formIsValid;
 
     function formIsValid(form) {
-      return form.$valid;
+      if (form) {
+        return form.$valid;
+      }
+      return false;
     }
 
     if ($scope.$parent.dvm.edit) {

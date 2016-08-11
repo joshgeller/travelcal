@@ -221,6 +221,32 @@
                 vm.customFullscreen = (wantsFullScreen === true);
             });
         };
+
+        vm.popularActivities = function (ev) {
+          var useFullScreen = ($mdMedia('sm') || $mdMedia('xs'))  && vm.customFullscreen;
+
+          $mdDialog.show({
+            controller: 'PopularDialogController',
+            controllerAs: 'dvm',
+            templateUrl: 'static/app/calendar/popular.template.html',
+            parent: angular.element(document.body),
+            targetEvent: ev,
+            clickOutsideToClose:true,
+            fullscreen: useFullScreen
+          })
+            .then(function(activity) {
+                editActivity(ev, activity);
+
+            }, function() {
+              console.log('You cancelled the dialog.');
+            });
+
+            $scope.$watch(function() {
+              return $mdMedia('xs') || $mdMedia('sm');
+            }, function(wantsFullScreen) {
+              vm.customFullscreen = (wantsFullScreen === true);
+            });
+        };
     }
 
 })();

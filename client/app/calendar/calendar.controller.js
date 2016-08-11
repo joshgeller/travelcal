@@ -169,6 +169,7 @@
       }
     }
 
+
     vm.loadBudget = function exportPDF() {
       $location.path('/budget').search({tripId:tripId});
     }
@@ -182,6 +183,7 @@
         if (result) {
           alert('Email reminders were sent to ' + response.data.email + '!')
         }
+
       });
     }
 
@@ -212,17 +214,51 @@
     }
 
     function onEventDrop(event, delta, revertFunc, jsEvent, ui, view) {
-      if (event.class == 'trip_start') {
-        var start = getMoment(vm.trip.start_date);
-        start.add(delta._days, 'd');
-        vm.trip.start_date = start;
+      if (event.class == 'start') {
+        var start;
+        if (vm.trip.start_date instanceof Date) {
+          start = vm.trip.start_date;
+        }
+        else {
+          start = new Date(vm.trip.start_date);
+        }
+        if (vm.trip.end_date instanceof Date) {
+          end = vm.trip.end_date;
+        }
+        else {
+          end = new Date(vm.trip.end_date);
+        }
+        vm.trip.end = end;
+        var oldStartDate = start.getDate();
+        start.setDate(oldStartDate + delta._days);
+        vm.trip.start = start;
+        start = JSON.stringify(start);
+        vm.trip.start_date = start.slice(1,11);
+        console.log(vm.trip);
         TripService.update(vm.trip.id, vm.trip, updateTrip);
 
       }
-      else if (event.class == 'trip_end') {
-        var end = getMoment(vm.trip.end_date);
-        end.add(delta._days, 'd');
-        vm.trip.end_date = end;
+      else if (event.class = 'end') {
+        var end;
+        if (vm.trip.end_date instanceof Date) {
+          end = vm.trip.end_date;
+        }
+        else {
+          end = new Date(vm.trip.end_date);
+        }
+        if (vm.trip.start_date instanceof Date) {
+          start = vm.trip.start_date;
+        }
+        else {
+          start = new Date(vm.trip.start_date);
+        }
+        vm.trip.start = start;
+        var oldEndDate = end.getDate();
+        end.setDate(oldEndDate + delta._days);
+        vm.trip.end = end;
+        end = JSON.stringify(end);
+        vm.trip.end_date = end.slice(1,11);
+        console.log(vm.trip);
         TripService.update(vm.trip.id, vm.trip, updateTrip);
       }
       else {
@@ -372,6 +408,35 @@
           vm.customFullscreen = (wantsFullScreen === true);
         });
     };
+
+    vm.customFullscreen = $mdMedia('xs') || $mdMedia('sm');
+
+    vm.popularActivities = function (ev) {
+      var useFullScreen = ($mdMedia('sm') || $mdMedia('xs'))  && vm.customFullscreen;
+
+      $mdDialog.show({
+        controller: 'PopularDialogController',
+        controllerAs: 'dvm',
+        templateUrl: 'static/app/calendar/popular.template.html',
+        parent: angular.element(document.body),
+        targetEvent: ev,
+        clickOutsideToClose:true,
+        fullscreen: useFullScreen
+      })
+        .then(function(activity) {
+            editActivity(ev, activity);
+
+        }, function() {
+          console.log('You cancelled the dialog.');
+        });
+
+        $scope.$watch(function() {
+          return $mdMedia('xs') || $mdMedia('sm');
+        }, function(wantsFullScreen) {
+          vm.customFullscreen = (wantsFullScreen === true);
+        });
+    };
+
   }
 
 })();
