@@ -61,6 +61,16 @@
 
         vm.editActivity = editActivity;
         vm.loadCalendar = loadCalendar;
+        vm.showToolBar = showToolBar;
+
+        function showToolBar(data) {
+          for (var key in data) {
+            if (!data[key].cost) {
+              return true;
+            }
+          }
+          return false;
+        }
 
         function loadCalendar() {
           $location.path('/calendar');
@@ -191,8 +201,11 @@
                         vm.updateCurrency(vm.baseCurrency);
                     }
                     else {
-                        vm.calendar.data.push(activity);
-                        vm.updateCurrency(vm.baseCurrency);
+                      if (!activity.id) {
+                        activity.id = CalendarService.createActivityId(activity);
+                      }
+                      vm.calendar.data.push(activity);
+                      vm.updateCurrency(vm.baseCurrency);
                     }
                 }
 
@@ -206,6 +219,32 @@
                 return $mdMedia('xs') || $mdMedia('sm');
             }, function(wantsFullScreen) {
                 vm.customFullscreen = (wantsFullScreen === true);
+            });
+        };
+
+        vm.popularActivities = function (ev) {
+          var useFullScreen = ($mdMedia('sm') || $mdMedia('xs'))  && vm.customFullscreen;
+
+          $mdDialog.show({
+            controller: 'PopularDialogController',
+            controllerAs: 'dvm',
+            templateUrl: 'static/app/calendar/popular.template.html',
+            parent: angular.element(document.body),
+            targetEvent: ev,
+            clickOutsideToClose:true,
+            fullscreen: useFullScreen
+          })
+            .then(function(activity) {
+                editActivity(ev, activity);
+
+            }, function() {
+              console.log('You cancelled the dialog.');
+            });
+
+            $scope.$watch(function() {
+              return $mdMedia('xs') || $mdMedia('sm');
+            }, function(wantsFullScreen) {
+              vm.customFullscreen = (wantsFullScreen === true);
             });
         };
     }

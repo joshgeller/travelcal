@@ -7,6 +7,7 @@
 
   CalendarController.$inject = [
     '$scope',
+    '$window',
     '$mdDialog',
     '$mdMedia',
     '$compile',
@@ -19,6 +20,7 @@
 
   function CalendarController(
     $scope,
+    $window,
     $mdDialog,
     $mdMedia,
     $compile,
@@ -33,17 +35,16 @@
     var vm = this;
     vm.customFullscreen;
     vm.events = [];
-    vm.eventSources = [];
-    vm.uiConfig = {};
+    $scope.eventSources = [];
+    $scope.uiConfig = {};
 
     // 'private' members
     var tripId;
 
     // 'private' functions
-    var convertCalendarData = convertCalendarData;
-    var getMoment = getMoment;
     var editActivity = editActivity;
     var eventRender = eventRender;
+    var eventDataTransform = eventDataTransform;
     var goToTripStart = goToTripStart;
     var init = init;
     var onDayClick = onDayClick;
@@ -60,18 +61,6 @@
 
     init();
 
-    function convertCalendarData(event) {
-      if (event.hasOwnProperty("start") && event.start != null) {
-        event.start = new moment(event.start);
-      }
-      if (event.hasOwnProperty("end") && event.end != null) {
-        event.end  = new moment(event.end);
-      }
-      if (event.start) {
-        return event;
-      }
-    }
-
     function getActivity(activityArray, activityId) {
         for (var i = 0; i < activityArray.length; i++) {
             if (activityArray[i].id == activityId) {
@@ -83,14 +72,15 @@
 
 
     function updateActivity(activityArray, update, activityId) {
-        for (var i = 0; i < activityArray.length; i++) {
-            if (activityArray[i].id == activityId) {
-                console.log(activityArray[i]);
-                activityArray[i] = update;
-                return activityArray;
-            }
+      for (var i = 0; i < activityArray.length; i++) {
+        if (activityArray[i].id == activityId) {
+          activityArray[i] = update;
+          return activityArray;
+          activityArray.splice(i, 1);
         }
-        return activityArray;
+      }
+      
+      return activityArray;
     }
 
     function deleteActivity(activityArray, activityId) {
@@ -103,16 +93,12 @@
         return activityArray;
     }
 
-    function getMoment(date) {
-      return (date instanceof moment) ? date : new moment(date);
-    }
-
     function init() {
       tripId = $location.search().tripId || -1;
       vm.customFullscreen = $mdMedia('xs') || $mdMedia('sm');
 
       /* config object BASED ON CODE FROM CALENDAR DOCUMENTATION */
-      vm.uiConfig = {
+      $scope.uiConfig = {
         calendar:{
           height: 450,
           editable: true,
@@ -123,6 +109,7 @@
           },
           loading: goToTripStart,
           eventRender: eventRender,
+          eventDataTransform: eventDataTransform,
           eventClick: onEventClick,
           eventResize: onEventResize,
           eventDrop: onEventDrop,
@@ -135,27 +122,20 @@
           if (result) {
             vm.trip = response.data;
             vm.title = vm.trip.name;
-            vm.tripStart = new moment(vm.trip.start_date);
-            goToTripStart(vm.tripStart);
-            vm.tripEnd = new moment(vm.trip.end_date);
+            goToTripStart(vm.trip.start_date);
             var dateRange = {
               color: '#f00',
               events: [
-                {title: "TRIP START", start: vm.tripStart, class: 'trip_start', allDay: true},
-                {title: "TRIP END", start: vm.tripEnd, class: 'trip_end', allDay: true}
+                {title: "TRIP START", start: vm.trip.start_date, class: 'trip_start', allDay: true},
+                {title: "TRIP END", start: vm.trip.end_date, class: 'trip_end', allDay: true}
               ]
             };
-            vm.eventSources.push(dateRange);
-            vm.calendar = response.data.calendar;
-            if (vm.calendar.data) {
-              for (var i = 0; i < vm.calendar.data.length; i++) {
-                var newEvent = convertCalendarData(vm.calendar.data[i]);
-                if (newEvent != null) {
-                  vm.events.push(newEvent);
-                }
-              }
+            $scope.eventSources.push(dateRange);
+            vm.calendar_id = response.data.id;
+            if (!response.data.calendar.data) {
+              response.data.calendar.data = [];
             }
-            vm.eventSources.push(vm.events);
+            $scope.eventSources.push(response.data.calendar.data);
           }
           else {
             console.log("INVALID TRIP ID");
@@ -163,7 +143,6 @@
         });
       }
     }
-
     vm.loadBudget = function exportPDF() {
       $location.path('/budget').search({tripId:tripId});
     }
@@ -177,68 +156,61 @@
         if (result) {
           alert('Email reminders were sent to ' + response.data.email + '!')
         }
+
       });
     }
 
     function onEventClick(activity, jsEvent, view ) {
+      activity = getActivity($scope.eventSources[1], activity.id);
       editActivity(jsEvent, activity, activity.id);
     }
 
     function onEventResize(event, delta, revertFunc, jsEEvent, ui, view) {
       if (event.class != 'trip_start' && event.class != 'trip_end') {
-        var activity = getActivity(vm.calendar.data, event.id);
+        var activity = getActivity($scope.eventSources[1], event.id);
         if (activity) {
             if (activity.end) {
-              var end = getMoment(activity.end);
-              end.add(delta._days, 'd');
-              activity.end = end;
-              activity.end_date = end
+              activity.end = moment(activity.end);
+              activity.end.add(delta._days, 'd');
             }
             else {
-              var end = getMoment(activity.start);
-              end.add(delta._days, 'd');
-              activity.end = end;
+              activity.end = moment(activity.start);
+              activity.end.add(delta._days, 'd');
             }
-            vm.calendar.data = updateActivity(vm.calendar.data, activity, activity.id);
-            CalendarService.update(vm.calendar.id, vm.calendar.data, updateCalendar);
+            $scope.eventSources[1] = updateActivity($scope.eventSources[1], activity, activity.id);
+            CalendarService.update(vm.calendar_id, $scope.eventSources[1], updateCalendar);
         }
       }
     }
 
     function onEventDrop(event, delta, revertFunc, jsEvent, ui, view) {
-      console.log(event);
       if (event.class == 'trip_start') {
-        var start = getMoment(vm.trip.start_date);
-        start.add(delta._days, 'd');
-        vm.trip.start_date = start;
+        vm.trip.start_date = moment(vm.trip.start_date);
+        vm.trip.start_date.add(delta._days, 'd');
         TripService.update(vm.trip.id, vm.trip, updateTrip);
 
       }
       else if (event.class == 'trip_end') {
-        var end = getMoment(vm.trip.end_date);
-        end.add(delta._days, 'd');
-        vm.trip.end_date = end;
+        vm.trip.end_date = moment(vm.trip.end_date);
+        vm.trip.end_date.add(delta._days, 'd');
         TripService.update(vm.trip.id, vm.trip, updateTrip);
       }
       else {
-        var activity = getActivity(vm.calendar.data, event.id);
+        var activity = getActivity($scope.eventSources[1], event.id);
         if (activity.start) {
-          var start = getMoment(activity.start);
-          start.add(delta._days, 'd');
-          activity.start = start;
+          activity.start = moment(activity.start);
+          activity.start.add(delta._days, 'd');
         }
         if (activity.end) {
-          var end = getMoment(activity.end);
-          end.add(delta._days, 'd');
-          activity.end = end;
+          activity.end = moment(activity.end);
+          activity.end.add(delta._days, 'd');
         }
         else {
-          var end = getMoment(activity.start);
-          end.setDate(end.getDate() + delta._days);
-          activity.end = end;
+          activity.end = moment(activity.start);
+          activity.end.add(delta._days, 'd');
         }
-        vm.calendar.data = updateActivity(vm.calendar.data, activity, activity.id);
-        CalendarService.update(vm.calendar.id, vm.calendar.data, updateTrip);
+        $scope.eventSources[1] = updateActivity($scope.eventSources[1], activity, activity.id);
+        CalendarService.update(vm.calendar_id, $scope.eventSources[1], updateTrip);
       }
     }
 
@@ -260,10 +232,15 @@
       $compile(element)($scope);
     };
 
+    function eventDataTransform(events) {
+      // not currently used but could be useful ... 
+      return events;
+    };
+
 
     function updateCalendar(status, message) {
       if (status) {
-        vm.calendar.data = message.data.data;
+        $scope.eventSources[1] = message.data.data;
       }
     };
 
@@ -273,14 +250,12 @@
       }
     };
 
-
     function editActivity(ev, activityIn, keyIn) {
       var useFullScreen = ($mdMedia('sm') || $mdMedia('xs'))  && vm.customFullscreen;
       var activity = {};
       var edit = false;
       var start = undefined;
-
-
+  
       if (activityIn) {
         angular.copy(activityIn, activity);
         edit = true;
@@ -307,8 +282,7 @@
           // Delete Activity
           if (typeof activity == 'boolean' && activity == true) {
             if (keyIn) {
-              vm.calendar.data = deleteActivity(vm.calendar.data, keyIn);
-              vm.eventSources[1] = deleteActivity(vm.eventSources[1], keyIn);
+              $scope.eventSources[1] = deleteActivity($scope.eventSources[1], keyIn);
             }
           }
           else {
@@ -333,22 +307,27 @@
             if (!activity.quantity){
               activity.quantity = 1;
             }
-            if (vm.calendar.data == null) {
-              vm.calendar.data = [];
+            if ($scope.eventSources[1] == null) {
+              $scope.eventSources[1] = [];
             }
             // Update activity
             if (typeof keyIn == 'string' && keyIn != null) {
-              vm.calendar.data = updateActivity(vm.calendar.data, activity, keyIn);
-              vm.eventSources[1] = updateActivity(vm.eventSources[1], activity, keyIn);
+              $scope.eventSources[1] = updateActivity($scope.eventSources[1], activity, activity.id);
             }
             // New activity
             else {
+              console.log($scope.eventSources[1]);
               activity.id = CalendarService.createActivityId(activity);
-              vm.calendar.data.push(activity);
-              vm.eventSources[1].push(convertCalendarData(activity));
+              $scope.eventSources[1].push(activity);
+              console.log($scope.eventSources[1]);
             }
           }
-          CalendarService.update(vm.calendar.id, vm.calendar.data, updateCalendar);
+          CalendarService.update(vm.calendar_id, $scope.eventSources[1], updateCalendar);
+  
+          // @TODO
+          // force reloading page after making changes -- need to find out why calendar isn't
+          // updating when eventSurces or calendar.data changes
+          //$window.location.reload();
         }, function() {
           $scope.status = 'You cancelled the dialog.';
         });
@@ -359,6 +338,35 @@
           vm.customFullscreen = (wantsFullScreen === true);
         });
     };
+
+    vm.customFullscreen = $mdMedia('xs') || $mdMedia('sm');
+
+    vm.popularActivities = function (ev) {
+      var useFullScreen = ($mdMedia('sm') || $mdMedia('xs'))  && vm.customFullscreen;
+
+      $mdDialog.show({
+        controller: 'PopularDialogController',
+        controllerAs: 'dvm',
+        templateUrl: 'static/app/calendar/popular.template.html',
+        parent: angular.element(document.body),
+        targetEvent: ev,
+        clickOutsideToClose:true,
+        fullscreen: useFullScreen
+      })
+        .then(function(activity) {
+            editActivity(ev, activity);
+
+        }, function() {
+          console.log('You cancelled the dialog.');
+        });
+
+        $scope.$watch(function() {
+          return $mdMedia('xs') || $mdMedia('sm');
+        }, function(wantsFullScreen) {
+          vm.customFullscreen = (wantsFullScreen === true);
+        });
+    };
+
   }
 
 })();

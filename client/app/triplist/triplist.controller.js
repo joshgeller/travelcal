@@ -104,6 +104,7 @@
           $scope.tripName = answer.name;
         
           if (answer.updating) {
+            console.log(answer);
             TripService.update(answer.id, answer, addTrip); 
           }
           else {
