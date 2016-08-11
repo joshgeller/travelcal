@@ -7,6 +7,7 @@
 
   CalendarController.$inject = [
     '$scope',
+    '$window',
     '$mdDialog',
     '$mdMedia',
     '$compile',
@@ -19,6 +20,7 @@
 
   function CalendarController(
     $scope,
+    $window,
     $mdDialog,
     $mdMedia,
     $compile,
@@ -44,6 +46,7 @@
     var getMoment = getMoment;
     var editActivity = editActivity;
     var eventRender = eventRender;
+    var eventDataTransform = eventDataTransform;
     var goToTripStart = goToTripStart;
     var init = init;
     var onDayClick = onDayClick;
@@ -83,14 +86,15 @@
 
 
     function updateActivity(activityArray, update, activityId) {
-        for (var i = 0; i < activityArray.length; i++) {
-            if (activityArray[i].id == activityId) {
-                console.log(activityArray[i]);
-                activityArray[i] = update;
-                return activityArray;
-            }
+      for (var i = 0; i < activityArray.length; i++) {
+        if (activityArray[i].id == activityId) {
+          activityArray[i] = update;
+          return activityArray;
+          activityArray.splice(i, 1);
         }
-        return activityArray;
+      }
+      
+      return activityArray;
     }
 
     function deleteActivity(activityArray, activityId) {
@@ -123,6 +127,7 @@
           },
           loading: goToTripStart,
           eventRender: eventRender,
+          eventDataTransform: eventDataTransform,
           eventClick: onEventClick,
           eventResize: onEventResize,
           eventDrop: onEventDrop,
@@ -181,6 +186,7 @@
     }
 
     function onEventClick(activity, jsEvent, view ) {
+      activity = getActivity(vm.calendar.data, activity.id);
       editActivity(jsEvent, activity, activity.id);
     }
 
@@ -206,7 +212,6 @@
     }
 
     function onEventDrop(event, delta, revertFunc, jsEvent, ui, view) {
-      console.log(event);
       if (event.class == 'trip_start') {
         var start = getMoment(vm.trip.start_date);
         start.add(delta._days, 'd');
@@ -260,6 +265,11 @@
       $compile(element)($scope);
     };
 
+    function eventDataTransform(events) {
+      // not currently used but could be useful ... 
+      return events;
+    };
+
 
     function updateCalendar(status, message) {
       if (status) {
@@ -273,14 +283,12 @@
       }
     };
 
-
     function editActivity(ev, activityIn, keyIn) {
       var useFullScreen = ($mdMedia('sm') || $mdMedia('xs'))  && vm.customFullscreen;
       var activity = {};
       var edit = false;
       var start = undefined;
-
-
+  
       if (activityIn) {
         angular.copy(activityIn, activity);
         edit = true;
@@ -338,8 +346,8 @@
             }
             // Update activity
             if (typeof keyIn == 'string' && keyIn != null) {
-              vm.calendar.data = updateActivity(vm.calendar.data, activity, keyIn);
-              vm.eventSources[1] = updateActivity(vm.eventSources[1], activity, keyIn);
+              vm.calendar.data = updateActivity(vm.calendar.data, activity, activity.id);
+              vm.eventSources[1] = updateActivity(vm.eventSources[1], activity, activity.id);
             }
             // New activity
             else {
@@ -349,6 +357,11 @@
             }
           }
           CalendarService.update(vm.calendar.id, vm.calendar.data, updateCalendar);
+  
+          // @TODO
+          // force reloading page after making changes -- need to find out why calendar isn't
+          // updating when eventSurces or calendar.data changes
+          $window.location.reload();
         }, function() {
           $scope.status = 'You cancelled the dialog.';
         });

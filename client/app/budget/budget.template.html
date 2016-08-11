@@ -8,16 +8,17 @@
         <md-card-content>
             <md-list flex>
                 <div ng-if="vm.calendar.data == null"> You have nothing in your budget. Why don't you add an activity?</div>
-                <md-list-item ng-repeat="(key, item) in vm.calendar.data" class="row" ng-click="editActivity($event, item, key)" ng-if="item.cost">
+                <md-list-item 
+                    ng-repeat="(key, item) in vm.calendar.data" 
+                    class="row" ng-click="vm.editActivity($event, item, key)" 
+                    ng-if="item.cost"
+                    >
                     <div flex layout="row" layout-padding layout-align="start center">
                         <div flex style="max-width:200px;">
                             {{item.title}}
                         </div>
                         <div>
                             {{item.cost | number:2}} {{item.currency}}
-                        </div>
-                        <div ng-if="item.repetitionType != 'total'">
-                            x
                         </div>
                         <div ng-if="item.repetitionType != 'total'">
                             {{item.quantity}}
@@ -53,14 +54,21 @@
                             <md-button ng-if="item.info_url" ng-href="{{item.info_url}}" target="_blank">{{item.info_url}}</md-button>
                         </div>
                     </div>
-                    <md-divider></md-divider>
                 </md-list-item>
-                  <md-toolbar>
-                    <h2 class="md-toolbar-tools">
-                      <span>Unknown Cost</span>
-                    </h2>
-                  </md-toolbar>
-                <md-list-item ng-repeat="(key, item) in vm.calendar.data" class="row" ng-click="editActivity($event, item, key)" ng-if="!item.cost">
+                <div ng-if="vm.showToolBar(vm.calendar.data)">
+                    <md-divider></md-divider>
+                      <md-toolbar>
+                        <h2 class="md-toolbar-tools">
+                          <span>Unknown Cost</span>
+                        </h2>
+                      </md-toolbar>
+                  </div>
+                <md-list-item 
+                    ng-repeat="(key, item) in vm.calendar.data" 
+                    class="row" 
+                    ng-click="vm.editActivity($event, item, key)" 
+                    ng-if="!item.cost"
+                    >
                     <div flex layout="row" layout-padding layout-align="start center">
                         <div flex style="max-width:200px;">
                             {{item.title}}

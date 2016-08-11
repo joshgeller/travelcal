@@ -27,7 +27,9 @@
       vm.activity = $scope.$parent.dvm.activity;
     }
     if (vm.edit) {
-      var start = moment(vm.activity.start) || undefined
+      var start = moment(vm.activity.start) || undefined;
+      var end = moment(vm.activity.end) || undefined;
+
       if (vm.activity.startTime) {
         var time = vm.activity.startTime.split('T')[1];
         var hour = time.split(':')[0];
@@ -36,7 +38,7 @@
         start.minute(min)
         vm.allDay = false;
       }
-      var end = moment(vm.activity.end) || undefined
+      
       if (vm.activity.endTime) {
         var time = vm.activity.endTime.split('T')[1];
         var hour = time.split(':')[0];
@@ -44,12 +46,16 @@
         end.hour(hour)
         end.minute(min)
       }
+      
       vm.title = "Edit Activity";
-      vm.activity.start = start.toDate()
-      vm.activity.end = end.toDate()
+
+      // if have valid moment object then ._f will be set
+      vm.activity.start = start._f ? start.toDate() : undefined;
+      vm.activity.end = end._f ? end.toDate() : undefined;
       vm.activity.startTime = moment(vm.activity.startTime).toDate() || undefined;
       vm.activity.endTime = moment(vm.activity.endTime).toDate() || undefined;
       vm.currency = vm.activity.currency;
+
     } else {
       vm.title = "New Activity"
       vm.activity = {};

@@ -61,6 +61,16 @@
 
         vm.editActivity = editActivity;
         vm.loadCalendar = loadCalendar;
+        vm.showToolBar = showToolBar;
+
+        function showToolBar(data) {
+          for (var key in data) {
+            if (!data[key].cost) {
+              return true;
+            }
+          }
+          return false;
+        }
 
         function loadCalendar() {
           $location.path('/calendar');
@@ -191,8 +201,11 @@
                         vm.updateCurrency(vm.baseCurrency);
                     }
                     else {
-                        vm.calendar.data.push(activity);
-                        vm.updateCurrency(vm.baseCurrency);
+                      if (!activity.id) {
+                        activity.id = CalendarService.createActivityId(activity);
+                      }
+                      vm.calendar.data.push(activity);
+                      vm.updateCurrency(vm.baseCurrency);
                     }
                 }
 
