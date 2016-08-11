@@ -317,9 +317,9 @@
             if (!activity.quantity){
               activity.quantity = 1;
             }
-//            if ($scope.eventSources[1] == null) {
-//              $scope.eventSources[1] = [];
-            //            }
+            if ($scope.eventSources[1] == null) {
+              $scope.eventSources[1] = [];
+            }
 
             activity.start.toDate();
             activity.end.toDate();
