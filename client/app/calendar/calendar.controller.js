@@ -62,9 +62,7 @@
             center: '',
             right: 'today prev,next'
           },
-          loading: goToTripStart,
-//          eventRender: eventRender,
-//          eventDataTransform: eventDataTransform,
+          eventRender: eventRender,
           eventClick: onEventClick,
           dayClick: onDayClick
         }
@@ -124,24 +122,31 @@
 
       ActivityService.editActivityForm(_activity)
         .then(function(result) {
-          if (result) {
-            if (result.source) {
-              delete result.source;
+          if (result.GOOD) {
+            if (result.data.source) {
+              delete result.data.source;
             }
             
             // we have an activity as result;
             var _calendar = angular.copy($scope.eventSources[1]);
-            idx = getActivityIdx(_calendar, result.id);
-            if (idx) {
+            idx = getActivityIdx(_calendar, result.data.id);
+            if (idx >= 0) {
               _calendar.splice(idx, 1);
-              _calendar.push(result);
+              if (!result.DELETE) {
+                _calendar.push(result.data);
+              }
 
               CalendarService.update(vm.trip.id, _calendar)
                 .then(function(success) {
-                  idx = getActivityIdx(activitiesSource, result.id);
-                  if (idx) {
+                  idx = getActivityIdx(activitiesSource, result.data.id);
+                  if (idx >= 0) {
+                    if (activitiesSource.length === 0) {
+                      activitiesSource = [];
+                    }
                     activitiesSource.splice(idx, 1);
-                    activitiesSource.push(result);
+                    if (!result.DELETE) {
+                      activitiesSource.push(result.data);
+                    }
                   }
                   else {
                     console.log(activitiesSource);
@@ -162,7 +167,6 @@
     function getActivityIdx(_source, id) {
       for (var i = 0; i < _source.length; i++) {
         if (_source[i].id === id) {
-          console.log('deleting: ' + id);
           return i;
         }
       }
@@ -176,164 +180,78 @@
 
       ActivityService.createActivityForm(_date, _date)
         .then(function(result) {
-          if (result) {
+          if (result.GOOD) {
+            if (result.DELETE) {
+              return;
+            }
             
             // we have an activity as result;
             var _calendar = angular.copy($scope.eventSources[1]);
-            _calendar.push(result);
+            _calendar.push(result.data);
 
             CalendarService.update(vm.trip.id, _calendar)
               .then(function(success) {
-                activitiesSource.push(result);
+                activitiesSource.push(result.data);
 
               }, function(error) {
                 console.log('error', error);
               });
           }
           else {
-            // console.log('dialog was closed');
-            // do nothing
+            // dialog was closed, do nothing
           }
         });
     }
 
+    /* Render Tooltip COPIED FROM CALENDAR DOCUMENTATION */
+    /* doesn't do anything afaik */
+    function eventRender(event, element, view) {
+      element.attr({ 'tooltip': event.title, 'tooltip-append-to-body': true });
+      $compile(element)($scope);
+    };
 
-//    Date.prototype.toJSONLocal = function () {
-//      function addZ(n) {
-//        return (n < 10 ? '0' : '') + n;
-//      }
-//      return this.getFullYear() + '-' +
-//        addZ(this.getMonth() + 1) + '-' +
-//        addZ(this.getDate());
-//    }
-//
-//    function getActivity(activityArray, activityId) {
-//      for (var i = 0; i < activityArray.length; i++) {
-//        if (activityArray[i].id == activityId) {
-//          return activityArray[i];
-//        }
-//      }
-//      return null;
-//    }
-//
-//    function updateActivity(activityArray, update, activityId) {
-//      for (var i = 0; i < activityArray.length; i++) {
-//        if (activityArray[i].id == activityId) {
-//          activityArray[i] = update;
-//        }
-//      }
-//      return activityArray;
-//    }
-//
-//    function deleteActivity(activityArray, activityId) {
-//      for (var i = 0; i < activityArray.length; i++) {
-//        if (activityArray[i].id == activityId) {
-//          activityArray.splice(i, 1);
-//        }
-//      }
-//      return activityArray;
-//    }
-//
-//    vm.loadBudget = function exportPDF() {
-//      $location.path('/budget').search({ tripId: tripId });
-//    }
-//
-//    vm.exportPDF = function exportPDF() {
-//      TripService.exportPDF(tripId, function (result, response) {});
-//    }
-//
-//    vm.triggerReminders = function triggerReminders() {
-//      TripService.triggerReminders(tripId, function (result, response) {
-//        if (result) {
-//          alert('Email reminders were sent to ' + response.data.email + '!')
-//        }
-//
-//      });
-//    }
-//
-//
-//    function onEventClick(activity, jsEvent, view) {
-//      activity = getActivity($scope.eventSources[1], activity.id);
-//      editActivity(jsEvent, activity, activity.id);
-//    }
-//
-//    function onDayClick(date, jsEvent, view) {
-//      // add 1 day to make up for off-by-one bug
-//      editActivity(jsEvent, null, date);
-//    }
-//
-//
-//    /* Render Tooltip COPIED FROM CALENDAR DOCUMENTATION */
-//    function eventRender(event, element, view) {
-//      element.attr({ 'tooltip': event.title, 'tooltip-append-to-body': true });
-//      $compile(element)($scope);
-//    };
-//
-//    function eventDataTransform(events) {
-//      // not currently used but could be useful ...
-//      return events;
-//    };
-//
-//    function updateCalendar(status, message) {
-//      if (status) {
-//        uiCalendarConfig.calendars.tripCalendar.fullCalendar('removeEvents');
-//        $scope.eventSources[1] = message.data.data;
-//        console.log($scope.eventSources)
-//
-//        uiCalendarConfig.calendars.tripCalendar.fullCalendar('addEventSource', $scope.eventSources[0]);
-//        // uiCalendarConfig.calendars.tripCalendar.fullCalendar('addEventSource', $scope.eventSources[1]);
-//      }
-//    };
-//
-//    function updateTrip(status, message) {
-//      if (status) {
-//        vm.trip = message.data;
-//      }
-//    };
-//
-//    function editActivity(ev, activityIn, keyIn) {
-//      var useFullScreen = ($mdMedia('sm') || $mdMedia('xs')) && vm.customFullscreen;
-//      var activity = {};
-//      var edit = false;
-//      var start = undefined;
-//      var end = undefined;
-//
-//      if (activityIn) {
-//        angular.copy(activityIn, activity);
-//        edit = true;
-//      } else if (keyIn) {
-//        start = keyIn;
-//        end = keyIn;
-//      }
-//    }
-//
-//    vm.customFullscreen = $mdMedia('xs') || $mdMedia('sm');
-//
-//    vm.popularActivities = function (ev) {
-//      var useFullScreen = ($mdMedia('sm') || $mdMedia('xs')) && vm.customFullscreen;
-//
-//      $mdDialog.show({
-//          controller: 'PopularDialogController',
-//          controllerAs: 'dvm',
-//          templateUrl: 'static/app/calendar/popular.template.html',
-//          parent: angular.element(document.body),
-//          targetEvent: ev,
-//          clickOutsideToClose: true,
-//          fullscreen: useFullScreen
-//        })
-//        .then(function (activity) {
-//          editActivity(ev, activity);
-//
-//        }, function () {
-//          console.log('You cancelled the dialog.');
-//        });
-//
-//      $scope.$watch(function () {
-//        return $mdMedia('xs') || $mdMedia('sm');
-//      }, function (wantsFullScreen) {
-//        vm.customFullscreen = (wantsFullScreen === true);
-//      });
-//    };
+    vm.loadBudget = function exportPDF() {
+      $location.path('/budget').search({ tripId: tripId });
+    }
+
+    vm.exportPDF = function exportPDF() {
+      TripService.exportPDF(tripId, function (result, response) {});
+    }
+
+    vm.triggerReminders = function triggerReminders() {
+      TripService.triggerReminders(tripId, function (result, response) {
+        if (result) {
+          alert('Email reminders were sent to ' + response.data.email + '!')
+        }
+
+      });
+    }
+
+    vm.popularActivities = function (ev) {
+      var useFullScreen = ($mdMedia('sm') || $mdMedia('xs')) && vm.customFullscreen;
+
+      $mdDialog.show({
+          controller: 'PopularDialogController',
+          controllerAs: 'dvm',
+          templateUrl: 'static/app/calendar/popular.template.html',
+          parent: angular.element(document.body),
+          targetEvent: ev,
+          clickOutsideToClose: true,
+          fullscreen: useFullScreen
+        })
+        .then(function (activity) {
+          editActivity(ev, activity);
+
+        }, function () {
+          console.log('You cancelled the dialog.');
+        });
+
+      $scope.$watch(function () {
+        return $mdMedia('xs') || $mdMedia('sm');
+      }, function (wantsFullScreen) {
+        vm.customFullscreen = (wantsFullScreen === true);
+      });
+    };
 
   }
 

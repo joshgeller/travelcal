@@ -97,12 +97,22 @@
       })
       // when something is passed to the button we add it to the hide and succeed in life
         .then(function(activity) {
-          return activity;
+          var response = {};
+          response.GOOD = true;
+
+          if (activity.DELETE) {
+            response.DELETE = true;  
+          }
+          
+          response.data = activity;
+          return response;
+
         }, function() {
           console.log('dialog closed');
-          return false;
+          var response = {};
+          response.CANCEL = true;
+          return response;
         });
-
     }
 
     DialogController.$inject = [
@@ -144,8 +154,9 @@
         $mdDialog.hide();
       };
 
-      function deleteActivity() {
-        $mdDialog.hide(true);
+      function deleteActivity(_activity) {
+        _activity.DELETE = true;
+        $mdDialog.hide(_activity);
       }
 
       // update handles both adding and updating activities
