@@ -214,36 +214,6 @@
         vm.activity.startTime = moment(_smartDate(moment.utc(vm.activity.startTime).toDate()), false).toDate();
         vm.activity.endTime = moment(_smartDate(moment.utc(vm.activity.endTime).toDate()), false).toDate();
 
-//        vm.activity.startTime = moment(vm.activity.start).toDate();
-
-//        vm.activity.endTime = moment(vm.activity.end).toDate();
-        
-
-
-
-//        console.log('editing');
-//        vm.activity.startTime = moment(vm.activity.startTime).toDate()
-//        vm.activity.endTime = moment(vm.activity.endTime).toDate()
-//        vm.activity.start = moment(vm.activity.start) || undefined;
-//        vm.activity.end = moment(vm.activity.end) || undefined;
-//
-//        if (vm.activity.startTime) {
-//          var time = moment(vm.activity.startTime)
-//          var hour = time.hours()
-//          var min = time.minutes()
-//          vm.activity.start.hour(hour)
-//          vm.activity.start.minute(min)
-//        }
-//        if (vm.activity.endTime) {
-//          var time = moment(vm.activity.endTime)
-//          var hour = time.hours()
-//          var min = time.minutes()
-//          vm.activity.end.hour(hour)
-//          vm.activity.end.minute(min)
-//        }
-//
-//        vm.title = 'Edit Activity';
-//        vm.currency = vm.activity.currency;
 
       } 
       // else we have a new activity
@@ -313,7 +283,6 @@
           }
           return vm.activity.start.utc().format('MMMM Do, YYYY')
         }
-
     }
   }
 
