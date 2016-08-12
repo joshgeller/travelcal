@@ -14,6 +14,8 @@
   function PopularDialogController($mdDialog, $scope, CalendarService) {
     var vm = this;
     vm.addActivity = addActivity;
+    vm.filterList = filterList;
+    vm.query = ''
     init();
 
     function init() {
@@ -35,6 +37,10 @@
     function cancel() {
       $mdDialog.cancel();
     };
+
+    function filterList(item) {
+      return item.title && item.title.toLowerCase().includes(vm.query);
+    }
 
   }
 })();

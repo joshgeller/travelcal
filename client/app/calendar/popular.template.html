@@ -3,14 +3,14 @@
         <h3>Popular Activities</h3>
     </md-card-title>
     <md-card-content>
-        <input 
-            ng-if="dvm.popular_activities.length" 
-            ng-model="dvm.query" 
-            type="text" 
+        <input
+            ng-if="dvm.popular_activities.length"
+            ng-model="dvm.query"
+            type="text"
             placeholder="Filter by location">
-        <md-list-item 
-            ng-if="dvm.popular_activities.length" 
-            ng-repeat="activity in dvm.popular_activities | filter:dvm.query | orderBy: 'score' : true" 
+        <md-list-item
+            ng-if="dvm.popular_activities.length"
+            ng-repeat="activity in dvm.popular_activities | filter:dvm.filterList | orderBy: 'score' : true"
             ng-click="dvm.addActivity(activity)"
             >
             <div flex>
