@@ -208,14 +208,19 @@
         }
 
         function editActivity($event, activityIn, idx) {
-            var _startDate = moment.utc(activityIn.start, 'YYYY-MM-DD').format();
-            var _endDate = moment.utc(activityIn.end, 'YYYY-MM-DD').format();
+            if (activityIn.popular) {
+                var _startDate = moment.utc(vm.trip.start_date, 'YYYY-MM-DD').format();
+                var _endDate = moment.utc(vm.trip.start_date, 'YYYY-MM-DD').format();
+            }
+            else {
+                var _startDate = moment.utc(activityIn.start, 'YYYY-MM-DD').format();
+                var _endDate = moment.utc(activityIn.end, 'YYYY-MM-DD').format();
+            }
             var _activity = angular.copy(activityIn);
             var idx;
 
             _activity.start = _startDate;
             _activity.end = _endDate;
-            console.log(_activity);
 
             ActivityService.editActivityForm(_activity)
               .then(function (result) {
@@ -223,7 +228,7 @@
                   if (result.data.source) {
                     delete result.data.source;
                   }
-
+                  result.data.popular = false;
                   // activity
                   if (idx >= 0) {
                     vm.calendar.data.splice(idx, 1);
@@ -280,6 +285,8 @@
             fullscreen: useFullScreen
           })
             .then(function(activity) {
+                activity.popular = true;
+                console.log(activity);
                 editActivity(ev, activity);
 
             }, function() {

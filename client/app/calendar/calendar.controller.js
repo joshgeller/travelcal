@@ -224,6 +224,7 @@
 
       _activity.start = _date;
       _activity.end = _date;
+      _activity.popular = true;
 
       ActivityService.editActivityForm(_activity)
         .then(function(result) {
@@ -234,6 +235,7 @@
 
             // we have an activity as result;
             var _calendar = angular.copy($scope.eventSources[1]);
+            result.data.popular = false;
             _calendar.push(result.data);
 
             CalendarService.update(vm.trip.id, _calendar)

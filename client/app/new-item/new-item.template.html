@@ -152,9 +152,7 @@
             </md-input-container>
 
             <div layout-gt-sm="row">
-                <fieldset class="md-block">
-                    <textarea class="md-block" flex-gt-sm ng-model="vm.activity.notes" placeholder="Notes..."></textarea>
-                </fieldset>
+              <textarea class="md-block" flex-gt-sm ng-model="vm.activity.notes" placeholder="Notes..."></textarea>
             </div>
 
             <md-button
@@ -166,7 +164,7 @@
             <md-button
                 class="md-primary md-raised"
                 ng-disabled="!vm.formIsValid(NewItemForm)"
-                ng-click="vm.update(vm.activity)" ng-if="vm.edit"
+                ng-click="vm.update(vm.activity)" ng-if="vm.edit && !vm.activity.popular"
                 >
                 Update
             </md-button>
@@ -174,7 +172,7 @@
                 class="md-primary md-raised"
                 ng-disabled="!vm.formIsValid(NewItemForm)"
                 ng-click="vm.update(vm.activity)"
-                ng-if="!vm.edit"
+                ng-if="!vm.edit || vm.activity.popular"
                 >
                 Add
             </md-button>

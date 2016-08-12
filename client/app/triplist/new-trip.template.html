@@ -36,14 +36,14 @@
     <md-dialog-actions layout="row">
         <md-button ng-click="dvm.cancel()">Cancel</md-button>
         <md-button 
-            ng-if="!dvm.updatingTrip" 
+            ng-if="!dvm.updatingTrip"
             ng-click="dvm.add(dvm.trip)" 
             ng-disabled="!dvm.trip.name || !dvm.trip.start || !dvm.trip.end"
             >
             Add
         </md-button>
         <md-button 
-            ng-if="dvm.updatingTrip" 
+            ng-if="dvm.updatingTrip"
             ng-click="dvm.update(dvm.trip)" 
             ng-disabled="!dvm.trip.name || !dvm.trip.start || !dvm.trip.end"
             >
