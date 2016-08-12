@@ -55,6 +55,7 @@
                         </td>
                     </table>
                 </md-content>
+                <div style="color:red" ng-if="vm.activity.startTime.getTime() === vm.activity.endTime.getTime()">*invalid time range</div>
             </div>
 
             <div layout="row">
@@ -160,14 +161,14 @@
             </md-button>
             <md-button
                 class="md-primary md-raised"
-                ng-disabled="!vm.formIsValid(NewItemForm)"
+                ng-disabled="!vm.formIsValid(NewItemForm) || vm.activity.startTime.getTime() === vm.activity.endTime.getTime()"
                 ng-click="vm.update(vm.activity)" ng-if="vm.edit && !vm.activity.popular"
                 >
                 Update
             </md-button>
             <md-button
                 class="md-primary md-raised"
-                ng-disabled="!vm.formIsValid(NewItemForm)"
+                ng-disabled="!vm.formIsValid(NewItemForm) || vm.activity.startTime.getTime() === vm.activity.endTime.getTime()"
                 ng-click="vm.update(vm.activity)"
                 ng-if="!vm.edit || vm.activity.popular"
                 >
