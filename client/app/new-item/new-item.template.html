@@ -20,18 +20,18 @@
             <div layout-gt-sm="row">
                 <md-content>
                     <label>Dates</label>
-                    <md-datepicker 
-                        ng-model-options="{timezone:'UTC'}" 
-                        ng-model="vm.activity.start" 
-                        md-placeholder="Start date" 
+                    <md-datepicker
+                        ng-model-options="{timezone:'UTC'}"
+                        ng-model="vm.activity.start"
+                        md-placeholder="Start date"
                         md-open-on-focus>
                     </md-datepicker>
-                    
-                    <md-datepicker 
-                        ng-model-options="{timezone:'UTC'}" 
-                        ng-model="vm.activity.end" 
-                        md-min-date="vm.activity.start" 
-                        md-placeholder="End date" 
+
+                    <md-datepicker
+                        ng-model-options="{timezone:'UTC'}"
+                        ng-model="vm.activity.end"
+                        md-min-date="vm.activity.start"
+                        md-placeholder="End date"
                         md-open-on-focus>
                     </md-datepicker>
                 </md-content>
@@ -76,7 +76,7 @@
                  <ng-md-icon md-menu-align-target icon="launch"></ng-md-icon>
                 </md-button>
             </div>
-            
+
             <div layout-gt-sm="row">
                 <md-input-container class="md-block" flex-gt-sm>
                     <label>Cost</label>
@@ -85,13 +85,13 @@
 
                 <md-input-container class="md-block" flex-gt-sm>
                     <label>Currency</label>
-                    <md-autocomplete 
-                        md-selected-item="vm.selectedItem" 
-                        md-search-text="vm.searchText" 
+                    <md-autocomplete
+                        md-selected-item="vm.selectedItem"
+                        md-search-text="vm.searchText"
                         md-selected-item-change="vm.updateCurrency(curr.value)"
                         md-items="curr in vm.querySearch(vm.searchText)"
-                        md-item-text="curr.display" 
-                        md-min-length="0" 
+                        md-item-text="curr.display"
+                        md-min-length="0"
                         ng-init="vm.searchText=vm.currency"
                         >
                         <md-item-template>
@@ -104,7 +104,7 @@
                         </md-not-found>
                     </md-autocomplete>
                 </md-input-container>
-                
+
                 <md-input-container class="md-block" flex-gt-sm>
                     <md-select ng-model="vm.activity.repetitionType" aria-label="select type">
                         <md-option ng-repeat="type in vm.repetitionTypes" value="{{type}}">
@@ -112,31 +112,31 @@
                         </md-option>
                     </md-select>
                 </md-input-container>
-                
+
                 <md-input-container ng-if="vm.activity.repetitionType == 'per person'" class="md-block" flex-gt-sm>
                     <input ng-model="vm.activity.quantity" min="1" type="number">
                 </md-input-container>
-                
+
                 <md-input-container ng-if="vm.activity.repetitionType == 'per person'" class="md-block" flex-gt-sm>
-                    <ng-pluralize 
-                        count="vm.activity.quantity || 0" 
+                    <ng-pluralize
+                        count="vm.activity.quantity || 0"
                         when="{'0': 'people', '1': 'person', 'other': 'people'}"
                         >
                     </ng-pluralize>
                 </md-input-container>
-                
+
                 <md-input-container ng-if="vm.activity.repetitionType == 'per day'" class="md-block" flex-gt-sm>
                     <input ng-model="vm.activity.quantity" min="1" type="number">
                 </md-input-container>
-                
+
                 <md-input-container ng-if="vm.activity.repetitionType == 'per day'" class="md-block" flex-gt-sm>
-                    <ng-pluralize 
-                        count="vm.activity.quantity || 0" 
+                    <ng-pluralize
+                        count="vm.activity.quantity || 0"
                         when="{'0': 'days', '1': 'day', 'other': 'days'}"
                         >
                     </ng-pluralize>
                 </md-input-container>
-                
+
                 <div class="md-block" flex-gt-sm>
                     <span ng-if="vm.activity.repetitionType == 'per person' || vm.activity.repetitionType == 'per day'">
                         <label>Total</label>
@@ -157,8 +157,8 @@
                 </fieldset>
             </div>
 
-            <md-button 
-                class="md-primary md-raised md-warn" 
+            <md-button
+                class="md-primary md-raised md-warn"
                 ng-click="vm.cancel()"
                 >
                 Cancel
@@ -179,8 +179,9 @@
                 Add
             </md-button>
             <span flex></span>
-            <md-button 
-                class="md-primary md-raised md-warn pull-right" 
+            <md-button
+                ng-show="vm.edit"
+                class="md-primary md-raised md-warn pull-right"
                 ng-click="vm.deleteActivity(vm.activity)"
                 >
                 Delete
