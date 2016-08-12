@@ -16,21 +16,13 @@
     function HomeConfig($stateProvider, $urlRouterProvider) {
       $urlRouterProvider.otherwise('/');
       $stateProvider
-        // .state('travelcal.home', {
-        //   url: '/',
-        //   views: {
-        //     'travelcalContent': {
-        //       templateUrl: 'static/app/triplist/triplist.template.html',
-        //       controller: 'TriplistController',
-        //       controllerAs: 'vm'
-        //     }
-        //   }
-        // })
         .state('travelcal.home', {
           url: '/',
           views: {
             'travelcalHome': {
               templateUrl: 'static/app/home/home.template.html',
+              controller: 'HomeController',
+              controllerAs: 'vm'
             }
           }
         })
