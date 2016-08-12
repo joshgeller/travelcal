@@ -57,6 +57,8 @@
     }
 
     function update(activity) {
+      activity.updating = true;
+      console.log(activity);
       if (!activity.currency) {
         activity.currency = 'USD';
       }
