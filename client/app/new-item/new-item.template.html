@@ -57,12 +57,13 @@
                 </md-content>
             </div>
 
-            <div layout-gt-sm="row">
-                <md-input-container class="md-block" flex-gt-lg>
+            <div layout="row">
+                <md-input-container class="md-block" flex="100">
                     <input type="url" name="url" ng-model="vm.activity.info_url" placeholder="Link">
                     <div style="color:red" ng-if="!NewItemForm.url.$valid">*invalid url</div>
                 </md-input-container>
-                <md-input-container class="md-block" flex-gt-sm>
+                <div flex=""></div>
+                <md-input-container class="md-block">
                     <md-button ng-if="NewItemForm.url.$valid && vm.activity.info_url.length" href={{vm.activity.info_url}}
                      title="Launch in new window"
                      target="_blank"
