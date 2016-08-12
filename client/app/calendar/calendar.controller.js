@@ -116,15 +116,24 @@
     onEventClick.$inject = ['$event'];
     function onEventClick($event) {
       var _startDate = moment.utc($event.start, 'YYYY-MM-DD').format();
-      var _endDate = moment.utc($event.end, 'YYYY-MM-DD').format();
+      if (!$event.allDay) {
+        // all day events do not have an end date, so just set them to
+        // be the same as the start date
+        var _endDate = moment.utc($event.end, 'YYYY-MM-DD').format();
+      } else {
+        var _endDate = moment.utc($event.start, 'YYYY-MM-DD').format();
+      }
+
       var _activity = angular.copy($event);
       var idx;
 
       _activity.start = _startDate;
       _activity.end = _endDate;
 
+      console.log(_activity)
       ActivityService.editActivityForm(_activity)
         .then(function(result) {
+          console.log(result)
           if (result.GOOD) {
             if (result.data.source) {
               delete result.data.source;
@@ -247,7 +256,6 @@
         })
         .then(function (activity) {
           editActivity(ev, activity);
-
         }, function () {
           console.log('You cancelled the dialog.');
         });
