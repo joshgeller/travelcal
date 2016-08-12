@@ -19,7 +19,7 @@
     function init() {
       CalendarService.retrievePopular(function(result, response) {
         if (result) {
-            vm.popular_activities = response.data;
+           vm.popular_activities = response.data;
         }
       });
     };

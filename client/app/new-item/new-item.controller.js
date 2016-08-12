@@ -14,6 +14,7 @@
 
   function NewItemController($http, $scope, CurrencyService, moment) {
     var vm = this;
+    console.log($scope.$parent.dvm.activity);
 
     vm.newItemForm = {};
     vm.repetitionTypes = ['total', 'per person', 'per day'];
@@ -35,7 +36,10 @@
     if ($scope.$parent.dvm.activity) {
       vm.activity = $scope.$parent.dvm.activity;
     }
+
     if (vm.edit) {
+      vm.title = 'Edit Activity';
+
       vm.activity.startTime = moment(vm.activity.startTime).toDate()
       vm.activity.endTime = moment(vm.activity.endTime).toDate()
       vm.activity.start = moment(vm.activity.start) || undefined;
@@ -56,8 +60,9 @@
         vm.activity.end.minute(min)
       }
 
-      vm.title = 'Edit Activity';
-      vm.currency = vm.activity.currency;
+      vm.currency = vm.activity.currency ? vm.activity.currency : 'USD';
+      vm.activity.repetitionType = vm.activity.repetitionType ? vm.activity.repetitionType : 'total';
+      vm.activity.quantity = vm.activity.quantity ? vm.activity.quantity : 1;
 
     } else {
 
