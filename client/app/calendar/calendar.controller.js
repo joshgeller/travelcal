@@ -224,7 +224,6 @@
 
       _activity.start = _date;
       _activity.end = _date;
-      console.log(_activity);
 
       ActivityService.editActivityForm(_activity)
         .then(function(result) {

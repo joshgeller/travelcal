@@ -79,6 +79,9 @@
       _activity.start = _momentUtcToDate(activity.start);
       _activity.end = _momentUtcToDate(activity.end);
 
+      console.log(_activity);
+      
+
       return _openActivityForm(_activity, true);
     }
 
@@ -215,8 +218,25 @@
         vm.activity.repetitionType = vm.activity.repetitionType ? vm.activity.repetitionType : 'total';
         vm.activity.quantity = vm.activity.quantity ? vm.activity.quantity : 1;
         vm.allDay = vm.activity.allDay;
-        vm.activity.startTime = moment(_smartDate(moment.utc(vm.activity.startTime).toDate()), false).toDate();
-        vm.activity.endTime = moment(_smartDate(moment.utc(vm.activity.endTime).toDate()), false).toDate();
+
+        if (!vm.activity.startTime) {
+          vm.activity.startTime = moment(vm.activity.start)
+            .hours(0).minutes(0).seconds(0).milliseconds(0).toDate();
+        }
+        else {
+          vm.activity.startTime = 
+            moment(_smartDate(moment.utc(vm.activity.startTime).toDate()), false).toDate();
+        }
+
+        if (!vm.activity.endTime) {
+          vm.activity.endTime = moment(vm.activity.end)
+            .hours(23).minutes(59).seconds(0).milliseconds(0).toDate();
+        }
+        else {
+          vm.activity.endTime = 
+            moment(_smartDate(moment.utc(vm.activity.endTime).toDate()), false).toDate();
+        }
+
       }
 
       // else we have a new activity
