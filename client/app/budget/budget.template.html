@@ -7,7 +7,11 @@
         </md-card-title>
         <md-card-content>
             <md-list flex>
-                <div ng-if="vm.calendar.data == null"> You have nothing in your budget. Why don't you add an activity?</div>
+                <div 
+                    ng-if="!vm.showBudgetToolBar(vm.calendar.data) && !vm.showToolBar(vm.calendar.data)"
+                    >
+                    You have nothing in your budget. Why don't you add an activity?
+                </div>
                 <div ng-if="vm.showBudgetToolBar(vm.calendar.data)">
                     <md-divider></md-divider>
                       <md-toolbar>

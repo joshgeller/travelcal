@@ -112,7 +112,7 @@
                     for (var i = 0; i < vm.currencyNames.length; i++) {
                         var newCurrency = {value:vm.currencyNames[i], display:vm.currencyNames[i]};
                         vm.currencyAutoComplete.push(newCurrency);
-                        if (newCurrency.value == "USD") {
+                        if (newCurrency.value == vm.baseCurrency) {
                             vm.updateCurrency(newCurrency.value);
                         }
                     }
@@ -192,8 +192,15 @@
           var data = vm.calendar.data;
 
           for (var key in data) {
-            if (data[key].cost) {
-              _total += data[key].cost;
+            var item = data[key];
+            if (item.cost) {
+              var cost = item.cost;
+              if (item.currency !== vm.baseCurrency) {
+                var rate = vm.currencies.rates[item.currency];
+                cost = cost / rate;
+              }
+  
+               _total += cost;
             }
           }
           vm.total = _total;
