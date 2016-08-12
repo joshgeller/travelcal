@@ -62,7 +62,7 @@
 
     function logout() {
       AuthenticationService.logout();
-      $state.go('travelcal.login');
+      $state.go('travelcal.home');
     }
 
     function profile() {

@@ -76,7 +76,7 @@
         // not in the nonAuthPages array
         var restrictedPage = nonAuthPages.indexOf($location.path()) === -1;
         if (restrictedPage && !$localStorage.authenticatedUser) {
-          $location.path('/login');
+          $location.path('/');
         }
       });
     }
