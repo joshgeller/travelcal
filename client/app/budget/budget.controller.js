@@ -77,6 +77,7 @@
         vm.editActivity = editActivity;
         vm.newActivity = newActivity;
         vm.loadCalendar = loadCalendar;
+        vm.showBudgetToolBar = showBudgetToolBar;
         vm.showToolBar = showToolBar;
         vm.popularActivities = popularActivities;
 
@@ -179,11 +180,24 @@
             }
         }
 
-        var updateCalendar = function updateCalendar(status, message) {
+        function updateCalendar(status, data) {
             if (status) {
-                vm.calendar.data = message.data.data;
+              vm.calendar.data = data;
+              updateTotal();
             }
         };
+
+        function updateTotal() {
+          var _total = 0;
+          var data = vm.calendar.data;
+
+          for (var key in data) {
+            if (data[key].cost) {
+              _total += data[key].cost;
+            }
+          }
+          vm.total = _total;
+        }
 
         function editActivity($event, activityIn, idx) {
             var _startDate = moment.utc(activityIn.start, 'YYYY-MM-DD').format();
@@ -215,6 +229,7 @@
 
                   CalendarService.update(vm.calendar.id, vm.calendar.data)
                     .then(function(success) {
+                      updateCalendar(true, vm.calendar.data);
                       console.log("Calendar updated");
                     }, function (error) {
                       console.log("Error updating calendar.");
@@ -235,6 +250,7 @@
                   vm.calendar.data.push(result.data);
                   CalendarService.update(vm.calendar.id, vm.calendar.data)
                     .then(function(success) {
+                      updateCalendar(true, vm.calendar.data);
                       console.log("Activity added to calendar");
                     }, function (error) {
                       console.log("Error updating calendar.");
