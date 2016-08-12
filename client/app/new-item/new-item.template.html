@@ -10,13 +10,6 @@
                     <input ng-model="vm.activity.title" required name="name">
                 </md-input-container>
             </div>
-            <!--
-            <div layout-gt-sm="row">
-                <md-content>
-                    <label>Date: {{vm.renderStart()}}</label>
-                </md-content>
-            </div>
-            -->
             <div layout-gt-sm="row">
                 <md-content>
                     <label>Dates</label>
@@ -36,6 +29,7 @@
                     </md-datepicker>
                 </md-content>
             </div>
+            <div style="color:red" ng-if="vm.activity.end < vm.activity.start">*invalid date range</div>
             <div layout-gt-sm="row">
                 <md-input-container>
                     <md-checkbox ng-model="vm.activity.allDay">All Day Event</md-checkbox>
@@ -78,8 +72,6 @@
                     </md-button>
                 </md-input-container>
             </div>
-
-
 
             <div layout-gt-sm="row">
                 <md-input-container class="md-block" flex-gt-sm>
