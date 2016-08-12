@@ -7,7 +7,9 @@
         .service('CurrencyService', CurrencyService);
 
 
-    function CurrencyService($http) {
+    function CurrencyService(
+        $http
+    ) {
         delete $http.defaults.headers.common['X-Requested-With'];
         var service = {};
         service.getRates = getRates;
@@ -47,21 +49,77 @@
         '$location',
         'CurrencyService',
         'TripService',
-        'CalendarService'
+        'CalendarService',
+        'ActivityService'
     ];
 
 
-    function BudgetController($scope, $mdDialog, $mdMedia, $http, $location, CurrencyService, TripService, CalendarService) {
+    function BudgetController(
+        $scope,
+        $mdDialog,
+        $mdMedia,
+        $http,
+        $location,
+        CurrencyService,
+        TripService,
+        CalendarService,
+        ActivityService
+    ) {
+
         var vm = this;
-        var  tripId = $location.search().tripId || -1;
+        var tripId = $location.search().tripId || -1;
         vm.currencies = null;
         vm.baseCurrency = "USD";
         vm.total = 0;
         vm.calendar = {};
+        vm.customFullscreen = $mdMedia('xs') || $mdMedia('sm');
 
         vm.editActivity = editActivity;
+        vm.newActivity = newActivity;
         vm.loadCalendar = loadCalendar;
         vm.showToolBar = showToolBar;
+        vm.popularActivities = popularActivities;
+
+        // Currency functions
+        vm.updateCurrency = updateCurrency;
+        vm.newCurrency = newCurrency;
+        vm.querySearch = querySearch;
+
+        init();
+
+        function init() {
+            if (tripId > -1) {
+                TripService.retrieve(tripId, function(result, response) {
+                    if (result) {
+                        vm.trip = response.data;
+                        vm.calendar = response.data.calendar;
+                        if (!vm.calendar.data) {
+                            vm.calendar.data = [];
+                        }
+                    }
+                    else {
+                        console.log("INVALID TRIP ID");
+                    }
+                })
+                .then(CurrencyService.getCurrencies()
+                .then(function success(response) {
+                    vm.currencies = response.data;
+                    vm.currencyNames = Object.getOwnPropertyNames(vm.currencies.rates);
+                    vm.currencyNames.push(response.data.base);
+                    vm.currencyNames.sort();
+                    vm.currencyAutoComplete = [];
+                    for (var i = 0; i < vm.currencyNames.length; i++) {
+                        var newCurrency = {value:vm.currencyNames[i], display:vm.currencyNames[i]};
+                        vm.currencyAutoComplete.push(newCurrency);
+                        if (newCurrency.value == "USD") {
+                            vm.updateCurrency(newCurrency.value);
+                        }
+                    }
+                }, function error(response) {
+                    console.log(response);
+                }));
+            }
+        }
 
         function showToolBar(data) {
           for (var key in data) {
@@ -76,46 +134,7 @@
           $location.path('/calendar');
         }
 
-        if (tripId > -1) {
-            TripService.retrieve(tripId, function(result, response) {
-                if (result) {
-                    vm.trip = response.data;
-                    vm.calendar = response.data.calendar;
-                    if (!vm.calendar.data) {
-                        vm.calendar.data = [];
-                    }
-//                    else {
-//                        vm.total = (function() {
-//                            for (var i = 0; i < vm.calendar.data.length; i++) {
-//                                vm.total += vm.calendar.data[i].cost;
-//                            }
-//                        })();
-//                    }
-                }
-                else {
-                    console.log("INVALID TRIP ID");
-                }
-            })
-            .then(CurrencyService.getCurrencies()
-            .then(function success(response) {
-                vm.currencies = response.data;
-                vm.currencyNames = Object.getOwnPropertyNames(vm.currencies.rates);
-                vm.currencyNames.push(response.data.base);
-                vm.currencyNames.sort();
-                vm.currencyAutoComplete = [];
-                for (var i = 0; i < vm.currencyNames.length; i++) {
-                    var newCurrency = {value:vm.currencyNames[i], display:vm.currencyNames[i]};
-                    vm.currencyAutoComplete.push(newCurrency);
-                    if (newCurrency.value == "USD") {
-                        vm.updateCurrency(newCurrency.value);
-                    }
-                }
-            }, function error(response) {
-                console.log(response);
-            }));
-        }
-
-        vm.updateCurrency = function updateCurrency(newBase){
+        function updateCurrency(newBase){
             if (newBase) {
                 CurrencyService.getRates(newBase)
                     .then(function success(response) {
@@ -136,11 +155,11 @@
             }
         }
 
-        vm.newCurrency = function newCurrency(currency) {
+        function newCurrency(currency) {
             alert("Sorry, that currency is not supported.")
         }
 
-        vm.querySearch = function querySearch (query) {
+        function querySearch (query) {
             return query ? vm.currencyAutoComplete.filter( createFilterFor(query) ) : vm.currencyAutoComplete;
         }
 
@@ -157,72 +176,65 @@
             }
         };
 
-        vm.customFullscreen = $mdMedia('xs') || $mdMedia('sm');
+        function editActivity($event, activityIn, idx) {
+            var _startDate = moment.utc(activityIn.start, 'YYYY-MM-DD').format();
+            var _endDate = moment.utc(activityIn.end, 'YYYY-MM-DD').format();
+            var _activity = angular.copy(activityIn);
+            var idx;
 
-        function editActivity(ev, activityIn, keyIn) {
-            var useFullScreen = ($mdMedia('sm') || $mdMedia('xs'))  && vm.customFullscreen;
-            var activity = {};
-            var edit = false;
-            if (activityIn) {
-                angular.copy(activityIn, activity);
-                edit = true;
-            }
+            _activity.start = _startDate;
+            _activity.end = _endDate;
+            console.log(_activity);
 
-            $mdDialog.show({
-                controller: 'DialogController',
-                controllerAs: 'dvm',
-                templateUrl: 'static/app/new-item/new-item.template.html',
-                parent: angular.element(document.body),
-                targetEvent: ev,
-                clickOutsideToClose:true,
-                fullscreen: useFullScreen,
-                locals: {
-                    edit: edit,
-                    activity: activity,
-                    start: undefined
+            ActivityService.editActivityForm(_activity)
+              .then(function (result) {
+                if (result.GOOD) {
+                  if (result.data.source) {
+                    delete result.data.source;
+                  }
+
+                  // activity
+                  if (idx >= 0) {
+                    vm.calendar.data.splice(idx, 1);
+                    if (!result.DELETE) {
+                        vm.calendar.data.push(result.data);
+                    }
+                  }
+                  else if (!idx) {
+                    vm.calendar.data.push(result.data);
+                  }
+
+                  CalendarService.update(vm.calendar.id, vm.calendar.data)
+                    .then(function(success) {
+                      console.log("Calendar updated");
+                    }, function (error) {
+                      console.log("Error updating calendar.");
+                    });
                 }
-            })
-            .then(function(activity) {
+              });
+        }
 
-                if (typeof activity == 'boolean' && activity == true) {
-                    if (keyIn > -1) {
-                        vm.calendar.data.splice(keyIn, 1);
-                    }
+        function newActivity() {
+            // Default to the first day of the trip
+            var _startDate = moment.utc(vm.trip.start_date, 'YYYY-MM-DD').format();
+            ActivityService.createActivityForm(_startDate, _startDate)
+              .then(function(result) {
+                if (result.GOOD) {
+                  if (result.DELETE) {
+                    return;
+                  }
+                  vm.calendar.data.push(result.data);
+                  CalendarService.update(vm.calendar.id, vm.calendar.data)
+                    .then(function(success) {
+                      console.log("Activity added to calendar");
+                    }, function (error) {
+                      console.log("Error updating calendar.");
+                    });
                 }
-                else {
-                    if (!activity.quantity){
-                        activity.quantity = 1;
-                    }
-                    if (vm.calendar.data == null) {
-                        vm.calendar.data = {};
-                    }
-                    if (keyIn != null) {
-                        vm.calendar.data[keyIn] = activity;
-                        vm.updateCurrency(vm.baseCurrency);
-                    }
-                    else {
-                      if (!activity.id) {
-                        activity.id = CalendarService.createActivityId(activity);
-                      }
-                      vm.calendar.data.push(activity);
-                      vm.updateCurrency(vm.baseCurrency);
-                    }
-                }
+              })
+        }
 
-                CalendarService.update(vm.calendar.id, vm.calendar.data, updateCalendar);
-
-            }, function() {
-                $scope.status = 'You cancelled the dialog.';
-            });
-
-            $scope.$watch(function() {
-                return $mdMedia('xs') || $mdMedia('sm');
-            }, function(wantsFullScreen) {
-                vm.customFullscreen = (wantsFullScreen === true);
-            });
-        };
-
-        vm.popularActivities = function (ev) {
+        function popularActivities(ev) {
           var useFullScreen = ($mdMedia('sm') || $mdMedia('xs'))  && vm.customFullscreen;
 
           $mdDialog.show({
@@ -247,6 +259,8 @@
               vm.customFullscreen = (wantsFullScreen === true);
             });
         };
+
+
     }
 
 })();
