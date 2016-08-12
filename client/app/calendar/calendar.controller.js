@@ -129,11 +129,9 @@
 
       _activity.start = _startDate;
       _activity.end = _endDate;
-
-      console.log(_activity)
+        console.log(_activity);
       ActivityService.editActivityForm(_activity)
         .then(function(result) {
-          console.log(result)
           if (result.GOOD) {
             if (result.data.source) {
               delete result.data.source;
@@ -218,7 +216,7 @@
     /* Render Tooltip COPIED FROM CALENDAR DOCUMENTATION */
     /* doesn't do anything afaik */
     function eventRender(event, element, view) {
-      element.attr({ 'tooltip': event.title, 'tooltip-append-to-body': true });
+      element.attr({'tooltip': event.title, 'tooltip-append-to-body': true });
       $compile(element)($scope);
     };
 
@@ -241,10 +239,8 @@
 
       });
     }
-
     vm.popularActivities = function (ev) {
       var useFullScreen = ($mdMedia('sm') || $mdMedia('xs')) && vm.customFullscreen;
-
       $mdDialog.show({
           controller: 'PopularDialogController',
           controllerAs: 'dvm',
@@ -255,7 +251,10 @@
           fullscreen: useFullScreen
         })
         .then(function (activity) {
-          editActivity(ev, activity);
+          var _activity = angular.copy(activity);
+          _activity.id = ActivityService.hashCode(activity.title+Date.now());
+          _activity.allDay = true;
+          onEventClick(_activity);
         }, function () {
           console.log('You cancelled the dialog.');
         });

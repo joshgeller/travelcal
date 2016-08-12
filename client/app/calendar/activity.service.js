@@ -12,6 +12,7 @@
   function ActivityService($mdDialog) {
     this.createActivityForm = createActivityForm;
     this.editActivityForm = editActivityForm;
+    this.hashCode = _hashCode;
 
     return this;
 
@@ -101,9 +102,9 @@
           response.GOOD = true;
 
           if (activity.DELETE) {
-            response.DELETE = true;  
+            response.DELETE = true;
           }
-          
+
           response.data = activity;
           return response;
 
@@ -196,7 +197,7 @@
         $mdDialog.hide(activity);
       };
       /* END  DIALOG FUNCTIONS */
- 
+
       /* FORM FUNCTIONS */
       function formIsValid(form) {
         if (form) {
@@ -215,7 +216,7 @@
         vm.activity.endTime = moment(_smartDate(moment.utc(vm.activity.endTime).toDate()), false).toDate();
 
 
-      } 
+      }
       // else we have a new activity
       else {
         vm.title = 'Add a New Activity'

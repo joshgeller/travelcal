@@ -11,8 +11,8 @@
         </md-card-actions>
     </md-card-header>
     <md-card-content>
-        <h6>Update Password</h6>
-        <form name="vm.forms.updatePassword" novalidate>
+
+        <form name="vm.forms.updatePassword" novalidate class="form">
             <div ng-show="vm.alerts.length">
                 <div data-ng-repeat="alert in vm.alerts">
                     <div ng-class="{0: 'alert alert-danger', 1: 'alert alert-success'}[alert.type]">
@@ -20,6 +20,8 @@
                     </div>
                 </div>
             </div>
+            <div class='col-xs-12 col-md-6'>
+              <h6>Update Password</h6>
             <div class="form-group">
                 <div ng-messages="vm.forms.updatePassword.newPassword.$error" ng-show="vm.forms.updatedPassword.newPassword.$touched">
                     <p class="text-danger" ng-message="minlength">Password must be at least 6 characters.</p>
@@ -31,6 +33,7 @@
                     Update
                 </button>
             </div>
+          </div>
         </form>
     </md-card-content>
 </md-card>

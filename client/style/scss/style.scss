@@ -8,6 +8,13 @@ body {
     padding: 1em;
     box-shadow: 0 2px 3px rgba(0,0,0,0.05), 0 2px 3px rgba(0,0,0,0.05);
 }
+
+h1 {
+  font-weight: bold;
+  font-size: 2em;
+  border-bottom: 1px solid #ccc;
+  padding-bottom: 10px;
+}
 .navbar-inverse {
     border-radius: 0;
 }
