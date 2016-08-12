@@ -25,7 +25,6 @@
     };
 
     function hide() {
-      console.log('hiding');
       $mdDialog.hide();
     };
 
@@ -34,7 +33,6 @@
     };
 
     function cancel() {
-      console.log('canceling');
       $mdDialog.cancel();
     };
 

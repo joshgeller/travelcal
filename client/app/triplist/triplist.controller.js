@@ -71,7 +71,7 @@
 
     function showDialog(trip) {
       $scope.status = '  ';
-      $scope.customFullscreen = $mdMedia('xs') || $mdMedia('sm');
+//      $scope.customFullscreen = $mdMedia('xs') || $mdMedia('sm');
       var useFullScreen = ($mdMedia('sm') || $mdMedia('xs'))  && $scope.customFullscreen;
 
       var addTrip = function addTrip(status, message) {
