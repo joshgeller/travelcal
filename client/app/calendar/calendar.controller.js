@@ -117,26 +117,40 @@
       var _startDate = moment.utc($event.start, 'YYYY-MM-DD').format();
       var _endDate = moment.utc($event.end, 'YYYY-MM-DD').format();
       var _activity = angular.copy($event);
+      var idx;
 
       _activity.start = _startDate;
       _activity.end = _endDate;
 
-      console.log($event);
       ActivityService.editActivityForm(_activity)
         .then(function(result) {
           if (result) {
+            if (result.source) {
+              delete result.source;
+            }
             
             // we have an activity as result;
             var _calendar = angular.copy($scope.eventSources[1]);
-            _calendar.push(result);
+            idx = getActivityIdx(_calendar, result.id);
+            if (idx) {
+              _calendar.splice(idx, 1);
+              _calendar.push(result);
 
-            CalendarService.update(vm.trip.id, _calendar)
-              .then(function(success) {
-                activitiesSource.push(result);
+              CalendarService.update(vm.trip.id, _calendar)
+                .then(function(success) {
+                  idx = getActivityIdx(activitiesSource, result.id);
+                  if (idx) {
+                    activitiesSource.splice(idx, 1);
+                    activitiesSource.push(result);
+                  }
+                  else {
+                    console.log(activitiesSource);
+                  }
 
-              }, function(error) {
-                console.log('error', error);
-              });
+                }, function(error) {
+                  console.log('error', error);
+                });
+            }
           }
           else {
             // console.log('dialog was closed');
@@ -145,8 +159,17 @@
         });
     }
 
-    // fired when a day on the calendar is clicked
+    function getActivityIdx(_source, id) {
+      for (var i = 0; i < _source.length; i++) {
+        if (_source[i].id === id) {
+          console.log('deleting: ' + id);
+          return i;
+        }
+      }
+      return false;
+    }
 
+    // fired when a day on the calendar is clicked
     onDayClick.$inject = ['$event'];
     function onDayClick($event) {
       var _date = moment.utc($event, 'YYYY-MM-DD').format();

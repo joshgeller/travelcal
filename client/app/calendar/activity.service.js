@@ -197,8 +197,6 @@
 
       // editing existing activity
       if (vm.edit) {
-        console.log(vm.activity);
-
         vm.title = 'Edit Activity';
         vm.currency = vm.activity.currency;
         vm.allDay = vm.activity.allDay;
@@ -209,7 +207,6 @@
 
 //        vm.activity.endTime = moment(vm.activity.end).toDate();
         
-        console.log(vm.activity);
 
 
 
