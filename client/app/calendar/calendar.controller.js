@@ -47,22 +47,6 @@
     // 'private' members
     var tripId;
 
-    // 'private' functions
-//    var editActivity = editActivity;
-//    var eventRender = eventRender;
-//    var eventDataTransform = eventDataTransform;
-//    var goToTripStart = goToTripStart;
-//    var init = init;
-//    var onDayClick = onDayClick;
-//    var onEventClick = onEventClick;
-//    var onEventDrop = onEventDrop;
-//    var onEventResize = onEventResize;
-//    var updateCalendar = updateCalendar;
-//    var updateTrip = updateTrip;
-//    var updateActivity = updateActivity;
-//    var deleteActivity = deleteActivity;
-//    var getActivity = getActivity;
-
     function init() {
       tripId = $location.search().tripId || -1;
       vm.customFullscreen = $mdMedia('xs') || $mdMedia('sm');
@@ -72,7 +56,7 @@
         calendar: {
           timezone: 'utc',
           height: 450,
-          editable: true,
+          editable: false,
           header: {
             left: 'title',
             center: '',
@@ -82,8 +66,6 @@
 //          eventRender: eventRender,
 //          eventDataTransform: eventDataTransform,
           eventClick: onEventClick,
-//          eventResize: onEventResize,
-//          eventDrop: onEventDrop,
           dayClick: onDayClick
         }
       };
@@ -132,7 +114,35 @@
     // fired when an actual activity or trip event is clicked
     onEventClick.$inject = ['$event'];
     function onEventClick($event) {
+      var _startDate = moment.utc($event.start, 'YYYY-MM-DD').format();
+      var _endDate = moment.utc($event.end, 'YYYY-MM-DD').format();
+      var _activity = angular.copy($event);
+
+      _activity.start = _startDate;
+      _activity.end = _endDate;
+
       console.log($event);
+      ActivityService.editActivityForm(_activity)
+        .then(function(result) {
+          if (result) {
+            
+            // we have an activity as result;
+            var _calendar = angular.copy($scope.eventSources[1]);
+            _calendar.push(result);
+
+            CalendarService.update(vm.trip.id, _calendar)
+              .then(function(success) {
+                activitiesSource.push(result);
+
+              }, function(error) {
+                console.log('error', error);
+              });
+          }
+          else {
+            // console.log('dialog was closed');
+            // do nothing
+          }
+        });
     }
 
     // fired when a day on the calendar is clicked
@@ -144,25 +154,22 @@
       ActivityService.createActivityForm(_date, _date)
         .then(function(result) {
           if (result) {
-//            result.start = result.start.toISOString();
-//            result.startTime = result.startTime.toISOString();
-            console.log(result);
+            
             // we have an activity as result;
             var _calendar = angular.copy($scope.eventSources[1]);
             _calendar.push(result);
 
             CalendarService.update(vm.trip.id, _calendar)
               .then(function(success) {
-                //$scope.eventSources[1].push(result);
                 activitiesSource.push(result);
 
               }, function(error) {
-                console.log(error);
-                console.log('error');
+                console.log('error', error);
               });
           }
           else {
-            console.log('dialog was closed');
+            // console.log('dialog was closed');
+            // do nothing
           }
         });
     }

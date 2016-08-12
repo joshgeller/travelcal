@@ -34,10 +34,16 @@
 
     // remove timezone offset from date and convert to ISO date string
     // http://stackoverflow.com/a/7423831/679716
-    function _smartDate(date) {
+    function _smartDate(date, subtract) {
       var targetTime = date;
       var timeZone = 0;
-      var tzDifference = timeZone * 60 - targetTime.getTimezoneOffset();
+      if (subtract) {
+        var tzDifference = timeZone * 60 - targetTime.getTimezoneOffset();
+      }
+      else {
+        var tzDifference = timeZone * 60 + targetTime.getTimezoneOffset();
+      }
+
       var offsetTime = new Date(targetTime.getTime() + tzDifference * 60 * 1000);
       return offsetTime.toISOString();
     }
@@ -62,6 +68,20 @@
         start: _momentUtcToDate(startDate),
         end: _momentUtcToDate(endDate)
       }
+      return _openActivityForm(activity, false);
+    }
+
+
+    function editActivityForm(activity) {
+      var _activity = angular.copy(activity);
+
+      _activity.start = _momentUtcToDate(activity.start);
+      _activity.end = _momentUtcToDate(activity.end);
+
+      return _openActivityForm(_activity, true);
+    }
+
+    function _openActivityForm(activity, editMode) {
 
       return $mdDialog.show({
         controller: DialogController,
@@ -71,9 +91,8 @@
         clickOutsideToClose: true,
         fullscreen: false,
         locals: {
-          edit: false,
-          activity: activity,
-          start: startDate
+          edit: editMode,
+          activity: activity
         }
       })
       // when something is passed to the button we add it to the hide and succeed in life
@@ -83,10 +102,7 @@
           console.log('dialog closed');
           return false;
         });
-    }
 
-    function editActivityForm() {
-      // this will be fun 2
     }
 
     DialogController.$inject = [
@@ -114,10 +130,10 @@
 
       /* DIALOG FUNCTIONS */
       function hide() {
-        console.log('hiding');
-        $mdDialog.hide('JENSBODAL');
+        $mdDialog.hide();
       };
 
+      // i don't think this is used
       function add(answer) {
         console.log('adding trip');
         $mdDialog.hide(answer);
@@ -125,7 +141,7 @@
 
       function cancel() {
         $mdDialog.cancel();
-        $mdDialog.hide('U@FJI');
+        $mdDialog.hide();
       };
 
       function deleteActivity() {
@@ -151,13 +167,7 @@
             .minutes(activity.startTime.minutes())
             .seconds(0).milliseconds(0).toDate();
 
-
-          var targetTime = activity.startTime;
-          var timeZone = 0;
-          var tzDifference = timeZone * 60 - targetTime.getTimezoneOffset();
-          var offsetTime = new Date(targetTime.getTime() + tzDifference * 60 * 1000);
-
-          activity.startTime = _smartDate(activity.startTime);
+          activity.startTime = _smartDate(activity.startTime, true);
           activity.start = activity.startTime;
         }
 
@@ -168,7 +178,7 @@
             .minutes(activity.endTime.minutes())
             .seconds(0).milliseconds(0).toDate();
 
-          activity.endTime = _smartDate(activity.endTime);
+          activity.endTime = _smartDate(activity.endTime, true);
           activity.end = activity.endTime;
         }
 
@@ -184,47 +194,63 @@
         return false;
       }
 
-      vm.activity.allDay = true;
 
+      // editing existing activity
       if (vm.edit) {
-        console.log('editing');
-        vm.activity.startTime = moment(vm.activity.startTime).toDate()
-        vm.activity.endTime = moment(vm.activity.endTime).toDate()
-        vm.activity.start = moment(vm.activity.start) || undefined;
-        vm.activity.end = moment(vm.activity.end) || undefined;
-
-        if (vm.activity.startTime) {
-          var time = moment(vm.activity.startTime)
-          var hour = time.hours()
-          var min = time.minutes()
-          vm.activity.start.hour(hour)
-          vm.activity.start.minute(min)
-        }
-        if (vm.activity.endTime) {
-          var time = moment(vm.activity.endTime)
-          var hour = time.hours()
-          var min = time.minutes()
-          vm.activity.end.hour(hour)
-          vm.activity.end.minute(min)
-        }
+        console.log(vm.activity);
 
         vm.title = 'Edit Activity';
         vm.currency = vm.activity.currency;
+        vm.allDay = vm.activity.allDay;
+        vm.activity.startTime = moment(_smartDate(moment.utc(vm.activity.startTime).toDate()), false).toDate();
+        vm.activity.endTime = moment(_smartDate(moment.utc(vm.activity.endTime).toDate()), false).toDate();
+
+//        vm.activity.startTime = moment(vm.activity.start).toDate();
+
+//        vm.activity.endTime = moment(vm.activity.end).toDate();
+        
+        console.log(vm.activity);
+
+
+
+//        console.log('editing');
+//        vm.activity.startTime = moment(vm.activity.startTime).toDate()
+//        vm.activity.endTime = moment(vm.activity.endTime).toDate()
+//        vm.activity.start = moment(vm.activity.start) || undefined;
+//        vm.activity.end = moment(vm.activity.end) || undefined;
+//
+//        if (vm.activity.startTime) {
+//          var time = moment(vm.activity.startTime)
+//          var hour = time.hours()
+//          var min = time.minutes()
+//          vm.activity.start.hour(hour)
+//          vm.activity.start.minute(min)
+//        }
+//        if (vm.activity.endTime) {
+//          var time = moment(vm.activity.endTime)
+//          var hour = time.hours()
+//          var min = time.minutes()
+//          vm.activity.end.hour(hour)
+//          vm.activity.end.minute(min)
+//        }
+//
+//        vm.title = 'Edit Activity';
+//        vm.currency = vm.activity.currency;
 
       } 
       // else we have a new activity
       else {
-
         vm.title = 'Add a New Activity'
         vm.activity.allDay = false;
         vm.activity.quantity = 1;
         vm.activity.repetitionType = 'total';
-        vm.currency = 'USD';      // default currency
+        vm.activity.currency = 'USD';      // default currency
+
+        vm.activity.startTime = moment(vm.activity.start)
+          .hours(0).minutes(0).seconds(0).milliseconds(0).toDate();
 
         vm.activity.endTime = moment(vm.activity.end)
           .hours(23).minutes(59).seconds(0).milliseconds(0).toDate();
-        vm.activity.startTime = moment(vm.activity.start)
-          .hours(0).minutes(0).seconds(0).milliseconds(0).toDate();
       }
 
       vm.toggle = function (item, list) {
@@ -252,7 +278,7 @@
             vm.currencyAutoComplete.push(newCurrency);
           }
         }, function error(response) {
-          console.log(response);
+          //console.log(response);
         });
 
         vm.newCurrency = function newCurrency(currency) {
