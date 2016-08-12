@@ -166,7 +166,7 @@
             <md-button
                 class="md-primary md-raised"
                 ng-disabled="!vm.formIsValid(NewItemForm)"
-                ng-click="vm.update(vm.activity)" ng-if="vm.edit"
+                ng-click="vm.update(vm.activity)" ng-if="vm.edit && !vm.activity.popular"
                 >
                 Update
             </md-button>
@@ -174,7 +174,7 @@
                 class="md-primary md-raised"
                 ng-disabled="!vm.formIsValid(NewItemForm)"
                 ng-click="vm.update(vm.activity)"
-                ng-if="!vm.edit"
+                ng-if="!vm.edit || vm.activity.popular"
                 >
                 Add
             </md-button>

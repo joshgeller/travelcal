@@ -223,7 +223,7 @@
                   if (result.data.source) {
                     delete result.data.source;
                   }
-
+                  result.data.popular = false;
                   // activity
                   if (idx >= 0) {
                     vm.calendar.data.splice(idx, 1);
@@ -280,6 +280,8 @@
             fullscreen: useFullScreen
           })
             .then(function(activity) {
+                activity.popular = true;
+                console.log(activity);
                 editActivity(ev, activity);
 
             }, function() {
