@@ -217,14 +217,8 @@
         vm.allDay = vm.activity.allDay;
         vm.activity.startTime = moment(_smartDate(moment.utc(vm.activity.startTime).toDate()), false).toDate();
         vm.activity.endTime = moment(_smartDate(moment.utc(vm.activity.endTime).toDate()), false).toDate();
-
-
-<<<<<<< HEAD
       }
-=======
 
-      } 
->>>>>>> more-bug-fixes-emily
       // else we have a new activity
       else {
       console.log(vm.activity);
