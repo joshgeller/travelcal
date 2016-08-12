@@ -111,9 +111,9 @@
             }
   
             // eventSources[0] is trips
-            $scope.eventSources.push(dateRange);
+            $scope.eventSources[0] = dateRange;
             // eventSources[1] is activities
-            $scope.eventSources.push(activitiesSource); 
+            $scope.eventSources[1] = activitiesSource; 
 
             goToTripStart();
 
@@ -144,6 +144,9 @@
       ActivityService.createActivityForm(_date, _date)
         .then(function(result) {
           if (result) {
+//            result.start = result.start.toISOString();
+//            result.startTime = result.startTime.toISOString();
+            console.log(result);
             // we have an activity as result;
             var _calendar = angular.copy($scope.eventSources[1]);
             _calendar.push(result);
@@ -162,30 +165,6 @@
             console.log('dialog was closed');
           }
         });
-
-
-      var dbug = false;
-
-      if (dbug) {
-        var _activity = {};
-        _activity.start = _date;
-        _activity.end = _date;
-        _activity.title = 'Static Activity';
-
-        var _calendar = angular.copy($scope.eventSources[1]);
-        _calendar.push(_activity);
-
-        CalendarService.update(vm.trip.id, _calendar)
-          .then(function(success) {
-            console.log(success);
-            console.log('yay');
-            $scope.eventSources[1].push(_activity);
-
-          }, function(error) {
-            console.log(error);
-            console.log('error');
-          });
-      }
     }
 
 

@@ -32,6 +32,16 @@
       return new Date(date.year, date.month, date.day);
     }
 
+    // remove timezone offset from date and convert to ISO date string
+    // http://stackoverflow.com/a/7423831/679716
+    function _smartDate(date) {
+      var targetTime = date;
+      var timeZone = 0;
+      var tzDifference = timeZone * 60 - targetTime.getTimezoneOffset();
+      var offsetTime = new Date(targetTime.getTime() + tzDifference * 60 * 1000);
+      return offsetTime.toISOString();
+    }
+
 
     // http://stackoverflow.com/a/7616484/679716
     function _hashCode(string) {
@@ -48,26 +58,6 @@
     // dates must be UTC strings
     // 2016-09-23T00:00:00+00:00
     function createActivityForm(startDate, endDate) {
-//        var _activity = {};
-//        _activity.start = _date;
-//        _activity.end = _date;
-//        _activity.title = 'Static Activity';
-//
-//        var _calendar = angular.copy($scope.eventSources[1]);
-//        _calendar.push(_activity);
-//
-//        CalendarService.update(vm.trip.id, _calendar)
-//          .then(function(success) {
-//            console.log(success);
-//            console.log('yay');
-//            $scope.eventSources[1].push(_activity);
-//
-//          }, function(error) {
-//            console.log(error);
-//            console.log('error');
-      //          });a
-      //  var _date = moment.utc($event, 'YYYY-MM-DD').format();
-
       var activity = {
         start: _momentUtcToDate(startDate),
         end: _momentUtcToDate(endDate)
@@ -143,7 +133,9 @@
       }
 
       // update handles both adding and updating activities
-      function update(activity) {
+      function update(_activity) {
+        var activity = angular.copy(_activity);
+
         if (!activity.currency) {
           activity.currency = 'USD';
         }
@@ -159,6 +151,13 @@
             .minutes(activity.startTime.minutes())
             .seconds(0).milliseconds(0).toDate();
 
+
+          var targetTime = activity.startTime;
+          var timeZone = 0;
+          var tzDifference = timeZone * 60 - targetTime.getTimezoneOffset();
+          var offsetTime = new Date(targetTime.getTime() + tzDifference * 60 * 1000);
+
+          activity.startTime = _smartDate(activity.startTime);
           activity.start = activity.startTime;
         }
 
@@ -169,6 +168,7 @@
             .minutes(activity.endTime.minutes())
             .seconds(0).milliseconds(0).toDate();
 
+          activity.endTime = _smartDate(activity.endTime);
           activity.end = activity.endTime;
         }
 
@@ -281,95 +281,6 @@
         }
 
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    function refractor() {
-      $mdDialog.show({
-          controller: 'DialogController',
-          controllerAs: 'dvm',
-          templateUrl: 'static/app/new-item/new-item.template.html',
-          parent: angular.element(document.body),
-          clickOutsideToClose: true,
-          fullscreen: useFullScreen,
-          locals: {
-            edit: edit,
-            activity: activity,
-            start: start
-          }
-        })
-        .then(function (activity) {
-          console.log('new activity', activity);
-          // Delete Activity
-          if (typeof activity == 'boolean' && activity == true) {
-            if (keyIn) {
-              $scope.eventSources[1] = deleteActivity($scope.eventSources[1], keyIn);
-            }
-          } else {
-            var start = moment(activity.start) || undefined
-            var end = moment(activity.end) || undefined
-            if (activity.startTime) {
-              var time = moment(activity.startTime)
-              var hour = time.hours()
-              var min = time.minutes()
-              start.hour(hour)
-              start.minute(min)
-              activity.start = start
-            }
-            var end = moment(activity.end) || undefined
-            if (activity.endTime) {
-              var time = moment(activity.endTime)
-              var hour = time.hours()
-              var min = time.minutes()
-              end.hour(hour)
-              end.minute(min)
-              activity.end = end
-            }
-            if (!activity.quantity) {
-              activity.quantity = 1;
-            }
-            if ($scope.eventSources[1] == null) {
-              $scope.eventSources[1] = [];
-            }
-            // Update activity
-            if (typeof keyIn == 'string' && keyIn != null) {
-              $scope.eventSources[1] = updateActivity($scope.eventSources[1], activity, activity.id);
-            }
-            // New activity
-            else {
-              activity.id = CalendarService.createActivityId(activity);
-              $scope.eventSources[1].push(activity);
-            }
-          }
-          CalendarService.update(vm.calendar_id, $scope.eventSources[1], updateCalendar);
-
-          // @TODO
-          // force reloading page after making changes -- need to find out why calendar isn't
-          // updating when eventSurces or calendar.data changes
-          //$window.location.reload();
-        }, function () {
-          $scope.status = 'You cancelled the dialog.';
-        });
-    }
-
   }
 
 })();
