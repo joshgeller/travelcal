@@ -5,7 +5,7 @@ from .models import Account
 
 
 class AccountSerializer(ModelSerializer):
-    password = CharField(write_only=True, required=False)
+    password = CharField(write_only=True)
     trips = TripSerializer(many=True, required=False)
 
     class Meta:

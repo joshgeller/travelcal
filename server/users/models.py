@@ -9,6 +9,9 @@ class AccountManager(BaseUserManager):
         if not email:
             raise ValueError('Valid email address is required.')
 
+        if not password:
+            raise ValueError('Valid password is required.')
+
         account = self.model(
             email=self.normalize_email(email)
         )

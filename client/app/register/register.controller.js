@@ -45,6 +45,16 @@
                 type: config.alerts.ERROR
               });
             }
+            if (res.data.detail.password) {
+              var err = res.data.detail.password[0];
+              if (err === 'This field is required.') {
+                err = 'Please enter a password (6 characters minimum)';
+              }
+              vm.alerts.push({
+                message: err,
+                type: config.alerts.ERROR
+              });
+            }
 
         }
       });
