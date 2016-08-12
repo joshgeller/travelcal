@@ -6,22 +6,21 @@
     .config(RegisterConfig);
 
     RegisterConfig.$inject = [
-      '$stateProvider',
-      '$urlRouterProvider'
+      '$stateProvider'
     ];
 
-    function RegisterConfig($stateProvider, $urlRouterProvider) {
-      $urlRouterProvider.otherwise('/');
+    function RegisterConfig($stateProvider) {
       $stateProvider
-        .state('registerState', {
+        .state('travelcal.register', {
           url: '/register',
           views: {
-            'travelcalMain': {
+            'travelcalContent': {
               templateUrl: 'static/app/register/register.template.html',
               controller: 'RegisterController',
               controllerAs: 'vm'
             }
           }
-        })
+        });
     }
+
 })();

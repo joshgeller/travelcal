@@ -31,11 +31,10 @@
           message: 'Account created. You may now log in.',
           type: config.alerts.SUCCESS
         });
-        $state.go('travelcal.home');
       }, function(res) {
         if (res.status > -1 && res.data.detail) {
           // Iterate through invalid fields, res.data.detail is a string, not sure what it
-          // looks like if there are more than one error response, but this seems to work for 
+          // looks like if there are more than one error response, but this seems to work for
           // the one error message we get
             vm.alerts.push({
               message: res.data.detail,

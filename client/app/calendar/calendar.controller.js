@@ -16,7 +16,8 @@
     'TripService',
     'CalendarService',
     'moment',
-    'ActivityService'
+    'ActivityService',
+    'config'
   ];
 
   function CalendarController(
@@ -30,7 +31,8 @@
     TripService,
     CalendarService,
     moment,
-    ActivityService
+    ActivityService,
+    config
   ) {
 
     var vm = this;
@@ -39,6 +41,7 @@
 
     vm.customFullscreen;
     vm.events = [];
+    vm.alerts = [];
     $scope.eventSources = [];
     $scope.uiConfig = {};
 
@@ -72,7 +75,7 @@
         TripService.retrieve(tripId)
           .then(function(response) {
             console.log('success');
-            
+
             vm.trip = response.data;
             vm.title = vm.trip.name;
 
@@ -85,15 +88,15 @@
             };
 
             activitiesSource  = [];
-            
+
             if (vm.trip.calendar.data) {
               activitiesSource = angular.copy(vm.trip.calendar.data);
             }
-  
+
             // eventSources[0] is trips
             $scope.eventSources[0] = dateRange;
             // eventSources[1] is activities
-            $scope.eventSources[1] = activitiesSource; 
+            $scope.eventSources[1] = activitiesSource;
 
             goToTripStart();
 
@@ -126,7 +129,7 @@
             if (result.data.source) {
               delete result.data.source;
             }
-            
+
             // we have an activity as result;
             var _calendar = angular.copy($scope.eventSources[1]);
             idx = getActivityIdx(_calendar, result.data.id);
@@ -184,7 +187,7 @@
             if (result.DELETE) {
               return;
             }
-            
+
             // we have an activity as result;
             var _calendar = angular.copy($scope.eventSources[1]);
             _calendar.push(result.data);
@@ -221,7 +224,10 @@
     vm.triggerReminders = function triggerReminders() {
       TripService.triggerReminders(tripId, function (result, response) {
         if (result) {
-          alert('Email reminders were sent to ' + response.data.email + '!')
+          vm.alerts.push({
+            message: 'Your itinerary was e-mailed to ' + response.data.email + '!',
+            type: config.alerts.SUCCESS
+          });
         }
 
       });
