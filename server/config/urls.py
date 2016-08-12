@@ -18,7 +18,9 @@ urlpatterns = [
     # Obtain auth token
     url(r'^api-token-auth/', views.obtain_auth_token),
     # API
+    url(r'^api/v1/accounts/set_password/$', AccountViewSet.as_view({'post': 'set_password'}), name='set_password'),
     url(r'^api/v1/', include(router.urls)),
+
     # Admin
     url(r'^admin/', admin.site.urls),
 ]

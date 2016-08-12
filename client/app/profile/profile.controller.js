@@ -6,13 +6,29 @@
     .controller('ProfileController', ProfileController);
 
   ProfileController.$inject = [
-    '$localStorage'
+    '$localStorage',
+    '$http',
+    'config'
   ];
 
-  function ProfileController($localStorage) {
+  function ProfileController($localStorage, $http, config) {
     var vm = this;
-    vm.pageTitle = 'Dynamic Page Title';
+    vm.newPassword = '';
+    vm.alerts = [];
 
+    vm.update = function () {
+       $http.post('/api/v1/accounts/set_password/', {
+        email: vm.username,
+        password: vm.newPassword
+      })
+      .then(function(res) {
+        vm.alerts.push({
+          message: 'Your password was successfully changed.',
+          type: config.alerts.SUCCESS
+        });
+      }, function(res) {
+      })
+    }
     vm.username = $localStorage.authenticatedUser.username;
   }
 
