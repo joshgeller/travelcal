@@ -77,6 +77,7 @@
         vm.editActivity = editActivity;
         vm.newActivity = newActivity;
         vm.loadCalendar = loadCalendar;
+        vm.showBudgetToolBar = showBudgetToolBar;
         vm.showToolBar = showToolBar;
         vm.popularActivities = popularActivities;
 
@@ -111,7 +112,7 @@
                     for (var i = 0; i < vm.currencyNames.length; i++) {
                         var newCurrency = {value:vm.currencyNames[i], display:vm.currencyNames[i]};
                         vm.currencyAutoComplete.push(newCurrency);
-                        if (newCurrency.value == "USD") {
+                        if (newCurrency.value == vm.baseCurrency) {
                             vm.updateCurrency(newCurrency.value);
                         }
                     }
@@ -179,11 +180,31 @@
             }
         }
 
-        var updateCalendar = function updateCalendar(status, message) {
+        function updateCalendar(status, data) {
             if (status) {
-                vm.calendar.data = message.data.data;
+              vm.calendar.data = data;
+              updateTotal();
             }
         };
+
+        function updateTotal() {
+          var _total = 0;
+          var data = vm.calendar.data;
+
+          for (var key in data) {
+            var item = data[key];
+            if (item.cost) {
+              var cost = item.cost;
+              if (item.currency !== vm.baseCurrency) {
+                var rate = vm.currencies.rates[item.currency];
+                cost = cost / rate;
+              }
+  
+               _total += cost;
+            }
+          }
+          vm.total = _total;
+        }
 
         function editActivity($event, activityIn, idx) {
             var _startDate = moment.utc(activityIn.start, 'YYYY-MM-DD').format();
@@ -215,6 +236,7 @@
 
                   CalendarService.update(vm.calendar.id, vm.calendar.data)
                     .then(function(success) {
+                      updateCalendar(true, vm.calendar.data);
                       console.log("Calendar updated");
                     }, function (error) {
                       console.log("Error updating calendar.");
@@ -235,6 +257,7 @@
                   vm.calendar.data.push(result.data);
                   CalendarService.update(vm.calendar.id, vm.calendar.data)
                     .then(function(success) {
+                      updateCalendar(true, vm.calendar.data);
                       console.log("Activity added to calendar");
                     }, function (error) {
                       console.log("Error updating calendar.");

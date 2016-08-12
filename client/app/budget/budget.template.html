@@ -7,8 +7,12 @@
         </md-card-title>
         <md-card-content>
             <md-list flex>
-                <div ng-if="vm.calendar.data == null"> You have nothing in your budget. Why don't you add an activity?</div>
-                <div ng-if="!vm.showBudgetToolBar(vm.calendar.data)">
+                <div 
+                    ng-if="!vm.showBudgetToolBar(vm.calendar.data) && !vm.showToolBar(vm.calendar.data)"
+                    >
+                    You have nothing in your budget. Why don't you add an activity?
+                </div>
+                <div ng-if="vm.showBudgetToolBar(vm.calendar.data)">
                     <md-divider></md-divider>
                       <md-toolbar>
                         <h2 class="md-toolbar-tools">
@@ -50,7 +54,13 @@
                         </div>
                         <span flex ng-if="item.info_url"></span>
                         <div>
-                            <md-button ng-if="item.info_url" ng-href="{{item.info_url}}" target="_blank">{{item.info_url}}</md-button>
+                            <md-button 
+                                ng-if="item.info_url"
+                                ng-href="{{item.info_url}}"
+                                target="_blank"
+                                >
+                                {{item.info_url}}
+                            </md-button>
                         </div>
                     </div>
                 </md-list-item>
@@ -74,7 +84,13 @@
                         </div>
                         <span flex ng-if="item.info_url"></span>
                         <div>
-                            <md-button ng-if="item.info_url" ng-href="{{item.info_url}}" target="_blank">{{item.info_url}}</md-button>
+                            <md-button 
+                                ng-if="item.info_url" 
+                                ng-href="{{item.info_url}}" 
+                                target="_blank"
+                                >
+                                {{item.info_url}}
+                            </md-button>
                         </div>
                     </div>
                     <md-divider></md-divider>
