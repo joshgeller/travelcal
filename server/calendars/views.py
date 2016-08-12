@@ -46,7 +46,6 @@ class CalendarViewSet(viewsets.ModelViewSet):
                                         'address': activity.get('address')
                                     }
                                 })
-        print('pa', popular_activities)
         results = []
         for name, data in popular_activities.items():
             results.append(
