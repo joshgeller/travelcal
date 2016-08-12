@@ -7,10 +7,11 @@
 
   LoginController.$inject = [
     'AuthenticationService',
-    '$location'
+    '$location',
+    'config'
   ];
 
-  function LoginController(AuthenticationService, $location) {
+  function LoginController(AuthenticationService, $location, config) {
     var vm = this;
 
     vm.login = login;
@@ -30,11 +31,14 @@
           if (authenticated) {
             $location.path('/triplist');
           } else {
-            console.log('auth error')
+            vm.alerts.push({
+              message: 'Unable to login with the provided credentials.',
+              type: config.alerts.ERROR
+            });
           }
         });
     }
-    
+
     function logout() {
       console.log("Logging out!");
       AuthenticationService.logout();
