@@ -6,7 +6,7 @@
             </md-card-title-text>
         </md-card-title>
         <md-card-content>
-            <md-list flex>
+            <md-list>
                 <div 
                     ng-if="!vm.showBudgetToolBar(vm.calendar.data) && !vm.showToolBar(vm.calendar.data)"
                     >
@@ -22,22 +22,24 @@
                 </div>
                 <md-list-item
                     ng-repeat="(key, item) in vm.calendar.data"
-                    class="row" ng-click="vm.editActivity($event, item, key)"
+                    ng-click="vm.editActivity($event, item, key)"
                     ng-if="item.cost"
                     >
-                    <div flex layout="row" layout-padding layout-align="start center">
-                        <div flex style="max-width:200px;">
+                    <div layout="row" layout-fill layout-align="start">
+                        <div class="item-title" flex="40">
                             {{item.title}}
                         </div>
-                        <div>
-                            {{item.cost | number:2}} {{item.currency}}
-                        </div>
-                        <div ng-if="item.repetitionType != 'total'">
-                            x
-                        </div>
-                        <div ng-if="item.repetitionType != 'total'">
-                            {{item.quantity}}
-                        </div>
+                        <div flex="40" layout="row">
+                            <div>
+                                {{item.cost | number:2}} {{item.currency}}
+                            </div>
+                            <div ng-if="item.repetitionType != 'total'">
+                                &nbsp;x&nbsp;
+                            </div>
+                            <div ng-if="item.repetitionType != 'total'">
+                                {{item.quantity}}
+                            </div>
+                            &nbsp;
                             <ng-pluralize
                               ng-if="item.repetitionType == 'per day'"
                               count="item.quantity || 0"
@@ -49,14 +51,14 @@
                               count="item.quantity || 0"
                               when="{'0': 'people', '1': 'person', 'other': 'people'}">
                             </ng-pluralize>
-                        <div ng-if="item.currency != vm.baseCurrency">
-                            =
+                            <div ng-if="item.currency != vm.baseCurrency">
+                                &nbsp;=&nbsp;
+                            </div>
+                            <div ng-if="item.currency != vm.baseCurrency">
+                                {{(item.currency != vm.baseCurrency) ? (item.cost * item.quantity / vm.currencies.rates[item.currency] | number:2) :  (item.cost * item.quantity | number:2)}} {{vm.baseCurrency}}
+                            </div>
                         </div>
-                        <div ng-if="item.currency != vm.baseCurrency">
-                            {{(item.currency != vm.baseCurrency) ? (item.cost * item.quantity / vm.currencies.rates[item.currency] | number:2) :  (item.cost * item.quantity | number:2)}} {{vm.baseCurrency}}
-                        </div>
-                        <span flex ng-if="item.info_url"></span>
-                        <div>
+                        <div flex="20" ng-if="item.info_url">
                             <md-button 
                                 ng-if="item.info_url"
                                 ng-href="{{item.info_url}}"
@@ -77,15 +79,14 @@
                   </div>
                 <md-list-item
                     ng-repeat="(key, item) in vm.calendar.data"
-                    class="row"
                     ng-click="vm.editActivity($event, item, key)"
                     ng-if="!item.cost"
                     >
-                    <div flex layout="row" layout-padding layout-align="start center">
-                        <div flex style="max-width:200px;">
+                    <div layout="row" layout-fill layout-align="start center">
+                        <div flex="60">
                             {{item.title}}
                         </div>
-                        <span flex ng-if="item.info_url"></span>
+                        <span flex="40" ng-if="item.info_url"></span>
                         <div>
                             <md-button 
                                 ng-if="item.info_url" 
