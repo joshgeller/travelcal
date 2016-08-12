@@ -64,18 +64,22 @@
             </div>
 
             <div layout-gt-sm="row">
-                <md-input-container>
+                <md-input-container class="md-block" flex-gt-lg>
                     <input type="url" name="url" ng-model="vm.activity.info_url" placeholder="Link">
+                    <div style="color:red" ng-if="!NewItemForm.url.$valid">*invalid url</div>
                 </md-input-container>
-                <div style="color:red" ng-if="!NewItemForm.url.$valid">*invalid url</div>
-                <md-button ng-if="NewItemForm.url.$valid && vm.activity.info_url.length" href={{vm.activity.info_url}}
-                 title="Launch in new window"
-                 target="_blank"
-                 aria-label="NewItemForm.url"
-                 class="md-icon-button launch" >
-                 <ng-md-icon md-menu-align-target icon="launch"></ng-md-icon>
-                </md-button>
+                <md-input-container class="md-block" flex-gt-sm>
+                    <md-button ng-if="NewItemForm.url.$valid && vm.activity.info_url.length" href={{vm.activity.info_url}}
+                     title="Launch in new window"
+                     target="_blank"
+                     aria-label="NewItemForm.url"
+                     class="md-icon-button launch" >
+                     <ng-md-icon md-menu-align-target icon="launch"></ng-md-icon>
+                    </md-button>
+                </md-input-container>
             </div>
+
+
 
             <div layout-gt-sm="row">
                 <md-input-container class="md-block" flex-gt-sm>
