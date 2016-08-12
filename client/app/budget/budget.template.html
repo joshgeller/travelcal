@@ -8,6 +8,14 @@
         <md-card-content>
             <md-list flex>
                 <div ng-if="vm.calendar.data == null"> You have nothing in your budget. Why don't you add an activity?</div>
+                <div ng-if="!vm.showBudgetToolBar(vm.calendar.data)">
+                    <md-divider></md-divider>
+                      <md-toolbar>
+                        <h2 class="md-toolbar-tools">
+                          <span>Budgeted</span>
+                        </h2>
+                      </md-toolbar>
+                </div>
                 <md-list-item
                     ng-repeat="(key, item) in vm.calendar.data"
                     class="row" ng-click="vm.editActivity($event, item, key)"
@@ -34,20 +42,11 @@
                               count="item.quantity || 0"
                               when="{'0': 'people', '1': 'person', 'other': 'people'}">
                             </ng-pluralize>
-                        <div>
+                        <div ng-if="item.currency != vm.baseCurrency">
                             =
                         </div>
-                        <div>
+                        <div ng-if="item.currency != vm.baseCurrency">
                             {{(item.currency != vm.baseCurrency) ? (item.cost * item.quantity / vm.currencies.rates[item.currency] | number:2) :  (item.cost * item.quantity | number:2)}} {{vm.baseCurrency}}
-                        </div>
-                        <div>
-                            {{item.start | date : shortDate}}
-                        </div>
-                        <div ng-if="item.end != item.start && item.end">
-                            -
-                        </div>
-                        <div ng-if="item.end != item.start">
-                            {{item.end | date : shortDate}}
                         </div>
                         <span flex ng-if="item.info_url"></span>
                         <div>
@@ -59,7 +58,7 @@
                     <md-divider></md-divider>
                       <md-toolbar>
                         <h2 class="md-toolbar-tools">
-                          <span>Unknown Cost</span>
+                          <span>To Budget</span>
                         </h2>
                       </md-toolbar>
                   </div>
@@ -73,15 +72,6 @@
                         <div flex style="max-width:200px;">
                             {{item.title}}
                         </div>
-                        <div>
-                            {{item.start | date : shortDate}}
-                        </div>
-                        <div ng-if="item.end != item.start && item.end">
-                            -
-                        </div>
-                        <div ng-if="item.end != item.start">
-                            {{item.end | date : shortDate}}
-                        </div>
                         <span flex ng-if="item.info_url"></span>
                         <div>
                             <md-button ng-if="item.info_url" ng-href="{{item.info_url}}" target="_blank">{{item.info_url}}</md-button>
@@ -94,7 +84,6 @@
                     <h4>
                     <md-input-container class="md-block" flex-gt-sm>
                         <md-autocomplete
-
                           md-selected-item="vm.selectedItem"
                           md-search-text="vm.searchText"
                           md-selected-item-change="vm.updateCurrency(curr.value)"

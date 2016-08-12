@@ -112,6 +112,12 @@
     // fired when an actual activity or trip event is clicked
     onEventClick.$inject = ['$event'];
     function onEventClick($event) {
+       var trip = vm.trip;
+      // handle changing trip dates
+      if ($event.class == "trip_end" || $event.class == "trip_start") {
+        updateTripDates();
+        return;
+      }
       var _startDate = moment.utc($event.start, 'YYYY-MM-DD').format();
       var _endDate = moment.utc($event.end, 'YYYY-MM-DD').format();
       var _activity = angular.copy($event);
@@ -184,7 +190,7 @@
             if (result.DELETE) {
               return;
             }
-            
+
             // we have an activity as result;
             var _calendar = angular.copy($scope.eventSources[1]);
             _calendar.push(result.data);
@@ -202,6 +208,92 @@
           }
         });
     }
+
+
+    function addPopular($event, activityIn) {
+      // default to trip start date
+      var _date = moment.utc(vm.trip.start_date, 'YYYY-MM-DD').format();
+      var _activity = angular.copy(activityIn);
+
+      _activity.start = _date;
+      _activity.end = _date;
+      console.log(_activity);
+
+      ActivityService.editActivityForm(_activity)
+        .then(function(result) {
+          if (result.GOOD) {
+            if (result.DELETE) {
+              return;
+            }
+
+            // we have an activity as result;
+            var _calendar = angular.copy($scope.eventSources[1]);
+            _calendar.push(result.data);
+
+            CalendarService.update(vm.trip.id, _calendar)
+              .then(function(success) {
+                activitiesSource.push(result.data);
+
+              }, function(error) {
+                console.log('error', error);
+              });
+          }
+          else {
+            // dialog was closed, do nothing
+          }
+        });
+    }
+
+
+    function updateTripDates() {
+      var useFullScreen = ($mdMedia('sm') || $mdMedia('xs'))  && $scope.customFullscreen;
+
+          var addTrip = function addTrip(status, message) {
+            if (status) {
+              // UPDATE TRIP INFO IN
+              console.log(message);
+              var dateRange = {
+                color: '#f00',
+                events: [
+                  { title: 'TRIP START', start: vm.trip.start_date, class: 'trip_start', allDay: true },
+                  { title: 'TRIP END', start: vm.trip.end_date, class: 'trip_end', allDay: true }
+                ]
+              };
+              // eventSources[0] is trips
+              $scope.eventSources[0] = dateRange;
+            }
+          };
+
+          $mdDialog.show({
+            controller: 'DialogController',
+            controllerAs: 'dvm',
+            templateUrl: 'static/app/triplist/new-trip.template.html',
+            locals: {
+              edit: true,
+              activity: undefined,
+              start: undefined,
+              trip: vm.trip
+            },
+            parent: angular.element(document.body),
+            clickOutsideToClose:true,
+            fullscreen: useFullScreen
+          })
+            .then(function(answer) {
+              console.log(answer);
+              answer.start_date = answer.start;
+              answer.end_date = answer.end;
+              TripService.update(answer.id, answer, addTrip);
+
+            }, function() {
+              $scope.status = 'No trip was added.';
+            });
+
+            $scope.$watch(function() {
+              return $mdMedia('xs') || $mdMedia('sm');
+            }, function(wantsFullScreen) {
+              $scope.customFullscreen = (wantsFullScreen === true);
+            });
+      }
 
     /* Render Tooltip COPIED FROM CALENDAR DOCUMENTATION */
     /* doesn't do anything afaik */
@@ -240,7 +332,7 @@
           fullscreen: useFullScreen
         })
         .then(function (activity) {
-          editActivity(ev, activity);
+          addPopular(ev, activity);
 
         }, function () {
           console.log('You cancelled the dialog.');

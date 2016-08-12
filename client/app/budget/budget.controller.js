@@ -130,6 +130,15 @@
           return false;
         }
 
+        function showBudgetToolBar(data) {
+          for (var key in data) {
+            if (data[key].cost) {
+              return true;
+            }
+          }
+          return false;
+        }
+
         function loadCalendar() {
           $location.path('/calendar');
         }

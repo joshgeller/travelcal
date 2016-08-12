@@ -88,7 +88,7 @@
           edit: false,
           activity: undefined,
           start: undefined,
-          trip: trip
+          trip: vm.trip
         },
         parent: angular.element(document.body),
         clickOutsideToClose:true,
