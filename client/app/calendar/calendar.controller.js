@@ -259,7 +259,7 @@
 
       var addTrip = function addTrip(status, message) {
         if (status) {
-          // UPDATE TRIP INFO IN
+          vm.title = message.data.name;
           var dateRange = {
             color: '#f00',
             events: [
