@@ -33,6 +33,9 @@
                             {{item.cost | number:2}} {{item.currency}}
                         </div>
                         <div ng-if="item.repetitionType != 'total'">
+                            x
+                        </div>
+                        <div ng-if="item.repetitionType != 'total'">
                             {{item.quantity}}
                         </div>
                             <ng-pluralize

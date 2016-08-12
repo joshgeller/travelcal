@@ -195,12 +195,13 @@
             var item = data[key];
             if (item.cost) {
               var cost = item.cost;
+              var quantity = item.quantity || 1;
               if (item.currency !== vm.baseCurrency) {
                 var rate = vm.currencies.rates[item.currency];
                 cost = cost / rate;
               }
   
-               _total += cost;
+               _total += (cost * quantity);
             }
           }
           vm.total = _total;
