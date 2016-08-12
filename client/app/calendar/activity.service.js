@@ -209,21 +209,31 @@
 
       // editing existing activity
       if (vm.edit) {
+        console.log(vm.activity);
         vm.title = 'Edit Activity';
-        vm.currency = vm.activity.currency;
+        vm.currency = vm.activity.currency ? vm.activity.currency : 'USD';
+        vm.activity.repetitionType = vm.activity.repetitionType ? vm.activity.repetitionType : 'total';
+        vm.activity.quantity = vm.activity.quantity ? vm.activity.quantity : 1;
         vm.allDay = vm.activity.allDay;
         vm.activity.startTime = moment(_smartDate(moment.utc(vm.activity.startTime).toDate()), false).toDate();
         vm.activity.endTime = moment(_smartDate(moment.utc(vm.activity.endTime).toDate()), false).toDate();
 
 
+<<<<<<< HEAD
       }
+=======
+
+      } 
+>>>>>>> more-bug-fixes-emily
       // else we have a new activity
       else {
+      console.log(vm.activity);
         vm.title = 'Add a New Activity'
         vm.activity.allDay = false;
         vm.activity.quantity = 1;
         vm.activity.repetitionType = 'total';
         vm.activity.currency = 'USD';      // default currency
+        vm.currency = vm.activity.currency;
 
         vm.activity.startTime = moment(vm.activity.start)
           .hours(0).minutes(0).seconds(0).milliseconds(0).toDate();
