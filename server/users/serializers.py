@@ -1,4 +1,3 @@
-from django.contrib.auth import update_session_auth_hash
 from rest_framework.serializers import CharField, ModelSerializer
 from trips.serializers import TripSerializer
 
@@ -20,19 +19,3 @@ class AccountSerializer(ModelSerializer):
             Create a new Account.
             """
             return Account.objects.create(**data)
-
-        def update(self, instance, data):
-            """
-            Update an existing Account.
-            """
-            # Handle user changing their password.
-            password = data.get('password', None)
-            if password:
-                instance.set_password(password)
-                instance.save()
-
-            # If user changes password, we need to make sure the session
-            # stays active and doesn't log them out on the next request.
-            update_session_auth_hash(self.context.get('request'), instance)
-
-            return instance

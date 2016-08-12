@@ -19,12 +19,21 @@
     vm.openMenu = openMenu;
     vm.pageTitle = 'Dynamic Page Title';
     vm.profile = profile;
+    vm.triplist = triplist;
     vm.selectedLink = selectedLink;
+    vm.init = init;
+    vm.brand = brand;
 
     vm.links = [
       {'text': 'Budget', 'link': '#budget'},
-      {'text': 'Trip List', 'link': '#triplist'}
+      {'text': 'Trip List', 'link': '#triplist'},
     ];
+
+    init()
+
+    function init() {
+      vm.authenticated = ($localStorage.authenticatedUser !== undefined);
+    }
 
     function selectedLink(index) {
       var i;
@@ -37,7 +46,16 @@
         }
       }
     }
-  
+
+    function brand(){
+      vm.authenticated = ($localStorage.authenticatedUser !== undefined);
+      if (vm.authenticated) {
+        $state.go('travelcal.triplist');
+      } else {
+        $state.go('travelcal.home');
+      }
+    }
+
     function login() {
       $state.go('travelcal.login');
     }
@@ -49,6 +67,10 @@
 
     function profile() {
       $state.go('travelcal.profile');
+    }
+
+    function triplist() {
+      $state.go('travelcal.triplist');
     }
 
     function openMenu($mdOpenMenu, ev) {

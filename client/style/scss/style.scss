@@ -2,28 +2,63 @@ body {
     background-color: #fff;
     font-size: 16px;
 }
-
 .card {
-  background: #fff;
-  border-radius: 2px;
-  padding: 1em;
-  box-shadow: 0 2px 3px rgba(0,0,0,0.05), 0 2px 3px rgba(0,0,0,0.05);
+    background: #fff;
+    border-radius: 2px;
+    padding: 1em;
+    box-shadow: 0 2px 3px rgba(0,0,0,0.05), 0 2px 3px rgba(0,0,0,0.05);
 }
-
 .navbar-inverse {
-  border-radius: 0;
+    border-radius: 0;
+}
+#travelcal-main {
+    .travelcal-triplist {
+        md-card._md {
+            md-card-content {
+                md-list {
+                    md-list-item.highlight-row {
+                        background-color: lightgrey;
+                    }
+                }
+            }
+        }
+    }
+}
+#home {
+  margin-top: -23px;
+  padding: 40px;
+    background: url("../../img/travelcal.jpg") no-repeat center center fixed;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+    text-align: center;
+    height: 300px;
+    h1 {
+      text-shadow: 2px 2px 2px rgba(150, 150, 150, 0.1);
+      font-size: 5em;
+      font-weight: bold;
+      color: #000;
+      margin-bottom: 10px;
+    }
+    h2 {
+      margin: 0 0 20px 0;
+      font-size: 2em;
+      color: #fff;
+    }
 }
 
-#travelcal-main {
-  .travelcal-triplist {
-    md-card._md {
-      md-card-content {
-        md-list {
-          md-list-item.highlight-row {
-            background-color: lightgrey;
-          }
-        }
-      }
-    }
+.card-home {
+  margin-top: 2em;
+  padding: 1em;
+  min-height: 240px;
+  h5 {
+    text-align: center;
+    font-weight: bold;
+  }
+  i {
+    margin: 0 auto;
+    display: block;
+    text-align: center;
   }
 }

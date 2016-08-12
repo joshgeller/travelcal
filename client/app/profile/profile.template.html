@@ -1,49 +1,36 @@
 <md-card>
-  <md-card-header>
-    <md-card-avatar>
-      <img class="md-user-avatar" src="/static/img/default_user.png">
-    </md-card-avatar>
-    <md-card-header-text>
-      <span class="md-title"><h5>{{vm.username}}</h5></span>
-    </md-card-header-text>
-  </md-card-header>
-  <md-card-content>
+    <md-card-header>
+        <md-card-avatar>
+            <img class="md-user-avatar" src="/static/img/default_user.png">
+        </md-card-avatar>
+        <md-card-header-text>
+            <span class="md-title"><h5>{{vm.username}}</h5></span>
+        </md-card-header-text>
+        <md-card-actions layout="row" layout-align="start center">
+            <md-button class="btn btn-lg btn-primary" ui-sref="travelcal.triplist">View My Trips</md-button>
+        </md-card-actions>
+    </md-card-header>
+    <md-card-content>
         <h6>Update Password</h6>
         <form name="vm.forms.updatePassword" novalidate>
-          <div ng-show="vm.alerts.length">
-            <div data-ng-repeat="alert in vm.alerts">
-              <div ng-class="{0: 'alert alert-danger', 1: 'alert alert-success'}[alert.type]">
-                {{alert.message}}
-              </div>
+            <div ng-show="vm.alerts.length">
+                <div data-ng-repeat="alert in vm.alerts">
+                    <div ng-class="{0: 'alert alert-danger', 1: 'alert alert-success'}[alert.type]">
+                        {{alert.message}}
+                    </div>
+                </div>
             </div>
-          </div>
-          <div class="form-group">
-              <div ng-messages="vm.forms.updatePassword.newPassword.$error" ng-show="vm.forms.updatedPassword.newPassword.$touched">
-                <p class="text-danger" ng-message="minlength">Password must be at least 6 characters.</p>
-              </div>
-              <input
-                class="form-control"
-                name="newPassword"
-                ng-minlength="6"
-                ng-model="vm.newPassword"
-                placeholder="Password"
-                type="password"
-                required
-               />
-          </div>
-          <div class="form-group">
-              <button
-                ng-disabled="!vm.forms.updatePassword.newPassword.$valid"
-                class="btn btn-sm btn-success"
-                ng-click="vm.update()"
-                type="submit"
-              >
-                Update
-              </button>
-          </div>
+            <div class="form-group">
+                <div ng-messages="vm.forms.updatePassword.newPassword.$error" ng-show="vm.forms.updatedPassword.newPassword.$touched">
+                    <p class="text-danger" ng-message="minlength">Password must be at least 6 characters.</p>
+                </div>
+                <input class="form-control" name="newPassword" ng-minlength="6" ng-model="vm.newPassword" placeholder="Password" type="password" required />
+            </div>
+            <div class="form-group">
+                <button ng-disabled="!vm.forms.updatePassword.newPassword.$valid" class="btn btn-md btn-success" ng-click="vm.update()" type="submit">
+                    Update
+                </button>
+            </div>
         </form>
-  </md-card-content>
-  <md-card-actions layout="row" layout-align="start center">
-    <md-button ui-sref="travelcal.triplist">View Trips</md-button>
-  </md-card-actions>
+    </md-card-content>
 </md-card>

@@ -1,46 +1,50 @@
 <!-- Using bootstrap for navbar because Angular Material isn't awesome for this... -->
 <nav class="navbar navbar-inverse" ng-controller="NavController as vm">
-  <div class="container" layout="row">
-    <!-- Brand and toggle get grouped for better mobile display -->
-    <div class="navbar-header">
-      <a class="navbar-brand" href="#" ng-click="vm.selectedLink(-1)">
-        <i class='fa fa-plane'></i>
-        TravelCal
-      </a>
-      <a ng-show="vm.authenticated">Stuff</a>
-    </div>
-    <div flex="">
-    <!-- Collect the nav links, forms, and other content for toggling -->
-    <div id="bs-example-navbar-collapse-1">
-      <md-menu class="pull-right">
-          <md-button
-            ng-click="vm.openMenu($mdOpenMenu, $event)"
-            class="md-icon-button"
-            aria-label="Open some menu"
-            >
-            <ng-md-icon md-menu-origin="" icon="menu" style="fill: white"></mg-md-icon>
-          </md-button>
-          <md-menu-content>
-              <md-menu-item ng-show="!vm.authenticated">
-                  <md-button ng-click="vm.login()" aria-label="Do something">
-                      <ng-md-icon md-menu-align-target icon="login"></ng-md-icon>
-                        Login
-                  </md-button>
-              </md-menu-item>
-              <md-menu-item ng-show="vm.authenticated">
-                  <md-button ng-click="vm.profile()" aria-label="Do something">
-                      <ng-md-icon md-menu-align-target icon="account_box"></ng-md-icon>
-                        Profile
-                  </md-button>
-              </md-menu-item>
-              <md-menu-item ng-show="vm.authenticated">
-                  <md-button ng-click="vm.logout()" aria-label="Do something">
-                      <ng-md-icon md-menu-align-target icon="logout"></ng-md-icon>
-                        Logout
-                  </md-button>
-              </md-menu-item>
-          </md-menu-content>
-      </md-menu>
-    </div><!-- /.navbar-collapse -->
-  </div><!-- /.container-fluid -->
+    <div class="container" layout="row">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+            <a class="navbar-brand" ng-click="vm.brand()" style="cursor: pointer;">
+                <i class='fa fa-plane'></i> TravelCal
+            </a>
+
+        </div>
+        <div flex="">
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div id="bs-example-navbar-collapse-1">
+                <md-menu class="pull-right">
+                    <md-button ng-click="vm.openMenu($mdOpenMenu, $event)" class="md-icon-button" aria-label="Open some menu">
+                        <ng-md-icon md-menu-origin="" icon="menu" style="fill: white">
+                            </mg-md-icon>
+                    </md-button>
+                    <md-menu-content>
+                        <md-menu-item ng-show="!vm.authenticated">
+                            <md-button ng-click="vm.login()" aria-label="Do something">
+                                <ng-md-icon md-menu-align-target icon="login"></ng-md-icon>
+                                Login
+                            </md-button>
+                        </md-menu-item>
+                        <md-menu-item ng-show="vm.authenticated">
+                            <md-button ng-click="vm.profile()" aria-label="Do something">
+                                <ng-md-icon md-menu-align-target icon="account_box"></ng-md-icon>
+                                Profile
+                            </md-button>
+                        </md-menu-item>
+                        <md-menu-item ng-show="vm.authenticated">
+                            <md-button ng-click="vm.triplist()" aria-label="Do something">
+                                <ng-md-icon md-menu-align-target icon="map"></ng-md-icon>
+                                My Trips
+                            </md-button>
+                        </md-menu-item>
+                        <md-menu-item ng-show="vm.authenticated">
+                            <md-button ng-click="vm.logout()" aria-label="Do something">
+                                <ng-md-icon md-menu-align-target icon="logout"></ng-md-icon>
+                                Logout
+                            </md-button>
+                        </md-menu-item>
+                    </md-menu-content>
+                </md-menu>
+            </div>
+            <!-- /.navbar-collapse -->
+        </div>
+        <!-- /.container-fluid -->
 </nav>
