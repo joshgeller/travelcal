@@ -21,7 +21,6 @@
       while(vm.alerts.length) {
         vm.alerts.pop();
       }
-      if (vm.forms.registerForm.$invalid) return;
       return $http.post('/api/v1/accounts/', {
         password: vm.password,
         email: vm.email
@@ -36,10 +35,17 @@
           // Iterate through invalid fields, res.data.detail is a string, not sure what it
           // looks like if there are more than one error response, but this seems to work for
           // the one error message we get
-            vm.alerts.push({
-              message: res.data.detail,
-              type: config.alerts.ERROR
-            });
+            if (res.data.detail.email) {
+              var err = res.data.detail.email[0];
+              if (err === 'This field is required.') {
+                err = 'Please enter a valid e-mail address.';
+              }
+              vm.alerts.push({
+                message: err,
+                type: config.alerts.ERROR
+              });
+            }
+
         }
       });
     }
