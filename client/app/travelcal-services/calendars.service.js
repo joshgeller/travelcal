@@ -67,10 +67,16 @@
 
     function update(calendarId, data, callback) {
       return $http.patch('/api/v1/calendars/' + calendarId + '/', { data: data })
-      .then(function(res) {
-        callback(true, res);
+        .then(function(res) {
+          if (callback) {
+            callback(true, res);
+          }
+          return res;
       }, function(res) {
-        callback(false, res);
+        if (callback) {
+          callback(false, res);
+        }
+        return res;
       })
     }
 

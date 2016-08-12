@@ -8,9 +8,9 @@
         <md-card-content>
             <md-list flex>
                 <div ng-if="vm.calendar.data == null"> You have nothing in your budget. Why don't you add an activity?</div>
-                <md-list-item 
-                    ng-repeat="(key, item) in vm.calendar.data" 
-                    class="row" ng-click="vm.editActivity($event, item, key)" 
+                <md-list-item
+                    ng-repeat="(key, item) in vm.calendar.data"
+                    class="row" ng-click="vm.editActivity($event, item, key)"
                     ng-if="item.cost"
                     >
                     <div flex layout="row" layout-padding layout-align="start center">
@@ -63,10 +63,10 @@
                         </h2>
                       </md-toolbar>
                   </div>
-                <md-list-item 
-                    ng-repeat="(key, item) in vm.calendar.data" 
-                    class="row" 
-                    ng-click="vm.editActivity($event, item, key)" 
+                <md-list-item
+                    ng-repeat="(key, item) in vm.calendar.data"
+                    class="row"
+                    ng-click="vm.editActivity($event, item, key)"
                     ng-if="!item.cost"
                     >
                     <div flex layout="row" layout-padding layout-align="start center">
@@ -113,7 +113,6 @@
                     </md-input-container></h4>
                 </md-list-item>
             </md-list>
-          <md-button class="md-raised" ng-click="vm.editActivity($event)">Add New Activity</md-button>
           <md-button class="md-raised" ng-click="vm.loadCalendar()">View Calendar</md-button>
           <md-button class="md-raised" ng-click="vm.popularActivities($event)">Popular Activities</md-button>
         </md-card-content>

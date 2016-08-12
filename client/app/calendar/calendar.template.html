@@ -1,6 +1,4 @@
-
-
-<md-content class="travelcal-calendar">
+<md-content class="travelcal-calendar" ng-init="vm.init()">
 
     <md-card>
         <md-card-title>
@@ -16,9 +14,8 @@
             </md-card-title-text>
         </md-card-title>
         <md-card-content>
-            <div 
-                ng-model-options="{timezone:'UTC'}" 
-                ui-calendar="uiConfig.calendar" 
+            <div
+                ui-calendar="uiConfig.calendar"
                 ng-model="eventSources"
                 calendar="tripCalendar">
             </div>

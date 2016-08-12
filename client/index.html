@@ -57,7 +57,7 @@
     <script src='{% static 'bower_components/angular-ui-calendar/src/calendar.js' %}'></script>
     <!-- endbower -->
     <!-- endbuild -->
-    <script src="https://maps.googleapis.com/maps/api/js?libraries=places"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAajzUgMJFD3xKEcRL6AiAf304i-dxFSqU&libraries=places"></script>
 
     <!-- our app files; modules most go before their respective components -->
     <!-- angular-file-loader doesn't replace paths aside from relative so cannot have grunt auto include these as needed
@@ -96,6 +96,7 @@
     <script src='{% static 'app/travelcal-services/trips.service.js' %}'></script>
     <script src='{% static 'app/travelcal-services/calendars.service.js' %}'></script>
     <script src='{% static 'app/travelcal-services/authentication.service.js' %}'></script>
+    <script src='{% static 'app/calendar/activity.service.js' %}'></script>
 </body>
 
 </html>

@@ -27,10 +27,18 @@
     function retrieve(tripId, callback) {
       return $http.get('/api/v1/trips/' + tripId + '/')
         .then(function (res) {
-          callback(true, res);
+          if (callback) {
+            callback(true, res);
+          }
+          return res;
+
         }, function (res) {
-          callback(false, res);
-        })
+          if (callback) {
+            callback(false, res);
+          }
+
+          return res;
+        });
     }
 
     function exportPDF(tripId, callback) {
@@ -81,6 +89,7 @@
     }
 
     function update(tripId, data, callback) {
+      console.log("CHECK FOR SOURCE!!!");
        var _data = {};
 
        _data.name = data.name;

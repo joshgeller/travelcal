@@ -7,10 +7,11 @@
 
   NavController.$inject = [
     '$localStorage',
-    '$state'
+    '$state',
+    'AuthenticationService'
   ];
 
-  function NavController($localStorage, $state) {
+  function NavController($localStorage, $state, AuthenticationService) {
     var vm = this;
     vm.authenticated = false;
     vm.login = login;
@@ -42,7 +43,8 @@
     }
 
     function logout() {
-      $state.go('travelcal.logout');
+      AuthenticationService.logout();
+      $state.go('travelcal.login');
     }
 
     function profile() {

@@ -28,23 +28,24 @@ class CalendarViewSet(viewsets.ModelViewSet):
         for calendar in queryset:
             if calendar.data:
                 for activity in calendar.data:
-                    addr = activity.get('address', {}).get('name', None)
-                    if addr:
-                        if addr not in popular_activities:
-                            popular_activities.update({
-                                addr: {
-                                    'score': 1,
-                                    'address': activity.get('address')
-                                }
-                            })
-                        else:
-                            popularity = popular_activities.get(addr).get('score')
-                            popular_activities.update({
-                                addr: {
-                                    'score': popularity + 1,
-                                    'address': activity.get('address')
-                                }
-                            })
+                    if isinstance(activity, dict):
+                        addr = activity.get('address', {}).get('name', None)
+                        if addr:
+                            if addr not in popular_activities:
+                                popular_activities.update({
+                                    addr: {
+                                        'score': 1,
+                                        'address': activity.get('address')
+                                    }
+                                })
+                            else:
+                                popularity = popular_activities.get(addr).get('score')
+                                popular_activities.update({
+                                    addr: {
+                                        'score': popularity + 1,
+                                        'address': activity.get('address')
+                                    }
+                                })
         print('pa', popular_activities)
         results = []
         for name, data in popular_activities.items():
