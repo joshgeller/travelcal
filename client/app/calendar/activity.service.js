@@ -12,7 +12,7 @@
   function ActivityService($mdDialog) {
     this.createActivityForm = createActivityForm;
     this.editActivityForm = editActivityForm;
-    this.hashCode = _hashCode;
+    this.smartDate = _smartDate;
 
     return this;
 

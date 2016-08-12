@@ -11,10 +11,11 @@
     '$location',
     '$mdDialog',
     '$mdMedia',
+    'ActivityService',
     'TripService'
   ];
 
-  function TriplistController($http, $scope, $location, $mdDialog, $mdMedia, TripService) {
+  function TriplistController($http, $scope, $location, $mdDialog, $mdMedia, ActivityService, TripService) {
     var vm = this;
     vm.changeHighlighted = changeHighlighted;
     vm.deleteTrip = deleteTrip;
@@ -69,7 +70,12 @@
       showDialog(null);
     }
 
-    function showDialog(trip) {
+    function showDialog(_trip) {
+      var trip = angular.copy(_trip);
+      if (trip) {
+        trip.start_date = ActivityService.smartDate(new Date(trip.start_date), false);
+        trip.end_date = ActivityService.smartDate(new Date(trip.end_date), false);
+      }
       $scope.status = '  ';
       $scope.customFullscreen = $mdMedia('xs') || $mdMedia('sm');
       var useFullScreen = ($mdMedia('sm') || $mdMedia('xs'))  && $scope.customFullscreen;
@@ -88,7 +94,7 @@
           edit: false,
           activity: undefined,
           start: undefined,
-          trip: vm.trip
+          trip: trip 
         },
         parent: angular.element(document.body),
         clickOutsideToClose:true,
@@ -104,7 +110,9 @@
           $scope.tripName = answer.name;
         
           if (answer.updating) {
-            console.log(answer);
+            answer.start_date = moment(answer.start).toDate();
+            answer.end_date = moment(answer.end).toDate();
+            
             TripService.update(answer.id, answer, addTrip); 
           }
           else {

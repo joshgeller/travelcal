@@ -89,7 +89,6 @@
     }
 
     function update(tripId, data, callback) {
-      console.log("CHECK FOR SOURCE!!!");
        var _data = {};
 
        _data.name = data.name;

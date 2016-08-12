@@ -74,8 +74,6 @@
       if (tripId > -1) {
         TripService.retrieve(tripId)
           .then(function(response) {
-            console.log('success');
-
             vm.trip = response.data;
             vm.title = vm.trip.name;
 
@@ -118,8 +116,7 @@
        var trip = vm.trip;
       // handle changing trip dates
       if ($event.class == "trip_end" || $event.class == "trip_start") {
-        updateTripDates();
-        return;
+        return updateTripDates();
       }
       var _startDate = moment.utc($event.start, 'YYYY-MM-DD').format();
       if (!$event.allDay) {
@@ -256,54 +253,53 @@
 
 
     function updateTripDates() {
-      var useFullScreen = ($mdMedia('sm') || $mdMedia('xs'))  && $scope.customFullscreen;
+      vm.trip.start_date = ActivityService.smartDate(new Date(vm.trip.start_date), false);
+      vm.trip.end_date = ActivityService.smartDate(new Date(vm.trip.end_date), false);
 
-          var addTrip = function addTrip(status, message) {
-            if (status) {
-              // UPDATE TRIP INFO IN
-              console.log(message);
-              var dateRange = {
-                color: '#f00',
-                events: [
-                  { title: 'TRIP START', start: vm.trip.start_date, class: 'trip_start', allDay: true },
-                  { title: 'TRIP END', start: vm.trip.end_date, class: 'trip_end', allDay: true }
-                ]
-              };
-              // eventSources[0] is trips
-              $scope.eventSources[0] = dateRange;
-            }
+      var addTrip = function addTrip(status, message) {
+        if (status) {
+          // UPDATE TRIP INFO IN
+          var dateRange = {
+            color: '#f00',
+            events: [
+              { title: 'TRIP START', start: vm.trip.start_date, class: 'trip_start', allDay: true },
+              { title: 'TRIP END', start: vm.trip.end_date, class: 'trip_end', allDay: true }
+            ]
           };
+          // eventSources[0] is trips
+          $scope.eventSources[0] = dateRange;
+        }
+      };
 
-          $mdDialog.show({
-            controller: 'DialogController',
-            controllerAs: 'dvm',
-            templateUrl: 'static/app/triplist/new-trip.template.html',
-            locals: {
-              edit: true,
-              activity: undefined,
-              start: undefined,
-              trip: vm.trip
-            },
-            parent: angular.element(document.body),
-            clickOutsideToClose:true,
-            fullscreen: useFullScreen
-          })
-            .then(function(answer) {
-              console.log(answer);
-              answer.start_date = answer.start;
-              answer.end_date = answer.end;
-              TripService.update(answer.id, answer, addTrip);
+      $mdDialog.show({
+        controller: 'DialogController',
+        controllerAs: 'dvm',
+        templateUrl: 'static/app/triplist/new-trip.template.html',
+        locals: {
+          edit: true,
+          activity: undefined,
+          start: undefined,
+          trip: vm.trip
+        },
+        parent: angular.element(document.body),
+        clickOutsideToClose:true,
+        fullscreen: false
+      })
+        .then(function(answer) {
+          answer.start_date = answer.start;
+          answer.end_date = answer.end;
+          TripService.update(answer.id, answer, addTrip);
 
-            }, function() {
-              $scope.status = 'No trip was added.';
-            });
+        }, function() {
+          $scope.status = 'No trip was added.';
+        });
 
-            $scope.$watch(function() {
-              return $mdMedia('xs') || $mdMedia('sm');
-            }, function(wantsFullScreen) {
-              $scope.customFullscreen = (wantsFullScreen === true);
-            });
-      }
+        $scope.$watch(function() {
+          return $mdMedia('xs') || $mdMedia('sm');
+        }, function(wantsFullScreen) {
+          $scope.customFullscreen = (wantsFullScreen === true);
+        });
+    }
 
     /* Render Tooltip COPIED FROM CALENDAR DOCUMENTATION */
     /* doesn't do anything afaik */

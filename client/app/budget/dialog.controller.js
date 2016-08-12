@@ -36,23 +36,19 @@
     }
 
     function updateTrip(answer) {
-      console.log('updating');
       answer.updating = true;
       $mdDialog.hide(answer);
     }
 
     function hide() {
-      console.log('hiding');
       $mdDialog.hide();
     };
 
     function add(answer) {
-      console.log('adding trip');
       $mdDialog.hide(answer);
     }
 
     function cancel() {
-      console.log('canceling');
       $mdDialog.cancel();
     };
 
@@ -61,6 +57,7 @@
     }
 
     function update(activity) {
+      activity.updating = true;
       if (!activity.currency) {
         activity.currency = 'USD';
       }
