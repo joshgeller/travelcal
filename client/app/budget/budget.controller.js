@@ -239,7 +239,6 @@
                   else if (!idx) {
                     vm.calendar.data.push(result.data);
                   }
-
                   CalendarService.update(vm.calendar.id, vm.calendar.data)
                     .then(function(success) {
                       updateCalendar(true, vm.calendar.data);
