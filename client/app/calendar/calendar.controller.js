@@ -127,19 +127,19 @@
         var _endDate = moment.utc($event.start, 'YYYY-MM-DD').format();
       }
 
-      var _activity = angular.copy($event);
       var idx;
 
+      idx = getActivityIdx(activitiesSource, $event.id);
+      var _activity = angular.copy(activitiesSource[idx]);
       _activity.start = _startDate;
       _activity.end = _endDate;
-        console.log(_activity);
+
       ActivityService.editActivityForm(_activity)
         .then(function(result) {
           if (result.GOOD) {
             if (result.data.source) {
               delete result.data.source;
             }
-
             // we have an activity as result;
             var _calendar = angular.copy($scope.eventSources[1]);
             idx = getActivityIdx(_calendar, result.data.id);
@@ -158,7 +158,10 @@
                     }
                     activitiesSource.splice(idx, 1);
                     if (!result.DELETE) {
+
                       activitiesSource.push(result.data);
+                      console.log(activitiesSource);
+                      $scope.eventSources[1] = activitiesSource;
                     }
                   }
                   else {
