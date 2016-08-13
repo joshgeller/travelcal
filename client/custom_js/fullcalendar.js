@@ -11005,8 +11005,12 @@ function EventManager(options) { // assumed to be a calendar
 		if (source) {
 			out.source = source;
 		}
+        
+        if (!input._id && input.id) {
+          input._id = ++eventGUID * -1;
+        }
 
-		out._id = input._id || (input.id === undefined ? '_fc' + eventGUID++ : input.id + '');
+        out._id = input._id || (input.id === undefined ? '_fc' + eventGUID++ : eventGUID++);
 
 		if (input.className) {
 			if (typeof input.className == 'string') {
