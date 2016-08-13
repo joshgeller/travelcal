@@ -30,13 +30,8 @@
                 </md-content>
             </div>
             <div style="color:red" ng-if="vm.activity.end < vm.activity.start">*invalid date range</div>
+            <div>&nbsp;</div>
             <div layout-gt-sm="row">
-                <md-input-container>
-                    <md-checkbox ng-model="vm.activity.allDay">All Day Event</md-checkbox>
-                </md-input-container>
-            </div>
-
-            <div layout-gt-sm="row" ng-show="!vm.activity.allDay">
                 <md-content>
                     <label>Hours</label>
                     <table>
