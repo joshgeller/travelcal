@@ -2,16 +2,58 @@
     <div class="col-xs-12 col-sm-6 col-sm-offset-3">
         <h3>Register</h3>
         <hr/>
-        <form role="form">
-            <div class="form-group">
-                <input type="email" class="form-control" id="register__email" ng-model="vm.email" placeholder="E-mail address" />
+        <form name="vm.forms.registerForm" novalidate>
+          <div ng-show="vm.alerts.length">
+            <div data-ng-repeat="alert in vm.alerts">
+              <div ng-class="{0: 'alert alert-danger', 1: 'alert alert-success'}[alert.type]">
+                {{alert.message}}
+              </div>
             </div>
-            <div class="form-group">
-                <input type="password" class="form-control" id="register__password" ng-model="vm.password" placeholder="Password" />
-            </div>
-            <div class="form-group">
-                <button type="submit" class="btn btn-lg btn-success" ng-click="vm.register()">Register</button>
-            </div>
+          </div>
+          <div class="form-group">
+              <div ng-messages="vm.forms.registerForm.email.$error" ng-show="vm.forms.registerForm.email.$touched">
+                <p class="text-danger" ng-message="required">Email address is required.</p>
+              </div>
+              <input
+                class="form-control"
+                name="email"
+                ng-model="vm.email"
+                placeholder="E-mail address"
+                type="email"
+                required
+             />
+          </div>
+          <div class="form-group">
+              <div ng-messages="vm.forms.registerForm.password.$error" ng-show="vm.forms.registerForm.password.$touched">
+                <p class="text-danger" ng-message="required">Password is required.</p>
+                <p class="text-danger" ng-message="minlength">Password must be at least 6 characters.</p>
+              </div>
+              <input
+                class="form-control"
+                name="password"
+                ng-minlength="6"
+                ng-model="vm.password"
+                placeholder="Password"
+                type="password"
+                required
+               />
+          </div>
+          <div class="form-group">
+              <button
+                class="btn btn-lg btn-success"
+                ng-click="vm.register()"
+                type="submit"
+              >
+                Register
+              </button>
+              <a
+              class='pull-right'
+                href='/#/login'
+              >
+                Already have an account?
+
+              </a>
+          </div>
         </form>
     </div>
 </div>

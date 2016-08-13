@@ -1,0 +1,32 @@
+<md-content class="travelcal-calendar" ng-init="vm.init()">
+
+    <md-card>
+        <md-card-title>
+            <md-card-title-text>
+                <h1>{{vm.title}}</h1>
+                <p>Click a date to add a new activity!</p>
+                <div ng-show="vm.alerts.length">
+                  <div data-ng-repeat="alert in vm.alerts">
+                    <div ng-class="{0: 'alert alert-danger', 1: 'alert alert-success'}[alert.type]">
+                      {{alert.message}}
+                    </div>
+                  </div>
+                </div>
+                <content>
+                  <md-button class="md-raised" ng-click="vm.loadBudget()">View Budget</md-button>
+                  <md-button class="md-raised" ng-click="vm.exportPDF()">Export PDF Itinerary</md-button>
+                  <md-button class="md-raised" ng-click="vm.triggerReminders()">Trigger Reminder Emails</md-button>
+                  <md-button class="md-raised" ng-click="vm.popularActivities($event)">Popular Activities</md-button>
+                <content>
+            </md-card-title-text>
+        </md-card-title>
+        <md-card-content>
+            <div
+                ui-calendar="uiConfig.calendar"
+                ng-model="eventSources"
+                calendar="tripCalendar">
+            </div>
+        </md-card-content>
+
+    </md-card>
+</md-content>

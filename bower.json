@@ -16,10 +16,17 @@
     "tests"
   ],
   "dependencies": {
-    "angular-material": "^1.0.9",
-    "angular-ui-router": "^0.3.1",
-    "font-awesome": "^4.6.3",
-    "bower-bootswatch-paper": "paper-less#*"
+    "jquery": "2.2.4",
+    "angular": "1.5.8",
+    "angular-material": "^1.1.0-RC.5",
+    "angular-ui-router": "0.3.1",
+    "font-awesome": "4.6.3",
+    "bower-bootswatch-paper": "paper-less#*",
+    "ngstorage": "0.3.10",
+    "angular-material-icons": "0.7.1",
+    "angular-moment": "0.10.3",
+    "angular-google-places-autocomplete": "0.2.7",
+    "angular-ui-calendar": "1.0.2"
   },
   "overrides": {
     "font-awesome": {
@@ -27,5 +34,9 @@
         "css/font-awesome.css"
       ]
     }
+  },
+  "resolutions": {
+    "angular": "1.5.8",
+    "jquery": "2.2.4"
   }
 }

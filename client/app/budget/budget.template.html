@@ -1,0 +1,130 @@
+<md-content class="travelcal-budget">
+    <md-card>
+        <md-card-title>
+            <md-card-title-text>
+                <h1>Budget</h1>
+            </md-card-title-text>
+        </md-card-title>
+        <md-card-content>
+            <md-list>
+                <div 
+                    ng-if="!vm.showBudgetToolBar(vm.calendar.data) && !vm.showToolBar(vm.calendar.data)"
+                    >
+                    You have nothing in your budget. Why don't you add an activity?
+                </div>
+                <div ng-if="vm.showBudgetToolBar(vm.calendar.data)">
+                    <md-divider></md-divider>
+                      <md-toolbar>
+                        <h2 class="md-toolbar-tools">
+                          <span>Budgeted</span>
+                        </h2>
+                      </md-toolbar>
+                </div>
+                <md-list-item
+                    ng-repeat="(key, item) in vm.calendar.data"
+                    ng-click="vm.editActivity($event, item, key)"
+                    ng-if="item.cost"
+                    >
+                    <div layout="row" layout-fill layout-align="start">
+                        <div class="item-title" flex="40">
+                            {{item.title}}
+                        </div>
+                        <div flex="40" layout="row">
+                            <div>
+                                {{item.cost | number:2}} {{item.currency}}
+                            </div>
+                            <div ng-if="item.repetitionType != 'total'">
+                                &nbsp;x&nbsp;
+                            </div>
+                            <div ng-if="item.repetitionType != 'total'">
+                                {{item.quantity}}
+                            </div>
+                            &nbsp;
+                            <ng-pluralize
+                              ng-if="item.repetitionType == 'per day'"
+                              count="item.quantity || 0"
+                              when="{'0': 'days', '1': 'day', 'other': 'days'}"
+                              >
+                            </ng-pluralize>
+                            <ng-pluralize
+                              ng-if="item.repetitionType == 'per person'"
+                              count="item.quantity || 0"
+                              when="{'0': 'people', '1': 'person', 'other': 'people'}">
+                            </ng-pluralize>
+                            <div ng-if="item.currency != vm.baseCurrency">
+                                &nbsp;=&nbsp;
+                            </div>
+                            <div ng-if="item.currency != vm.baseCurrency">
+                                {{(item.currency != vm.baseCurrency) ? (item.cost * item.quantity / vm.currencies.rates[item.currency] | number:2) :  (item.cost * item.quantity | number:2)}} {{vm.baseCurrency}}
+                            </div>
+                        </div>
+                        <div flex="20" ng-if="item.info_url">
+                            <md-button 
+                                ng-if="item.info_url"
+                                ng-href="{{item.info_url}}"
+                                target="_blank"
+                                >
+                                {{item.info_url}}
+                            </md-button>
+                        </div>
+                    </div>
+                </md-list-item>
+                <div ng-if="vm.showToolBar(vm.calendar.data)">
+                    <md-divider></md-divider>
+                      <md-toolbar>
+                        <h2 class="md-toolbar-tools">
+                          <span>To Budget</span>
+                        </h2>
+                      </md-toolbar>
+                  </div>
+                <md-list-item
+                    ng-repeat="(key, item) in vm.calendar.data"
+                    ng-click="vm.editActivity($event, item, key)"
+                    ng-if="!item.cost"
+                    >
+                    <div layout="row" layout-fill layout-align="start center">
+                        <div flex="60">
+                            {{item.title}}
+                        </div>
+                        <span flex="40" ng-if="item.info_url"></span>
+                        <div>
+                            <md-button 
+                                ng-if="item.info_url" 
+                                ng-href="{{item.info_url}}" 
+                                target="_blank"
+                                >
+                                {{item.info_url}}
+                            </md-button>
+                        </div>
+                    </div>
+                    <md-divider></md-divider>
+                </md-list-item>
+                <md-list-item ng-if="vm.calendar.data != null" class="row" layout-padding layout-align="start center" >
+                    <h4>Total: {{vm.total | number:2}}</h4>
+                    <h4>
+                    <md-input-container class="md-block" flex-gt-sm>
+                        <md-autocomplete
+                          md-selected-item="vm.selectedItem"
+                          md-search-text="vm.searchText"
+                          md-selected-item-change="vm.updateCurrency(curr.value)"
+                          md-items="curr in vm.querySearch(vm.searchText)"
+                          md-item-text="curr.display"
+                          md-min-length="0"
+                          ng-init="vm.searchText=vm.baseCurrency"
+                          >
+                          <md-item-template>
+                            <span md-highligh-text="vm.searchText" md-highlight-flags="^i">{{curr.display}}</span>
+                          </md-item-template>
+                            <md-not-found>
+                                No currencies matching "{{vm.searchText}}" were found.
+                            </md-not-found>
+                        </md-autocomplete>
+                    </md-input-container></h4>
+                </md-list-item>
+            </md-list>
+          <md-button class="md-raised" ng-click="vm.loadCalendar()">View Calendar</md-button>
+          <md-button class="md-raised" ng-click="vm.newActivity()">Add Activity</md-button>
+          <md-button class="md-raised" ng-click="vm.popularActivities($event)">Popular Activities</md-button>
+        </md-card-content>
+    </md-card>
+</md-content>

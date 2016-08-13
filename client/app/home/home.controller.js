@@ -6,11 +6,23 @@
     .controller('HomeController', HomeController);
 
   HomeController.$inject = [
+    '$state',
+    'AuthenticationService',
+    '$localStorage'
   ];
 
-  function HomeController() {
+  function HomeController($state, AuthenticationService, $localStorage) {
     var vm = this;
-    vm.pageTitle = 'Dynamic Page Title';
+    var init = init;
+    init();
+
+    function init() {
+      // redirect authenticated users to their trip list
+      if ($localStorage.authenticatedUser) {
+        $state.go('travelcal.triplist')
+      }
+    }
+
   }
 
 })();

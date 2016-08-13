@@ -1,4 +1,5 @@
 from rest_framework import status
+from rest_framework.decorators import detail_route
 from rest_framework.permissions import SAFE_METHODS, AllowAny, IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet
@@ -12,6 +13,9 @@ class AccountViewSet(ModelViewSet):
     lookup_field = 'email'
     queryset = Account.objects.all()
     serializer_class = AccountSerializer
+
+    def get_object(self):
+        return self.request.user
 
     def get_permissions(self):
         if self.request.method in SAFE_METHODS:
@@ -35,5 +39,14 @@ class AccountViewSet(ModelViewSet):
 
         return Response({
             'status': 'error',
-            'message': 'Invalid account data.'
+            'detail': serializer.errors
         }, status=status.HTTP_400_BAD_REQUEST)
+
+    def set_password(self, *args, **kwargs):
+        # Extract the current User from the request
+        user = self.request.user
+        if self.request.data['password']:
+            user.set_password(self.request.data['password'])
+            user.save()
+            return Response(status=status.HTTP_200_OK)
+        return Response(status=status.HTTP_400_BAD_REQUEST)

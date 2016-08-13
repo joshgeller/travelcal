@@ -5,13 +5,13 @@
     .module('travelcal.layout')
     .config(LayoutConfig);
 
-    LayoutConfig.$inject = [ 
+    LayoutConfig.$inject = [
       '$stateProvider',
       '$urlRouterProvider'
     ];
 
     function LayoutConfig($stateProvider, $urlRouterProvider) {
-      $stateProvider 
+      $stateProvider
         .state('travelcal', {
           abstract: true,
           views: {
