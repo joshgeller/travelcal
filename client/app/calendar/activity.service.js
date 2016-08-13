@@ -79,9 +79,6 @@
       _activity.start = _momentUtcToDate(activity.start);
       _activity.end = _momentUtcToDate(activity.end);
 
-      console.log(_activity);
-      
-
       return _openActivityForm(_activity, true);
     }
 
@@ -212,7 +209,6 @@
 
       // editing existing activity
       if (vm.edit) {
-        console.log(vm.activity);
         vm.title = 'Edit Activity';
         vm.currency = vm.activity.currency ? vm.activity.currency : 'USD';
         vm.activity.repetitionType = vm.activity.repetitionType ? vm.activity.repetitionType : 'total';
@@ -241,7 +237,6 @@
 
       // else we have a new activity
       else {
-      console.log(vm.activity);
         vm.title = 'Add a New Activity'
         vm.activity.allDay = false;
         vm.activity.quantity = 1;
